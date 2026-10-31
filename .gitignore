@@ -5,3 +5,10 @@ __pycache__/
 *.key
 *.pem
 audio/datasets/extracted/
+
+# Frente de vídeo: dataset, modelos e saídas geradas (não versionar)
+Uterus.v4i.yolov8/
+*.pt
+runs*/
+saida_video/
+*.mp4

@@ -21,7 +21,7 @@ Vídeo cirúrgico ──► YOLOv8 (útero + instrumentos) ──► regras de a
 
 | Frente | Modelo | Dados | Status |
 |---|---|---|---|
-| Vídeo | YOLOv8 customizado | Uterus v4 (Roboflow Universe, CC BY 4.0) | Em andamento |
+| Vídeo | YOLOv8 customizado | Uterus v4 (Roboflow Universe, CC BY 4.0) | Concluído (mAP50 0,928) |
 | Áudio | Whisper + Random Forest | 1.200 falas sintéticas (Azure Speech) | Concluído (acurácia 0,88) |
 | Integração | `combinar_audio_video` | Saídas das duas frentes | Em andamento |
 
@@ -31,15 +31,18 @@ Vídeo cirúrgico ──► YOLOv8 (útero + instrumentos) ──► regras de a
 audio/
 ├── datasets/      dataset_audio_emocoes_1200.zip (Git LFS)
 └── notebooks/     TechChallengeFase4_audio.ipynb
-video/             treino do YOLOv8 e geração de alertas de vídeo
+video/
+├── TechChallengeFase4_video.ipynb
+└── alerta_video.py
 integracao/        pipeline que junta áudio e vídeo no alerta final
-relatorio/         relatório técnico
+relatorio/
+└── secao_video.md
 ```
 
 ## Como executar
 
 1. **Áudio:** ver a seção [Frente de áudio](#frente-de-áudio).
-2. **Vídeo:** em andamento.
+2. **Vídeo:** ver [`video/README.md`](video/README.md).
 3. **Integração:** em andamento.
 
 > O dataset de áudio está no Git LFS. Após clonar o repositório, rode `git lfs install` e `git lfs pull`. Sem isso, o ZIP baixado é só um arquivo de referência de poucos bytes.
@@ -75,7 +78,13 @@ A divisão entre treino e teste é feita por frase original (`GroupShuffleSplit`
 
 ## Frente de vídeo
 
-Em andamento. Modelo YOLOv8 treinado para detectar útero e instrumentos cirúrgicos em vídeos de laparoscopia ginecológica.
+YOLOv8 treinado para detectar útero e instrumentos cirúrgicos em laparoscopia ginecológica. O alerta dispara quando há instrumento em cena e o útero não é visto por 5 s ou mais. Detalhes em [`video/README.md`](video/README.md).
+
+| Detector (teste) | mAP50 | | Alerta (teste) | Precisão | Recall |
+|---|---|---|---|---|---|
+| Geral | 0,928 | | `conf_area` = 0,6 | 1,00 | 0,72 |
+| Útero | 0,950 | | | | |
+| Instrumentos | 0,906 | | | | |
 
 ## Limitações
 
