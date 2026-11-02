@@ -4,11 +4,11 @@ Extensão do assistente clínico da Fase 3 para a análise de **vídeo** e **áu
 
 O sistema analisa vídeos de procedimentos ginecológicos e gravações de consultas, identifica sinais de risco em cada um e combina os dois resultados em um alerta único.
 
-## Objetivos atendidos
+## Escopo do protótipo
 
-- Detecção precoce de riscos em procedimentos ginecológicos (vídeo)
-- Monitoramento do bem-estar psicológico pela voz (áudio)
-- Uso de serviços em nuvem (Azure Speech)
+- Identificação de perda de visualização da área crítica em vídeos ginecológicos
+- Classificação de características acústicas em falas sintéticas
+- Síntese com Azure Speech e conectores para transcrição e análise textual
 - Detecção de anomalias com alerta multimodal
 
 ## Arquitetura
@@ -22,8 +22,8 @@ Vídeo cirúrgico ──► YOLOv8 (útero + instrumentos) ──► regras de a
 | Frente | Modelo | Dados | Status |
 |---|---|---|---|
 | Vídeo | YOLOv8 customizado | Uterus v4 (Roboflow Universe, CC BY 4.0) | Concluído (mAP50 0,928) |
-| Áudio | Whisper + Random Forest | 1.200 falas sintéticas (Azure Speech) | Concluído (acurácia 0,88) |
-| Integração | `combinar_audio_video` | Saídas das duas frentes | Em andamento |
+| Áudio | Whisper + Random Forest | Falas sintéticas (Azure Speech) | Implementado; avaliação registrada no notebook |
+| Integração | `combinar_audio_video` | Áudio, vídeo e texto opcional | Demonstração e 49 verificações aprovadas; Azure real pendente |
 
 ## Organização
 
@@ -34,8 +34,14 @@ audio/
 video/
 ├── TechChallengeFase4_video.ipynb
 └── alerta_video.py
-integracao/        pipeline que junta áudio e vídeo no alerta final
+integracao/
+├── TechChallengeFase4_integracao.ipynb
+├── README.md
+└── evidencias/
 relatorio/
+├── relatorio_tecnico.md
+├── matriz_requisitos.md
+├── roteiro_demonstracao.md
 └── secao_video.md
 ```
 
@@ -43,7 +49,7 @@ relatorio/
 
 1. **Áudio:** ver a seção [Frente de áudio](#frente-de-áudio).
 2. **Vídeo:** ver [`video/README.md`](video/README.md).
-3. **Integração:** em andamento.
+3. **Integração:** abra `integracao/TechChallengeFase4_integracao.ipynb` no Colab. A demonstração padrão usa CPU e dispensa credenciais. Veja [integracao/README.md](integracao/README.md).
 
 > O dataset de áudio está no Git LFS. Após clonar o repositório, rode `git lfs install` e `git lfs pull`. Sem isso, o ZIP baixado é só um arquivo de referência de poucos bytes.
 
@@ -67,14 +73,18 @@ relatorio/
 
 ### Resultado
 
-A divisão entre treino e teste é feita por frase original (`GroupShuffleSplit`), para que as variações de uma mesma fala não apareçam nos dois conjuntos.
+A divisão entre treino e teste é feita por gravação original (`GroupShuffleSplit`), para que as variações de uma mesma fala não apareçam nos dois conjuntos.
 
 | Classe | Precisão | Recall | F1 |
 |---|---|---|---|
-| ansiedade_hesitacao | 0,81 | 0,86 | 0,84 |
-| neutro | 0,86 | 0,79 | 0,82 |
-| tristeza | 0,97 | 1,00 | 0,99 |
-| **Acurácia** | | | **0,88** |
+| ansiedade_hesitacao | 0,93 | 0,84 | 0,88 |
+| neutro | 0,81 | 0,91 | 0,85 |
+| tristeza | 1,00 | 1,00 | 1,00 |
+| **Acurácia** | | | **0,92** |
+
+Métricas da saída salva no notebook de áudio, em 240 exemplos de teste. A versão anterior deste README informava 0,88; a avaliação ainda precisa ser reproduzida para consolidar o resultado.
+
+O ZIP do Git LFS contém 1.180 WAVs e 1.180 linhas de metadata, enquanto o CSV compartilhado contém 1.200 predições. A diferença está registrada no [relatório técnico](relatorio/relatorio_tecnico.md).
 
 ## Frente de vídeo
 
@@ -86,12 +96,25 @@ YOLOv8 treinado para detectar útero e instrumentos cirúrgicos em laparoscopia 
 | Útero | 0,950 | | | | |
 | Instrumentos | 0,906 | | | | |
 
+## Integração
+
+O notebook de integração aceita a classe/confiança do áudio e o JSON da frente de vídeo. A regra preserva a maior prioridade entre os sinais válidos e registra fontes ausentes, com erro ou baixa confiança.
+
+São gerados um JSON e um relatório por caso, um resumo CSV e uma fila local de revisão em JSONL. A demonstração usa quatro casos simulados. As chamadas Azure podem ser testadas separadamente antes da integração final.
+
+A preparação dos arquivos e os quatro Secrets necessários estão em [integracao/README.md](integracao/README.md). O [relatório técnico consolidado](relatorio/relatorio_tecnico.md) descreve o fluxo, os modelos e os resultados. A [matriz de requisitos](relatorio/matriz_requisitos.md) relaciona as evidências e as etapas pendentes.
+
 ## Limitações
 
 - Os áudios são sintéticos, gerados para demonstrar e validar o pipeline. Não representam gravações clínicas reais e não permitem, sozinhos, validação médica.
 - O dataset de vídeo é pequeno (cerca de 570 imagens únicas) e a origem das imagens não é documentada pelo autor.
 - Os alertas são sinais de triagem para revisão da equipe médica, não diagnósticos.
 - Nenhum dado de paciente real foi usado ou enviado a serviços de terceiros.
+
+- Áudio e vídeo são de datasets independentes, sem sincronização por paciente ou procedimento.
+- As chamadas reais de Azure Speech to Text e Language ainda estão pendentes.
+- Os exemplos adicionais de sinais vitais, prescrições e movimento são sintéticos.
+- A fila de revisão é local; o processamento ocorre em lote.
 
 ## Tecnologias
 
