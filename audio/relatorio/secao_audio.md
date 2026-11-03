@@ -73,7 +73,7 @@ Essas métricas vêm da divisão agrupada de teste, e não do CSV de previsões 
 
 Na execução do conjunto versionado, a validação encontrou **1.180 WAVs válidos**, **zero inválidos**, e a classificação concluiu **1.180 arquivos sem falhas**. A saída consolidada foi salva no Drive como `resultado_audio_1180.csv`; o relatório de erros foi salvo como `erros_classificacao_audio_1180.csv` e registrou zero falhas.
 
-Cada linha do CSV inclui o caminho/nome do arquivo, a classe prevista e a confiança. A função individual foi testada durante o desenvolvimento e retornou uma tupla com esses dois valores.
+Cada linha do CSV inclui o caminho/nome do arquivo, a classe acústica prevista e sua confiança, a transcrição Whisper e a polaridade textual prevista pelo PySentimiento com sua confiança. A função `classificar_audio(caminho_audio)` mantém a saída pedida: uma tupla `(classe, confiança)`.
 
 ## 6. Artefatos e execução
 
@@ -83,7 +83,19 @@ Cada linha do CSV inclui o caminho/nome do arquivo, a classe prevista e a confia
 - Previsões do lote: `resultado_audio_1180.csv`, salvo no mesmo Drive.
 - Falhas do lote: `erros_classificacao_audio_1180.csv`.
 
-No Colab, execute as células em ordem: instalação/carregamento do Whisper; download e extração do ZIP oficial; extração das características; avaliação e treino final; salvamento do modelo; definição e teste de `classificar_audio`; classificação do lote. O Drive é montado na conta de quem executa a célula e os arquivos resultantes não ficam automaticamente visíveis aos demais integrantes.
+No Colab, execute as células em ordem: instalação/carregamento do Whisper e PySentimiento; download e extração do ZIP oficial; transcrição, análise local do sentimento e extração das características; avaliação e treino final; salvamento do modelo; definição e teste de `classificar_audio`; classificação do lote. O Drive é montado na conta de quem executa a célula e os arquivos resultantes não ficam automaticamente visíveis aos demais integrantes.
+
+## 6.1 Análise local do texto e evento de áudio
+
+Para evitar o custo de Azure Text, o notebook adiciona pysentimiento como analisador local de polaridade em português. O Whisper continua fazendo a transcrição. A análise textual devolve POS, NEG ou NEU e uma confiança do modelo; essas categorias representam sentimento geral no texto, não a classe vocal do Random Forest (ansiedade_hesitacao, neutro ou tristeza). A documentação do projeto PySentimiento lista português e essas três classes para análise de sentimento ([repositório oficial](https://github.com/pysentimiento/pysentimiento), [model card em português](https://huggingface.co/pysentimiento/bertweet-pt-sentiment)). O modelo é treinado para polaridade textual e não foi validado para linguagem clínica.
+
+O CSV de resultados em lote passa a incluir transcrição, sentimento textual e confiança do sentimento, além da classe e confiança acústicas. O lote reutiliza as transcrições e características já calculadas na etapa anterior, sem repetir a transcrição dos 1.180 arquivos.
+
+A função `analisar_audio_completo(caminho_audio)` devolve os campos acústicos e textuais. A função `processar_evento_audio(caminho_audio)` empacota essa análise com o nome do arquivo e o horário UTC do processamento para que outra aplicação possa consumir um evento quando recebe um arquivo. Ela não captura áudio contínuo nem implementa transporte de eventos; isso depende da aplicação que fornecerá os arquivos.
+
+## 6.2 Pendências de execução
+
+A nova análise de sentimento precisa ser executada no Colab para gerar o CSV atualizado com os campos textuais. A acurácia de 0,89 refere-se somente ao classificador acústico avaliado no conjunto de teste; não é métrica do PySentimiento. O notebook usa Whisper e PySentimiento localmente e, portanto, não cumpre uma exigência literal de Azure para transcrição/análise. Essa opção evita cobrança de Azure Text.
 
 ## 7. Limitações e escopo pendente
 
@@ -91,8 +103,8 @@ No Colab, execute as células em ordem: instalação/carregamento do Whisper; do
 - **Generalização não demonstrada em áudio real:** a avaliação usa variações de falas sintéticas. O teste com gravações reais independentes ainda é necessário antes de qualquer uso operacional.
 - **Confiança do modelo:** `predict_proba` fornece uma estimativa do Random Forest e não garante que a classe esteja correta. O valor não deve ser apresentado como probabilidade clínica calibrada.
 - **Sensibilidade à transcrição:** ritmo de fala é calculado a partir do texto produzido pelo Whisper; erros de transcrição podem alterar essa característica.
-- **Processamento em lote:** o notebook processa arquivos sequencialmente e não implementa captura ou análise de áudio em tempo real.
-- **Azure Text/Speech:** o notebook não implementa transcrição nem análise de texto pelo Azure. O Azure Speech é usado somente na síntese do dataset.
+- **Processamento por arquivo:** o lote é sequencial. processar_evento_audio(caminho_audio) permite analisar um arquivo quando recebido, mas captura contínua e transporte de eventos ainda dependem da aplicação que fornecerá o áudio.
+- **Azure Text/Speech:** o Azure Speech foi usado somente para sintetizar o dataset. Whisper e PySentimiento fazem transcrição e análise textual localmente, sem cobrança de Azure Text. Assim, a frente não atende a uma exigência literal de usar Azure para essas etapas.
 - **Integração multimodal:** a saída da frente de áudio pode alimentar a função de fusão, mas a integração ponta a ponta com vídeo e os dados simulados de sinais vitais, prescrições e movimentação em tempo real permanece pendente no projeto.
 
 A saída deve ser tratada como **sinal de triagem para revisão humana**, nunca como diagnóstico ou decisão clínica automatizada.
