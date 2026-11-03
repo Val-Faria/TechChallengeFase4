@@ -29,7 +29,7 @@ Vídeo cirúrgico ──► YOLOv8 (útero + instrumentos) ──► regras de a
 
 ```text
 audio/
-├── datasets/      dataset_audio_emocoes_1200.zip (Git LFS)
+├── datasets/      dataset_audio_emocoes_1180.zip (Git LFS)
 └── notebooks/     TechChallengeFase4_audio.ipynb
 video/
 ├── TechChallengeFase4_video.ipynb
@@ -118,3 +118,4 @@ Link: em breve.
 | Marcelo Viana de Araújo | 372707 |
 | Nirton Afonso de Oliveira Filho | 370221 |
 | Valkiria Nonato de Faria | 373256 |
+
