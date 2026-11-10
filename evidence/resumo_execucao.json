@@ -8,8 +8,8 @@
     "status": "16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha"
   },
   "tests": {
-    "name": "pytest Python3.12",
-    "passed": 48,
+    "name": "pytest Python3.12 após auditoria",
+    "passed": 59,
     "failed": 0,
     "subtests_passed": 26
   },
@@ -27,5 +27,10 @@
     "pesos_disponiveis": false,
     "video_clinico_inedito_avaliado": false
   },
-  "gravacao_benicio": "Responsabilidade do grupo; fora da execução desta entrega."
+  "gravacao_benicio": "Responsabilidade do grupo; fora da execução desta entrega.",
+  "auditoria": {
+    "conformidade_integral": false,
+    "documento": "relatorio/auditoria_conformidade.md",
+    "sem_chamadas_api_adicionais": true
+  }
 }

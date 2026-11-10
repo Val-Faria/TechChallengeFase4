@@ -1,9 +1,8 @@
 {
-  "pages": 22,
-  "sha256": "e37aece766bdfabfc894d2487d42e0a8e87705e03d82e0580b1e453e060d2f43",
+  "pages": 23,
+  "sha256": "41d2507dcf5edbd5c4b303a47c50d6b619db628ee07930e352bbc9a6a0493f11",
   "compiled_from": "relatorio/latex/main.tex",
-  "overleaf_zip_verified": true,
-  "visual_review": "all pages in contact sheets; final changed key pages reviewed at full scale",
+  "visual_review": "Páginas e apêndice de auditoria revisados; sem cortes ou sobreposição",
   "overfull_boxes": 0,
   "date": "2026-11-10"
 }

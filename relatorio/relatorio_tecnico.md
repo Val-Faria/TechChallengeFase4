@@ -76,8 +76,12 @@ A cobertura está em `matriz_requisitos.md`. O roteiro de Benicio está em `rote
 - **Áudio:** validação 93,60% (172 WAVs); teste 86,36% (176); verificação cega 88,33% (120). F1 macro: 0,933 / 0,862 / 0,883. Nenhuma sobreposição por família, gravação original ou SHA-256. Modelo ajustado somente com 712 WAVs de treino.
 - **Áudios novos:** seis WAVs em duas novas vozes, fora do corpus. Todas as saídas acústicas têm confiança entre 0,50 e 0,60 e são inconclusivas pelo limiar 0,70; não há acurácia emocional externa.
 - **ASR:** nos mesmos seis WAVs, Whisper tiny errou 13 de 109 palavras (WER 11,93%) e a API não errou palavras (0%). Amostra pequena e sintética, sem conclusão clínica ou superioridade geral.
-- **Software:** 48 testes pytest e 26 subtestes aprovados, zero falhas.
+- **Software:** 59 testes pytest e 26 subtestes aprovados, zero falhas.
 - **Nuvem:** 18 chamadas, estimativa conservadora total US$ 0,005980495; inclui duas respostas rejeitadas e uma reserva conservadora. Não representa leitura da fatura.
 - **Drive:** modelo e CSV corrigidos recebidos; 1.180 linhas e zero nomes ausentes. Modelo da autora treinado em todo corpus, separado do modelo da avaliação cega.
 - **Integração:** alerta alto preservado, cobertura incompleta pela baixa confiança acústica; entrega e revisão local confirmadas.
 - **Recursos:** GPU local RTX 2060 utilizada e processamento encerrado. Nenhuma sessão Colab iniciada.
+
+## Parecer após auditoria
+
+O atendimento integral ainda não está demonstrado. Além do vídeo de apresentação, faltam a reprodução da inferência YOLO com o peso personalizado e uma demonstração de alterações vocais relacionadas às condições médicas do enunciado. O monitor incremental de séries não deve ser descrito como inferência multimodal contínua. O [parecer completo](auditoria_conformidade.md) detalha limites, correções e o plano de fechamento. Não houve novas chamadas pagas na revisão.

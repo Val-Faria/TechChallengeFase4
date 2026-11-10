@@ -16,17 +16,21 @@ def structured_examples():
     def stamp(index):
         return (start + timedelta(seconds=index)).isoformat()
     historical = [{"timestamp": stamp(i), "batimentos": 72+(i%5)-2,
-                   "oxigenacao": 97+(i%3)-1, "movimento": 10+(i%5)-2}
+                   "oxigenacao": 97+(i%3)-1, "movimento": 10+(i%5)-2,
+                   "pressao_sistolica": 120+(i%5)-2, "pressao_diastolica": 80+(i%3)-1}
                   for i in range(30)]
     observations = [{"timestamp": stamp(30), "batimentos": 73,
-                     "oxigenacao": 97, "movimento": 11},
+                     "oxigenacao": 97, "movimento": 11,
+                     "pressao_sistolica": 121, "pressao_diastolica": 80},
                     {"timestamp": stamp(31), "batimentos": 120,
-                     "oxigenacao": 85, "movimento": 50}]
+                     "oxigenacao": 85, "movimento": 50,
+                     "pressao_sistolica": 160, "pressao_diastolica": 105}]
     prescriptions = [{"timestamp": stamp(0), "medicamento_id": "medicamento_demo",
                       "dose": 10, "unidade": "mg", "via": "oral", "intervalo_h": 12},
                      {"timestamp": stamp(31), "medicamento_id": "medicamento_demo",
                       "dose": 20, "unidade": "mg", "via": "oral", "intervalo_h": 12}]
-    sources = [detectar_series(historical, observations, ["batimentos", "oxigenacao"],
+    sources = [detectar_series(historical, observations,
+                              ["batimentos", "oxigenacao", "pressao_sistolica", "pressao_diastolica"],
                               "sinais_vitais", simulado=True),
                detectar_series(historical, observations, ["movimento"],
                                "movimentacao", simulado=True),
@@ -42,7 +46,9 @@ def load_audio(path, filename=None):
         rows = list(csv.DictReader(stream))
     if not rows:
         raise ValueError("CSV de áudio vazio.")
-    matches = [row for row in rows if row.get("arquivo") == filename] if filename else rows[:1]
+    if filename is None and len(rows) != 1:
+        raise ValueError("CSV com vários áudios: informe --audio-filename explicitamente.")
+    matches = [row for row in rows if row.get("arquivo") == filename] if filename else rows
     if len(matches) != 1:
         raise ValueError("Escolha um arquivo único presente no CSV de áudio.")
     row = matches[0]

@@ -27,10 +27,11 @@ def parse_time(value):
 
 class StructuredMonitor:
     """Estado de um único caso, sem incorporar observações à referência de treino."""
-    def __init__(self, case_id, store, *, warmup=30):
+    def __init__(self, case_id, store, *, warmup=30, max_source_age_s=60):
         if type(warmup) is not int or warmup < 20:
             raise ValueError("A referência exige pelo menos 20 amostras anteriores.")
         self.case_id, self.store, self.warmup = case_id, store, warmup
+        self.max_source_age_s = numero_finito(max_source_age_s, "max_source_age_s", .1)
         self.history = {"sinais_vitais": [], "movimentacao": []}
         self.fields = {}
         self.prescriptions = []
@@ -43,6 +44,8 @@ class StructuredMonitor:
         packet = deepcopy(packet)
         if packet.get("id_caso") != self.case_id:
             raise ValueError("Pacote pertence a outro caso.")
+        if not any(k in packet for k in ["sinais_vitais", "movimentacao", "prescricao", "audio", "video", "texto_openai"]):
+            raise ValueError("Pacote sem modalidade reconhecida.")
         encoded = json.dumps(packet, ensure_ascii=False, sort_keys=True, allow_nan=False)
         digest = hashlib.sha256(encoded.encode()).hexdigest()
         event_id = packet.get("event_id", digest)
@@ -70,11 +73,15 @@ class StructuredMonitor:
             if not isinstance(values, dict) or not values:
                 raise ValueError("Forneça campos numéricos da série.")
             keys = sorted(values)
+            if any(not isinstance(key, str) or not key.strip() or key == "timestamp"
+                   or key.startswith("_") for key in keys):
+                raise ValueError("Nome de campo reservado ou inválido na série.")
             if modality in fields and fields[modality] != keys:
                 raise ValueError("Os campos da série mudaram durante a sessão.")
             fields[modality] = keys
             row = {key: numero_finito(values[key], key) for key in keys}
             row["timestamp"] = packet["timestamp"]
+            row["_simulado"] = simulated
             if len(history[modality]) < self.warmup:
                 history[modality].append(row)
                 source = fonte_indisponivel(modality,
@@ -84,13 +91,14 @@ class StructuredMonitor:
                 source["amostras_referencia"] = len(history[modality])
             else:
                 source = detectar_series(history[modality], [row], keys, modality,
-                                         simulado=simulated)
+                    simulado=simulated or any(h.get("_simulado", False) for h in history[modality]))
                 source["amostras_referencia"] = len(history[modality])
                 source["referencia_congelada"] = True
             source["timestamp_amostra"] = packet["timestamp"]
             latest[modality] = source
         if "prescricao" in packet:
             row = {**packet["prescricao"], "timestamp": packet["timestamp"]}
+            row["_simulado"] = simulated
             # Validate a first prescription too; the shared comparator only
             # starts once a comparable medication history exists.
             numero_finito(row["dose"], "dose", 1e-9)
@@ -99,7 +107,8 @@ class StructuredMonitor:
                        for k in ["medicamento_id", "unidade", "via"]):
                 raise ValueError("Identificação de prescrição inválida.")
             prescriptions.append(row)
-            source = detectar_prescricoes(prescriptions, simulado=simulated)
+            source = detectar_prescricoes(prescriptions,
+                simulado=any(p.get("_simulado", False) for p in prescriptions))
             source["timestamp_amostra"] = packet["timestamp"]
             latest["prescricoes"] = source
         if "audio" in packet:
@@ -117,8 +126,19 @@ class StructuredMonitor:
             source["simulado"] = bool(source.get("simulado", False) or simulated)
             source["timestamp_amostra"] = packet["timestamp"]
             latest["texto_openai"] = source
+        fresh = []
+        for modality, source in latest.items():
+            age = (moment - parse_time(source["timestamp_amostra"])).total_seconds()
+            if age > self.max_source_age_s:
+                stale = fonte_indisponivel(modality,
+                    f"Fonte desatualizada: {age:.1f} s sem nova amostra.",
+                    simulado=source.get("simulado", False))
+                stale.update({"timestamp_amostra": source["timestamp_amostra"], "idade_s": age})
+                fresh.append(stale)
+            else:
+                fresh.append(source)
         result = fundir_fontes_normalizadas(
-            list(latest.values()), id_caso=self.case_id,
+            fresh, id_caso=self.case_id,
             pareamento="pacotes_do_mesmo_caso_de_demonstracao_sem_validacao_clinica",
             fontes_esperadas=["audio", "video", "texto_openai", "sinais_vitais", "movimentacao", "prescricoes"])
         positive = [source for source in result["fontes"]
@@ -148,7 +168,8 @@ def example_packets():
     for index in range(32):
         packet = {"id_caso": "monitor-sintetico", "event_id": f"pacote-{index:03d}",
                   "timestamp": (start+timedelta(seconds=index)).isoformat(), "simulado": True,
-                  "sinais_vitais": {"batimentos": 72+(index%5)-2, "oxigenacao": 97+(index%3)-1},
+                  "sinais_vitais": {"batimentos": 72+(index%5)-2, "oxigenacao": 97+(index%3)-1,
+                      "pressao_sistolica": 120+(index%5)-2, "pressao_diastolica": 80+(index%3)-1},
                   "movimentacao": {"intensidade": 10+(index%5)-2},
                   "prescricao": {"medicamento_id": "medicamento_demo", "dose": 10,
                                  "unidade": "mg", "via": "oral", "intervalo_h": 12}}
@@ -159,14 +180,16 @@ def example_packets():
                                "alerta": False, "nivel": "nenhum", "motivo": "Controle textual simulado sem sinal.",
                                "origem": "controle_sintetico_sem_chamada_api", "simulado": True}})
         if index == 31:
-            packet["sinais_vitais"] = {"batimentos": 120, "oxigenacao": 85}
+            packet["sinais_vitais"] = {"batimentos": 120, "oxigenacao": 85,
+                                      "pressao_sistolica": 160, "pressao_diastolica": 105}
             packet["movimentacao"] = {"intensidade": 50}
             packet["prescricao"]["dose"] = 20
         packets.append(packet)
     return packets
 
 
-def run_stream(path, output, *, follow=False, idle_timeout=5.0, max_events=1000, speed=0.0):
+def run_stream(path, output, *, follow=False, idle_timeout=5.0, max_events=1000, speed=0.0,
+               max_source_age_s=60):
     if type(max_events) is not int or not 1 <= max_events <= 100000:
         raise ValueError("Defina max_events entre 1 e 100.000.")
     idle_timeout = numero_finito(idle_timeout, "idle_timeout", .1, 60)
@@ -202,7 +225,9 @@ def run_stream(path, output, *, follow=False, idle_timeout=5.0, max_events=1000,
                 time.sleep(min(delay, 60))
             previous_time = moment
             case = packet["id_caso"]
-            monitor = monitors.setdefault(case, StructuredMonitor(case, store))
+            if case not in monitors:
+                monitors[case] = StructuredMonitor(case, store, max_source_age_s=max_source_age_s)
+            monitor = monitors[case]
             record = monitor.feed(packet)
             journal.append(record)
             log.write(json.dumps(record, ensure_ascii=False, allow_nan=False)+"\n")
@@ -233,6 +258,8 @@ def main(argv=None):
     parser.add_argument("--idle-timeout", type=float, default=5)
     parser.add_argument("--max-events", type=int, default=1000)
     parser.add_argument("--speed", type=float, default=0)
+    parser.add_argument("--max-source-age", type=float, default=60,
+                        help="Prazo operacional sem amostra nova; não é limiar clínico")
     args = parser.parse_args(argv)
     source = args.input
     if args.demo:
@@ -241,7 +268,8 @@ def main(argv=None):
     if not source:
         parser.error("Informe --input ou --demo.")
     print(json.dumps(run_stream(source, args.output, follow=args.follow, idle_timeout=args.idle_timeout,
-                               max_events=args.max_events, speed=args.speed), ensure_ascii=False, indent=2))
+                               max_events=args.max_events, speed=args.speed,
+                               max_source_age_s=args.max_source_age), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

@@ -78,7 +78,10 @@ def prepare_dataset(dataset: Path, destination: Path):
             raise ValueError("Exactly one metadata.csv is required")
         import io
         meta = pd.read_csv(io.BytesIO(archive.read(metadata_names[0])))
-        wavs = {Path(name).name: name for name in names if name.lower().endswith(".wav")}
+        wav_names = [name for name in names if name.lower().endswith(".wav")]
+        wavs = {Path(name).name: name for name in wav_names}
+        if len(wavs) != len(wav_names):
+            raise ValueError("Duplicate WAV basenames inside archive")
         if len(wavs) != 1180 or len(meta) != 1180:
             raise ValueError(f"Expected 1180 WAVs and rows, got {len(wavs)} and {len(meta)}")
         if meta["arquivo"].duplicated().any():
@@ -88,8 +91,11 @@ def prepare_dataset(dataset: Path, destination: Path):
             if Path(filename).name != filename or filename not in wavs:
                 raise ValueError("Invalid metadata filename")
             out = destination / filename
+            original_bytes = archive.read(wavs[filename])
+            if out.exists() and sha256(out) != hashlib.sha256(original_bytes).hexdigest():
+                raise ValueError(f"Extracted WAV differs from versioned archive: {filename}")
             if not out.exists():
-                out.write_bytes(archive.read(wavs[filename]))
+                out.write_bytes(original_bytes)
         meta["sha256_wav"] = [sha256(destination / filename) for filename in meta["arquivo"]]
     meta["familia_frase"] = meta["texto"].map(phrase_family)
     meta = split_manifest(meta)
@@ -273,9 +279,6 @@ def main():
     args = parser.parse_args()
     extracted = ROOT / "audio/datasets/extracted"
     meta = prepare_dataset(args.dataset, extracted)
-    manifest_file = ROOT / "audio/evidencias/particoes_audio.csv"
-    manifest_file.parent.mkdir(parents=True, exist_ok=True)
-    meta.drop(columns=["caminho"]).to_csv(manifest_file, index=False, encoding="utf-8")
     print(meta.groupby(["particao", "classe"]).size().to_string(), flush=True)
     if args.audit_only:
         return

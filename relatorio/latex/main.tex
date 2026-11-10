@@ -321,7 +321,7 @@ z_{robusto}(x)=\frac{|x-\operatorname{mediana}(H)|}{1{,}4826\operatorname{MAD}(H
 \end{equation}
 O limiar demonstrativo é de seis escalas robustas. Histórico insuficiente ou sem dispersão não produz uma normalidade artificial: exige uma decisão explícita de qualidade de dados. As entradas são verificadas quanto a valores finitos, ordem temporal e consistência dos campos declarados.
 
-O mesmo mecanismo pode operar sobre frequência cardíaca, saturação, pressão ou uma característica numérica de movimento. Os nomes das variáveis não convertem um limiar estatístico em faixa clínica. A demonstração de movimento utiliza uma série estruturada; não corresponde à estimação de postura por vídeo.
+A demonstração monitora frequência cardíaca, saturação, pressão sistólica, pressão diastólica e uma característica numérica de movimento. Os nomes das variáveis não convertem um limiar estatístico em faixa clínica. A demonstração de movimento utiliza uma série estruturada; não corresponde à estimação de postura por vídeo.
 
 \subsection{Evolução de prescrições}
 Registros sucessivos do mesmo medicamento são comparados. A alteração relativa de dose só é calculada quando unidade e via são compatíveis. Mudanças de unidade, via e intervalo são destacadas separadamente, pois comparar números sem preservar seu significado geraria alertas incorretos.
@@ -540,4 +540,31 @@ A gravação e a publicação do vídeo não integram esta execução técnica. 
 \item As métricas devem indicar sua origem: reproduzida, histórica ou controlada.
 \item Nenhuma imagem privada é necessária para compilar este relatório.
 \end{itemize}
+
+\clearpage
+\section{Auditoria final de conformidade com o enunciado}
+\textbf{Parecer: o atendimento integral ainda não está demonstrado.} A gravação não é a única pendência. O código de nuvem, as séries sintéticas, a fusão e os alertas foram executados; as frentes de vídeo e de alterações vocais médicas mantêm cobertura parcial.
+
+\subsection{Pendências funcionais}
+\begin{enumerate}
+\item \textbf{Vídeo:} disponibilizar o peso personalizado e reproduzir a inferência no vídeo escolhido. A avaliação em mídia inédita foi solicitada adicionalmente pelo integrante; não é um protocolo de divisão imposto no PDF.
+\item \textbf{Voz:} demonstrar alterações relacionadas às condições do enunciado com cenários, referência e avaliação apropriados. Classificar emoções sintéticas ou reconhecer uma frase que menciona falta de ar não comprova detectar esse sinal na voz.
+\item \textbf{Tempo real:} o monitor calcula desvios na chegada de séries JSONL. A composição de áudio e vídeo usa resultados calculados anteriormente. Declarar todo o fluxo multimodal contínuo exige executar e medir essa aquisição e inferência.
+\end{enumerate}
+
+Não se inferem obrigações adicionais de ensaio hospitalar, homologação médica ou envio de alertas por e-mail. O painel local demonstra encaminhamento e revisão; as limitações de dados sintéticos permanecem explícitas.
+
+\subsection{Correções de software verificadas}
+\begin{itemize}
+\item Escolha explícita do áudio quando um CSV contém vários arquivos.
+\item Medidas com referência constante não apagam desvios nas demais; a cobertura parcial é preservada.
+\item Pressão sistólica e diastólica acrescentadas às duas demonstrações.
+\item Fontes sem atualização expiram em prazo operacional configurável, sem serem tratadas como observações normais.
+\item Histórico sintético mantém a proveniência nas decisões posteriores.
+\item Revisões concorrentes produzem uma única confirmação; exportações usam temporários exclusivos.
+\item Cache textual confere texto e modelo e recalcula a decisão das menções validadas.
+\item Integridade de WAVs e modelo conferida; modo de auditoria não sobrescreve partições. Exportações preservam os bytes no Git para manter seus hashes entre sistemas.
+\end{itemize}
+
+A revisão inventariou 28 arquivos Python e três notebooks. A análise sintática e as verificações de erros estáticos passaram. A suíte consolidada tem \textbf{59 testes e 26 subtestes aprovados}. Não houve chamadas pagas nem novo treinamento nesta auditoria. O parecer e o plano de fechamento estão em \path{relatorio/auditoria_conformidade.md}; o inventário está em \path{evidence/auditoria_projeto.json}.
 \end{document}

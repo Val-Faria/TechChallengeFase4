@@ -35,3 +35,9 @@ O professor Wagner Santos autorizou serviços alternativos ao Azure em esclareci
 - mAP50 0,928 e precisão/recall do alerta 1,00/0,72 são resultados relatados pelo Marcelo.
 - Classes emocionais sintéticas não validam sinais médicos ou psicológicos em pessoas reais.
 - As quatro categorias específicas citadas no relatório antigo de vídeo não constam do PDF fornecido. A matriz segue o enunciado disponível.
+
+## Atualização após auditoria de 10/11/2026
+
+A auditoria completa está em [auditoria_conformidade.md](auditoria_conformidade.md). O parecer é **cobertura parcial de vídeo e de alterações vocais médicas**, com nuvem, séries sintéticas, integração e alertas demonstrados no protótipo. Não declarar atendimento integral antes de fechar os pontos funcionais indicados.
+
+Foram corrigidos: seleção explícita de áudio, detecção por campo sem supressão dos demais sinais, validade temporal das fontes, rastreabilidade de referências sintéticas, concorrência de revisão/exportação e integridade dos artefatos. As demonstrações agora incluem pressão arterial. A suíte atual possui 59 testes e 26 subtestes aprovados.

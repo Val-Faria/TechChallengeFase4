@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "id_caso": "controle-fonte-ausente",
   "id_resultado": "067efd05a50b2bfa70a8",
-  "gerado_em_utc": "2026-11-10T13:42:22.356526+00:00",
+  "gerado_em_utc": "2026-11-10T14:54:10.588252+00:00",
   "alerta": false,
   "nivel": "nenhum",
   "requer_revisao": true,
@@ -41,7 +41,7 @@
   "entrega": {
     "destino": "caixa_local_equipe_medica",
     "status": "persistido",
-    "recebido_em_utc": "2026-11-10T13:42:22.373081+00:00",
+    "recebido_em_utc": "2026-11-10T14:54:10.606823+00:00",
     "confirmacao": "gravacao_transacional_sqlite",
     "entrega_hospitalar": false
   },

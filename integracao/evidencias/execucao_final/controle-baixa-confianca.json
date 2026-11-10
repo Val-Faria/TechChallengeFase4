@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "id_caso": "controle-baixa-confianca",
   "id_resultado": "325b35d380abf61b9358",
-  "gerado_em_utc": "2026-11-10T13:42:22.356526+00:00",
+  "gerado_em_utc": "2026-11-10T14:54:10.588252+00:00",
   "alerta": false,
   "nivel": "nenhum",
   "requer_revisao": true,
@@ -45,7 +45,7 @@
   "entrega": {
     "destino": "caixa_local_equipe_medica",
     "status": "persistido",
-    "recebido_em_utc": "2026-11-10T13:42:22.376079+00:00",
+    "recebido_em_utc": "2026-11-10T14:54:10.610834+00:00",
     "confirmacao": "gravacao_transacional_sqlite",
     "entrega_hospitalar": false
   },

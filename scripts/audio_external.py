@@ -48,6 +48,10 @@ def main():
     existing_phrases = set(training_manifest["familia_frase"])
     model = None
     if not args.asr_only:
+        model_manifest = args.model.parent / "manifesto_audio.json"
+        expected = json.loads(model_manifest.read_text(encoding="utf-8"))["model"]["sha256"]
+        if sha256(args.model) != expected:
+            raise ValueError("Frozen model differs from artifact manifest; no pickle loaded")
         bundle = joblib.load(args.model)
         if bundle.get("metadata", {}).get("fit_partitions") != ["train"]:
             raise ValueError("Only the newly frozen train-only model can be used")
@@ -120,6 +124,14 @@ def main():
     output = ROOT / "evidence/audio_externo.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    import csv
+    csv_path = ROOT / "audio/evidencias/resultado_audio_externo.csv"
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+    with csv_path.open("w", encoding="utf-8", newline="") as stream:
+        columns = ["arquivo", "classe_audio", "confianca_audio"]
+        writer = csv.DictWriter(stream, fieldnames=columns, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows({key: row[key] for key in columns} for row in records)
 
 
 if __name__ == "__main__":

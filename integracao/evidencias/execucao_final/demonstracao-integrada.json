@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0",
   "id_caso": "demonstracao-integrada",
-  "id_resultado": "0eb467d8f624aef343c7",
-  "gerado_em_utc": "2026-11-10T13:42:22.356526+00:00",
+  "id_resultado": "05d59e7c95320bbce654",
+  "gerado_em_utc": "2026-11-10T14:54:10.587252+00:00",
   "alerta": true,
   "nivel": "alto",
   "requer_revisao": true,
@@ -22,7 +22,7 @@
   ],
   "motivos": [
     "2 trecho(s) com instrumento ativo e útero fora de vista",
-    "2 desvio(s) estatístico(s) em relação ao histórico.",
+    "4 desvio(s) estatístico(s) em relação ao histórico.",
     "1 desvio(s) estatístico(s) em relação ao histórico.",
     "1 alteração(ões) de prescrição para revisão.",
     "2 menção(ões) afirmada(s) atuais; 0 incerta(s)."
@@ -77,7 +77,7 @@
       "status": "ok",
       "alerta": true,
       "nivel": "medio",
-      "motivo": "2 desvio(s) estatístico(s) em relação ao histórico.",
+      "motivo": "4 desvio(s) estatístico(s) em relação ao histórico.",
       "eventos": [
         {
           "timestamp": "2026-11-09T12:00:31+00:00",
@@ -90,6 +90,18 @@
           "campo": "oxigenacao",
           "valor": 85.0,
           "escore_robusto": 8.093889113719143
+        },
+        {
+          "timestamp": "2026-11-09T12:00:31+00:00",
+          "campo": "pressao_sistolica",
+          "valor": 160.0,
+          "escore_robusto": 26.97963037906381
+        },
+        {
+          "timestamp": "2026-11-09T12:00:31+00:00",
+          "campo": "pressao_diastolica",
+          "valor": 105.0,
+          "escore_robusto": 16.86226898691488
         }
       ],
       "referencias": {
@@ -100,9 +112,19 @@
         "oxigenacao": {
           "mediana": 97.0,
           "escala_robusta": 1.4826
+        },
+        "pressao_sistolica": {
+          "mediana": 120.0,
+          "escala_robusta": 1.4826
+        },
+        "pressao_diastolica": {
+          "mediana": 80.0,
+          "escala_robusta": 1.4826
         }
       },
       "limiar": 6.0,
+      "campos_inconclusivos": [],
+      "cobertura_parcial": false,
       "origem": "serie_estruturada_mad",
       "simulado": true
     },
@@ -127,6 +149,8 @@
         }
       },
       "limiar": 6.0,
+      "campos_inconclusivos": [],
+      "cobertura_parcial": false,
       "origem": "serie_estruturada_mad",
       "simulado": true
     },
@@ -202,7 +226,7 @@
   "entrega": {
     "destino": "caixa_local_equipe_medica",
     "status": "persistido",
-    "recebido_em_utc": "2026-11-10T13:42:22.364541+00:00",
+    "recebido_em_utc": "2026-11-10T14:54:10.598784+00:00",
     "confirmacao": "gravacao_transacional_sqlite",
     "entrega_hospitalar": false
   },

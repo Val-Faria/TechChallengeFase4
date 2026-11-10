@@ -116,3 +116,7 @@ O consumo registrado é estimado por tokens/duração, sem consulta à fatura. O
 
 FIAP, *IADT - Fase 4 - Tech challenge*, enunciado fornecido pela equipe; [Uterus Dataset v4](https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4), licença declarada CC BY 4.0; [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs); [OpenAI preços](https://developers.openai.com/api/docs/pricing); [Whisper](https://github.com/openai/whisper).
 
+
+## Auditoria final de conformidade
+
+Consulte [o parecer detalhado](relatorio/auditoria_conformidade.md) antes de gravar. A suíte após a revisão tem **59 testes e 26 subtestes aprovados**. Foram incluídas pressão sistólica/diastólica e validade temporal das fontes. O prazo de 60 segundos é uma configuração operacional da demonstração, não um limite médico. A avaliação de voz relacionada às condições do enunciado e a inferência YOLO reproduzível permanecem parciais.

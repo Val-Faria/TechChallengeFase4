@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "id_caso": "controle-preserva-video",
   "id_resultado": "45dde39c47f95770ad66",
-  "gerado_em_utc": "2026-11-10T13:42:22.356526+00:00",
+  "gerado_em_utc": "2026-11-10T14:54:10.588252+00:00",
   "alerta": true,
   "nivel": "alto",
   "requer_revisao": true,
@@ -51,7 +51,7 @@
   "entrega": {
     "destino": "caixa_local_equipe_medica",
     "status": "persistido",
-    "recebido_em_utc": "2026-11-10T13:42:22.368557+00:00",
+    "recebido_em_utc": "2026-11-10T14:54:10.603292+00:00",
     "confirmacao": "gravacao_transacional_sqlite",
     "entrega_hospitalar": false
   },

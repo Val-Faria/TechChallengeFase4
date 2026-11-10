@@ -19,12 +19,17 @@ def main():
         scanned += 1
         if re.search(r'sk-(?:proj-)?[A-Za-z0-9_-]{20,}', text):
             errors.append({'arquivo':name,'erro':'Possível credencial; conteúdo não exibido'})
+        if p.suffix == '.py':
+            try:
+                compile(text, str(p), 'exec')
+            except SyntaxError as error:
+                errors.append({'arquivo':name,'erro':f'Sintaxe Python: linha {error.lineno}'})
         if p.suffix == '.ipynb':
             notebook = json.loads(text)
             for cell in notebook['cells']:
                 if cell['cell_type']=='code':
                     source = ''.join(cell['source'])
-                    if not source.lstrip().startswith(('%','!')):
+                    if not source.lstrip().startswith('%%'):
                         # IPython magic/shell lines are valid notebook constructs.
                         cleaned = '\n'.join(line for line in source.splitlines() if not line.lstrip().startswith(('%','!')))
                         try:

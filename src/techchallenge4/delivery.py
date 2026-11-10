@@ -77,6 +77,7 @@ class AlertStore:
         if not isinstance(reviewer, str) or not 1 <= len(reviewer.strip()) <= 80:
             raise ValueError("Informe um nome de revisor com até 80 caracteres.")
         with self._connection() as db:
+            db.execute("BEGIN IMMEDIATE")
             row = db.execute("SELECT acknowledged_utc FROM alerts WHERE result_id=?",
                              (result_id,)).fetchone()
             if row is None:

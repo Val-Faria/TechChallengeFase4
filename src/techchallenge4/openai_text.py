@@ -143,8 +143,14 @@ def analyze_text_openai(text, output_dir, *, model=None, max_budget_usd=0.25,
     with _lock(folder / ".orcamento.lock"):
         if cache.exists():
             cached = json.loads(cache.read_text(encoding="utf8"))
-            validate_analysis({key: cached[key] for key in ["sentimento", "mencoes", "limitacoes"]}, text)
-            return {**cached, "cache_utilizado": True}
+            expected_hash = hashlib.sha256(text.encode()).hexdigest()
+            if cached.get("modelo") != model or cached.get("sha256_transcricao") != expected_hash:
+                raise ValueError("Cache textual incompatível com texto/modelo; nenhuma chamada enviada.")
+            validated = validate_analysis(
+                {key: cached[key] for key in ["sentimento", "mencoes", "limitacoes"]}, text)
+            metadata = {key: cached[key] for key in ["modelo", "id_resposta", "sha256_transcricao",
+                         "usage", "custo_estimado_usd"] if key in cached}
+            return {**validated, **metadata, "cache_utilizado": True}
         ledger = json.loads(ledger_file.read_text(encoding="utf8")) if ledger_file.exists() else {"chamadas": []}
         ledger["limite_usd"] = max_budget_usd
         used = sum(c["custo_contabilizado_usd"] for c in ledger["chamadas"])

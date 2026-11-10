@@ -1,0 +1,200 @@
+{
+  "data": "2026-11-10",
+  "codigo": [
+    {
+      "arquivo": "audio/notebooks/TechChallengeFase4_audio.ipynb",
+      "sha256": "f2911aecbd1239b9bf269ed350e1e36528cdf0bf8cd69e31bc33a8eaafd5bce3",
+      "celulas_codigo": 6
+    },
+    {
+      "arquivo": "integracao/TechChallengeFase4_integracao.ipynb",
+      "sha256": "944179a7bb43cbf509941a4a7e21a388dc5a266ac676d8777f161abf25a3293a",
+      "celulas_codigo": 7
+    },
+    {
+      "arquivo": "relatorio/gerar_relatorio.py",
+      "sha256": "19cc047d5e4c50bd8314f5a36133e602ff5d1682777e956efcdd46b367efeb46",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/audio_compare_asr.py",
+      "sha256": "c41e84b70bfdb76c13cbc613dfbdfa6c2c479395cb3019e0cdb3c363530e80fe",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/audio_external.py",
+      "sha256": "feb3906ff0ea500264d586fad3af3debb1425df3412054be3077ba83a9287f9f",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/audio_infer.py",
+      "sha256": "4e6e6aa6e42444a8c1663e0cb7823151648da979aa711bdd5eeb6e5bfbfdfda3",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/audio_reproduce.py",
+      "sha256": "c1ba8d1840add6eabfa385eef742a860d0719c7835d5e456ae860908e019fcd9",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/auditar_projeto.py",
+      "sha256": "a25153b1a85fe5739c2bdcaa9734bdbfbf1c0b5efdd65dce70505e947c87f5d9",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/gerar_notebook_integracao.py",
+      "sha256": "057d05923caa1f97d09e7067dce6ef080b72e35c3b0a94aff160ae535f0ba880",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/run_demo.py",
+      "sha256": "7fd4ce14a08c9a88d3a33de6ed601f89b8d397d94fe2b054688ea8b6c3caeca3",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/run_stream.py",
+      "sha256": "82ab0c5a080c09e38db24f7906451dfbac45581be35d51b0e154bc9d9713d383",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/transcrever_openai.py",
+      "sha256": "32e2752e04b2bd7545a77cce8589c91abbb347ea75af244622d4c1dbf8e257e9",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/validar_openai.py",
+      "sha256": "56ee72055b580e4042d993a6d17df8da1e7a2e874117f352f04b9c02daeb0f92",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/validar_video.py",
+      "sha256": "e432eed37b8f21cd01a17c74ad5d8d1d5e134a103eaea2de2cc6428a0dbf998d",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/verificar_entrega.py",
+      "sha256": "1ca03ee70108b036f6016dd0681a110b702ecafb8c3f2c6c9d5ca7dba62932bb",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/__init__.py",
+      "sha256": "f2f42d8d8b8fdfb6069c85e76b6faf2ca2075f82c0ce0bb3203c2c086e382eca",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/core.py",
+      "sha256": "af1a42e2b4e6e60e8bd0d0cc2f385f432b04520bafabb5802d055eb8eb24ae15",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/dashboard.py",
+      "sha256": "e429b7c831df1383890056ddf5a2b78e02f06b9b820512c7090f3f9727d1e7ad",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/delivery.py",
+      "sha256": "ea6c772fc8a624bcfc048cabf41082c381cd311017added1d7745c39a32401c3",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/demo.py",
+      "sha256": "abb9cb9d6d7d92ce4fdd0c569c04f30daa511cfb2e7e8513571b6a517e3d5814",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/monitor.py",
+      "sha256": "e5ee60b860c2e484841fd481c1d0d9617b0f520f8babff7ac7cdf244e1441e42",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/openai_audio.py",
+      "sha256": "b73b9e5e8a9c62e01ce0f19a7d80a9ce52cd7483685c1b845d752984fed9201f",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/openai_text.py",
+      "sha256": "21ff35e0bf302421c65dabe9019b9aa677ed5f7fe9b72c1e5eded2815e6d50c5",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/reports.py",
+      "sha256": "e2a889927173b4c4dc5fc9839c30af419939005616afe04dac7b58033bf0c319",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_auditoria.py",
+      "sha256": "ab0a5620034585687f960ed9db0f32fa8977621f8cd7ffba2ee14adbe675c7ed",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_monitor.py",
+      "sha256": "b214441d986cc00612b6279dc04cde83f8811ac3a4034f08597991527d067eac",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_openai_audio.py",
+      "sha256": "793f5fea4507a7b7e9efb6da9dfb742af522ab8824e8e9e1bb0ca1b6c75c91f6",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_pipeline.py",
+      "sha256": "a318c025307e39f21d7a5b2d60153e2415f9d88460c39fde8c056c022b9eb358",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_video.py",
+      "sha256": "844d1468b5c34aac0f90fdbb7775bfac5e312bdfd45efff64fd896f699adce1f",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "video/TechChallengeFase4_video.ipynb",
+      "sha256": "7580dcc91ee6bb808b00c2c9451e8ca7e9923bf2b3b168b152b7a153d8d990a7",
+      "celulas_codigo": 6
+    },
+    {
+      "arquivo": "video/alerta_video.py",
+      "sha256": "0bda098461e50d286d8c93d513d1f872814b511d9173f2d0c04c36d5c5a41bab",
+      "celulas_codigo": 0
+    }
+  ],
+  "arquivos_python": 28,
+  "notebooks": 3,
+  "erros_sintaxe": [],
+  "requisitos": [
+    {
+      "requisito": "Vídeo clínico e eventos",
+      "status": "parcial",
+      "falta": "Pesos personalizados e exemplo de inferência reproduzível; avaliação independente conforme pedido do integrante."
+    },
+    {
+      "requisito": "Alterações vocais indicativas de condições médicas",
+      "status": "parcial",
+      "falta": "Cenários e referência apropriados para sinais vocais do enunciado; classes emocionais sintéticas não os substituem."
+    },
+    {
+      "requisito": "Transcrição, termos críticos e sentimentos em nuvem",
+      "status": "atendido_no_prototipo",
+      "observacao": "OpenAI autorizada pelo professor. Chamadas reais salvas; sentimento não é gravidade clínica."
+    },
+    {
+      "requisito": "Sinais vitais, prescrições e movimento",
+      "status": "demonstrado_com_dados_sinteticos",
+      "observacao": "Inclui batimentos, oxigenação e pressão arterial. Limiares demonstrativos, sem exigência inferida de ensaio hospitalar."
+    },
+    {
+      "requisito": "Alertas e monitoramento temporal",
+      "status": "demonstrado_no_prototipo_local",
+      "observacao": "Eventos incrementais, fontes com validade, caixa persistente e revisão; sem comprovação de latência dos modelos."
+    },
+    {
+      "requisito": "Código e relatório",
+      "status": "atendido_com_limitacoes_explicitas"
+    },
+    {
+      "requisito": "Vídeo de até15min noYouTube/Vimeo",
+      "status": "pendente_grupo"
+    }
+  ],
+  "conformidade_integral": false,
+  "ressalva": "Dados clínicos reais, validação hospitalar e envio por e-mail não são tratados como exigências adicionais ao PDF."
+}

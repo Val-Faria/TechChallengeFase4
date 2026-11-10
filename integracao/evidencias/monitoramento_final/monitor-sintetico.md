@@ -1,7 +1,7 @@
 # Relatório automático multimodal
 
 **Caso:** monitor-sintetico
-**Resultado:** 3bd13daa36339d19b5b2
+**Resultado:** 0a9eb241638d475d4844
 **Prioridade:** medio
 **Cobertura:** completo
 **Revisão necessária:** True
@@ -12,9 +12,11 @@
 
 - Estado: ok
 - Origem: serie_estruturada_mad
-- Motivo: 2 desvio(s) estatístico(s) em relação ao histórico.
+- Motivo: 4 desvio(s) estatístico(s) em relação ao histórico.
 - Evidência: {"timestamp": "2026-11-09T15:00:31+00:00", "campo": "batimentos", "valor": 120.0, "escore_robusto": 32.37555645487657}
 - Evidência: {"timestamp": "2026-11-09T15:00:31+00:00", "campo": "oxigenacao", "valor": 85.0, "escore_robusto": 8.093889113719143}
+- Evidência: {"timestamp": "2026-11-09T15:00:31+00:00", "campo": "pressao_diastolica", "valor": 105.0, "escore_robusto": 16.86226898691488}
+- Evidência: {"timestamp": "2026-11-09T15:00:31+00:00", "campo": "pressao_sistolica", "valor": 160.0, "escore_robusto": 26.97963037906381}
 
 ## movimentacao
 
@@ -50,7 +52,7 @@
 
 ## Resposta operacional
 
-Entrega: {"confirmacao": "gravacao_transacional_sqlite", "destino": "caixa_local_equipe_medica", "entrega_hospitalar": false, "recebido_em_utc": "2026-11-09T23:40:58.437999+00:00", "status": "persistido"}
+Entrega: {"destino": "caixa_local_equipe_medica", "status": "persistido", "recebido_em_utc": "2026-11-10T14:54:10.733105+00:00", "confirmacao": "gravacao_transacional_sqlite", "entrega_hospitalar": false}
 
 A caixa de revisão e o painel são locais. Não há envio a um hospital.
 

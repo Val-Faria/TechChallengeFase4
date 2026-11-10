@@ -33,6 +33,9 @@ def fonte_indisponivel(modalidade, motivo, status="indisponivel", simulado=False
             "nivel": "nenhum", "motivo": str(motivo), "simulado": bool(simulado)}
 
 def normalizar_audio(resultado, origem="classificar_audio", simulado=False, limiar=0.70):
+    if type(simulado) is not bool or (isinstance(resultado, dict)
+            and "simulado" in resultado and type(resultado["simulado"]) is not bool):
+        raise ValueError("simulado deve ser booleano JSON.")
     if resultado is None:
         return fonte_indisponivel("audio", "Áudio não fornecido.", simulado=simulado)
     if isinstance(resultado, dict):
@@ -60,6 +63,9 @@ def normalizar_audio(resultado, origem="classificar_audio", simulado=False, limi
             "origem": origem, "simulado": bool(simulado)}
 
 def normalizar_video(resultado, origem="analisar_video", simulado=False):
+    if type(simulado) is not bool or (isinstance(resultado, dict)
+            and "simulado" in resultado and type(resultado["simulado"]) is not bool):
+        raise ValueError("simulado deve ser booleano JSON.")
     if resultado is None:
         return fonte_indisponivel("video", "Vídeo não fornecido.", simulado=simulado)
     if not isinstance(resultado, dict):
@@ -96,8 +102,12 @@ def normalizar_video(resultado, origem="analisar_video", simulado=False):
             "origem": origem, "simulado": bool(simulado)}
 
 def validar_fonte(fonte):
-    if not isinstance(fonte, dict) or not isinstance(fonte.get("modalidade"), str):
+    if (not isinstance(fonte, dict) or not isinstance(fonte.get("modalidade"), str)
+            or not fonte["modalidade"].strip() or not isinstance(fonte.get("motivo"), str)):
         raise ValueError("Fonte adicional inválida.")
+    for campo in ("simulado", "cobertura_parcial"):
+        if campo in fonte and type(fonte[campo]) is not bool:
+            raise ValueError(f"{campo} deve ser booleano JSON.")
     if fonte.get("status") not in STATUS_FONTE or fonte.get("nivel") not in NIVEIS:
         raise ValueError("Fonte adicional com status ou nível inválido.")
     if fonte["status"] == "ok":
@@ -141,7 +151,8 @@ def fundir_fontes_normalizadas(fontes, *, id_caso, pareamento,
     for nome in esperadas:
         if nome not in nomes:
             fontes.append(fonte_indisponivel(nome, "Fonte prevista, mas não fornecida."))
-    indisponiveis = [f["modalidade"] for f in fontes if f["status"] != "ok"]
+    indisponiveis = [f["modalidade"] for f in fontes
+                    if f["status"] != "ok" or f.get("cobertura_parcial", False)]
     sinais = [f for f in fontes if f["status"] == "ok" and f["alerta"]]
     nivel = max((f["nivel"] for f in sinais), key=NIVEIS.get, default="nenhum")
     assinatura = json.dumps({"id_caso": id_caso, "fontes": fontes, "pareamento": pareamento},
@@ -176,20 +187,23 @@ def validar_instantes(registros):
 def detectar_series(historico, observacoes, campos, modalidade, limiar=6.0, simulado=False):
     if modalidade not in {"sinais_vitais", "movimentacao"} or not campos:
         raise ValueError("Defina modalidade e campos de série.")
-    numero_finito(limiar, "limiar_robusto", 0.1)
+    limiar = numero_finito(limiar, "limiar_robusto", 0.1)
     if len(historico) < 20 or not observacoes:
         return fonte_indisponivel(modalidade, "Histórico mínimo: 20 pontos; observações: ao menos 1.",
                                  simulado=simulado)
     validar_instantes(historico + observacoes)
-    referencias, eventos = {}, []
+    referencias, eventos, inconclusivos = {}, [], []
     for campo in campos:
         valores = [numero_finito(r[campo], campo) for r in historico]
         centro = statistics.median(valores)
         escala = 1.4826 * statistics.median(abs(v-centro) for v in valores)
         if escala <= 1e-12:
-            return fonte_indisponivel(modalidade, f"Referência sem dispersão suficiente: {campo}.",
-                                     simulado=simulado)
+            inconclusivos.append(campo)
+            continue
         referencias[campo] = {"mediana": centro, "escala_robusta": escala}
+    if not referencias:
+        return fonte_indisponivel(modalidade,
+            "Referência sem dispersão suficiente: " + ", ".join(inconclusivos), simulado=simulado)
     for r in observacoes:
         for campo, ref in referencias.items():
             valor = numero_finito(r[campo], campo)
@@ -202,10 +216,11 @@ def detectar_series(historico, observacoes, campos, modalidade, limiar=6.0, simu
             "nivel": "medio" if sinal else "nenhum",
             "motivo": f"{len(eventos)} desvio(s) estatístico(s) em relação ao histórico.",
             "eventos": eventos, "referencias": referencias, "limiar": limiar,
+            "campos_inconclusivos": inconclusivos, "cobertura_parcial": bool(inconclusivos),
             "origem": "serie_estruturada_mad", "simulado": bool(simulado)}
 
 def detectar_prescricoes(registros, limiar_variacao=0.5, simulado=False):
-    numero_finito(limiar_variacao, "limiar_variacao", 0.01)
+    limiar_variacao = numero_finito(limiar_variacao, "limiar_variacao", 0.01)
     if len(registros) < 2:
         return fonte_indisponivel("prescricoes", "Forneça ao menos duas prescrições.",
                                  simulado=simulado)
