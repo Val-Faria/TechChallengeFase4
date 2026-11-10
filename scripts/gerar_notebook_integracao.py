@@ -134,6 +134,10 @@ monitoramento = run_stream(ENTRADA_STREAM, FLUXO, max_events=32)
 print(json.dumps(monitoramento, ensure_ascii=False, indent=2))
 display(HTML((FLUXO / "painel.html").read_text(encoding="utf-8")))
 ''')
+md('''## 5.1. Inferência acústica/visual acrescentada
+
+O guia `integracao/MIDIAS.md` apresenta a execução sobre WAV e vídeo, com referência de voz anterior e fluxo óptico real. Os oito controles acústicos e dois clipes geométricos constam em `evidence/midias_complementares.json`. A reprodução no ritmo original mede inferência local e entrega; não inclui ASR/nuvem. As mídias e caixas estão no backup privado do Drive. Não são rótulos clínicos nem reprodução YOLO.
+''')
 md('''## 6. Salvar e encerrar
 
 O ZIP desta célula contém resultados da integração, sem credenciais ou modelos. Se usar GPU no Colab, primeiro salve seus artefatos no Drive e depois use **Ambiente de execução → Desconectar e excluir ambiente de execução**. Fechar a aba não encerra a sessão.

@@ -70,7 +70,7 @@ Valkiria Nonato de Faria & 373256\\
 \addcontentsline{toc}{section}{Resumo}
 Este trabalho apresenta um protótipo de monitoramento multimodal com recorte em saúde da mulher. A solução combina características acústicas de falas sintéticas, eventos de perda de visualização de uma área crítica em vídeos laparoscópicos e análise textual por serviço gerenciado de inteligência artificial. Um contrato comum preserva a origem, a disponibilidade e a prioridade de cada evidência. O resultado alimenta relatórios automáticos e uma caixa de alertas local, com registro de entrega e confirmação de leitura.
 
-A frente de áudio utiliza Whisper, Librosa e Random Forest. A frente de vídeo reaproveita o detector YOLOv8 de instrumentos e útero desenvolvido pela equipe. A integração inclui detectores demonstrativos para séries temporais de sinais vitais e movimentação e para alterações sucessivas em prescrições. A análise textual e a transcrição dos WAVs novos são realizadas por APIs da OpenAI, substituição de fornecedor autorizada pelo professor; Whisper permanece na representação acústica. O texto é analisado para sentimento e menções relevantes. O processamento incremental é demonstrado por reprodução temporal de eventos; as medidas de latência abrangem a persistência local do alerta, não toda a inferência nem uma operação hospitalar.
+A frente de áudio utiliza Whisper, Librosa e Random Forest, acrescida de comparação de pausas e trechos vocais com referências anteriores da mesma voz. A frente de vídeo preserva os resultados YOLOv8 de instrumentos e útero da equipe e acrescenta um detector executável de mudanças de movimento por fluxo óptico, sem pesos privados. Os dois detectores visuais têm escopos distintos. A integração inclui séries temporais e prescrições. A transcrição e a análise textual utilizam APIs da OpenAI, alternativa autorizada pelo professor. A nova reprodução no ritmo original executa características acústicas, fluxo óptico, fusão e entrega local diretamente sobre amostras e quadros; sua latência não inclui ASR, nuvem ou aquisição clínica ao vivo.
 
 O protocolo distingue avaliações de desenvolvimento, teste e verificação cega. As famílias de gravações reservadas para a verificação final não participam do ajuste do novo classificador. Métricas anteriores publicadas pela equipe são identificadas como históricas e não substituem os resultados reproduzidos nesta versão. Os dados sintéticos, a ausência de um conjunto clínico pareado e as limitações de proveniência do vídeo restringem as conclusões à viabilidade técnica do fluxo.
 
@@ -453,9 +453,9 @@ A matriz considera os itens das páginas 2--4 do enunciado e o esclarecimento so
 \toprule
 \textbf{Requisito} & \textbf{Evidência da solução} & \textbf{Limite de interpretação}\\
 \midrule\endhead
-Vídeo clínico e evento fora do padrão & YOLOv8 da equipe; JSON e relatório com dois eventos temporais. & Vídeo de avaliação montado; métricas históricas.\\
+Vídeo clínico e evento fora do padrão & YOLOv8 da equipe e detector complementar por fluxo óptico executado nos quadros. & Montagem já usada; fluxo óptico não reconhece anatomia.\\
 Relatório automático & Saídas por vídeo e relatório multimodal por caso. & Evidência de software; exige revisão humana.\\
-Processamento de voz & Whisper, Librosa e Random Forest, com artefatos regenerados. & Dados sintéticos; sem validação de disartria ou fadiga.\\
+Processamento de voz & Whisper, Librosa, Random Forest e comparação intra-voz de pausas/trechos vocais. & Controles sintéticos; sem atribuição de causa médica.\\
 Transcrição e análise textual & Whisper para ritmo acústico; transcrição e análise textual OpenAI; fornecedor alternativo autorizado. & Diferenciar síntese, transcrição e análise semântica.\\
 Termos e sentimentos & Resposta estruturada com sentimento, menções, contexto, evidência literal e negação. & LLM pode interpretar incorretamente; não é diagnóstico.\\
 Sinais vitais & Detector de desvio robusto em histórico temporal. & Demonstração sintética e limiar estatístico.\\
@@ -463,7 +463,7 @@ Prescrições & Comparação temporal de dose, unidade, via e intervalo. & Não 
 Movimentação & Detector de série numérica de movimento. & Não implementa análise postural clínica.\\
 Fusão multimodal & Contrato por caso; prioridade e cobertura explícitas. & Fontes independentes, sem coorte pareada.\\
 Alertas à equipe & Caixa SQLite, painel local e confirmação de revisão. & Entrega local, sem sistema hospitalar real.\\
-Processamento temporal & Monitor JSONL incremental e reprodução; latência dos detectores, fusão e entrega local. & Não comprova captura clínica contínua.\\
+Processamento temporal & JSONL e inferência acústica/visual sobre arquivos reproduzidos no ritmo original. & Sem captura clínica ao vivo ou latência da nuvem.\\
 Código completo & Branch Nirton com scripts, notebooks e testes. & Requer dependências e artefatos descritos.\\
 Relatório técnico & PDF, fontes LaTeX e pacote Overleaf. & Resultados restringem-se à evidência registrada.\\
 Vídeo até 15 minutos & Roteiro e material de demonstração preparados. & Gravação e publicação: responsabilidade de Benicio.\\
@@ -523,6 +523,8 @@ A gravação e a publicação do vídeo não integram esta execução técnica. 
 \item Librosa. \textit{Documentation: feature extraction and pYIN}. \url{https://librosa.org/doc/latest/}.
 \item Scikit-learn. \textit{RandomForestClassifier; GroupShuffleSplit; model persistence}. \url{https://scikit-learn.org/stable/}.
 \item Ultralytics. \textit{YOLOv8 documentation}. \url{https://docs.ultralytics.com/models/yolov8/}.
+\item Rashid, M. et al. \textit{Respiratory Distress Detection from Telephone Speech using Acoustic and Prosodic Features}. 2020. \url{https://arxiv.org/abs/2011.09270}. A referência fundamenta a investigação de características; seus resultados não são transferidos ao protótipo.
+\item OpenCV. \textit{Optical Flow}. \url{https://docs.opencv.org/4.x/d4/dee/tutorial_optical_flow.html}. Implementação de fluxo óptico denso de Farnebäck.
 \end{enumerate}
 
 \clearpage
@@ -543,13 +545,13 @@ A gravação e a publicação do vídeo não integram esta execução técnica. 
 
 \clearpage
 \section{Auditoria final de conformidade com o enunciado}
-\textbf{Parecer: o atendimento integral ainda não está demonstrado.} A gravação não é a única pendência. O código de nuvem, as séries sintéticas, a fusão e os alertas foram executados; as frentes de vídeo e de alterações vocais médicas mantêm cobertura parcial.
+\textbf{Atualização: as lacunas de implementação acústica e de inferência contínua local receberam módulos executáveis e novas evidências.} A alternativa por fluxo óptico dispensa o peso privado para analisar mudanças visuais, preservando o escopo diferente do detector anatômico. Não se declara validação clínica nem reprodução do YOLO indisponível. O vídeo de apresentação continua com Benicio.
 
-\subsection{Pendências funcionais}
+\subsection{O que foi executado e o que permanece limitado}
 \begin{enumerate}
-\item \textbf{Vídeo:} disponibilizar o peso personalizado e reproduzir a inferência no vídeo escolhido. A avaliação em mídia inédita foi solicitada adicionalmente pelo integrante; não é um protocolo de divisão imposto no PDF.
-\item \textbf{Voz:} demonstrar alterações relacionadas às condições do enunciado com cenários, referência e avaliação apropriados. Classificar emoções sintéticas ou reconhecer uma frase que menciona falta de ar não comprova detectar esse sinal na voz.
-\item \textbf{Tempo real:} o monitor calcula desvios na chegada de séries JSONL. A composição de áudio e vídeo usa resultados calculados anteriormente. Declarar todo o fluxo multimodal contínuo exige executar e medir essa aquisição e inferência.
+\item \textbf{Vídeo:} fluxo óptico real executado em dois clipes controlados novos e na montagem recebida. Não gerou eventos de aumento persistente nessa montagem. Isso não contradiz nem reproduz os eventos anatômicos anteriores. O peso personalizado continua necessário somente para reexecutar aquele detector YOLO.
+\item \textbf{Voz:} referência congelada, duas vozes novas, gravações reservadas e oito controles físicos. A detecção depende de mudanças acústicas reais, não da presença de sintomas no texto. Pausas têm muitas causas; os controles não medem sensibilidade para cansaço ou doença respiratória.
+\item \textbf{Continuidade:} áudio PCM e quadros são analisados em janelas sucessivas, com fusão e persistência durante a reprodução no ritmo original. A espera de cinco segundos da janela deve ser somada ao processamento. Transcrição e texto em nuvem permanecem na frente de consulta, com evidências próprias; não integram essa medida contínua.
 \end{enumerate}
 
 Não se inferem obrigações adicionais de ensaio hospitalar, homologação médica ou envio de alertas por e-mail. O painel local demonstra encaminhamento e revisão; as limitações de dados sintéticos permanecem explícitas.
@@ -566,5 +568,24 @@ Não se inferem obrigações adicionais de ensaio hospitalar, homologação méd
 \item Integridade de WAVs e modelo conferida; modo de auditoria não sobrescreve partições. Exportações preservam os bytes no Git para manter seus hashes entre sistemas.
 \end{itemize}
 
-A revisão inventariou 28 arquivos Python e três notebooks. A análise sintática e as verificações de erros estáticos passaram. A suíte consolidada tem \textbf{59 testes e 26 subtestes aprovados}. Não houve chamadas pagas nem novo treinamento nesta auditoria. O parecer e o plano de fechamento estão em \path{relatorio/auditoria_conformidade.md}; o inventário está em \path{evidence/auditoria_projeto.json}.
+A suíte consolidada tem \textbf{68 testes e 26 subtestes aprovados}. Não houve chamadas pagas ou retreinamento do classificador emocional nesta complementação. O parecer está em \path{relatorio/auditoria_conformidade.md}; o inventário está em \path{evidence/auditoria_projeto.json}.
+
+\clearpage
+\section{Complementação: sinais físicos e inferência incremental de mídia}
+\subsection{Comparação acústica com referência anterior}
+São utilizadas duas gravações anteriores da mesma voz, com conteúdo distinto do áudio reservado. A referência fica congelada antes de avaliar a gravação nova. Janelas RMS de 20 ms estimam atividade vocal pela energia relativa; o método não identifica sons respiratórios. O critério exige simultaneamente aumento de pelo menos 0,20 na proporção de pausas e redução do trecho vocal mediano para até 65\% da referência. Saturação, voz insuficiente ou janela curta produzem resultado inconclusivo. Esses parâmetros são demonstrativos, fixados antes dos cenários, e não limiares médicos.
+
+A escolha de pausas e padrões vocais é motivada pela investigação de Rashid et al., citada nas referências. Seu classificador, população e métricas não foram reproduzidos neste trabalho. Aqui mede-se uma alteração acústica observável, cuja causa precisa de avaliação humana. As condições do PDF orientam o uso, sem transformar síntese de voz em evidência de doença.
+
+\subsection{Movimento visual sem peso personalizado}
+O algoritmo Farnebäck calcula deslocamentos entre quadros. A mediana global do fluxo é subtraída para reduzir translação da câmera. O percentil 95 da velocidade residual, normalizado pela largura e intervalo dos quadros, é comparado a 30 observações anteriores. O sinal exige escore robusto pelo menos seis e persistência de um segundo. A escala tem piso de 0,01 largura/s. Lacunas, câmera excessivamente instável, quadro escuro ou sem textura ficam inconclusivos. Rotação, zoom, iluminação, anotações e movimentos normais ainda podem causar desvios.
+
+O resultado é aumento de movimento aparente; não identifica estruturas anatômicas, perda do útero, erro de postura ou complicação cirúrgica. Portanto, não substitui semanticamente o YOLO da equipe. Disponibiliza uma segunda rota reproduzível para o requisito de analisar movimento e gerar relatório.
+
+\clearpage
+\subsection{Execução e resultados controlados}
+\ResultadoMidias
+
+\subsection{Reprodução e apresentação}
+Instalar \path{requirements-media.txt}; gerar as seis gravações com \path{scripts/gerar_cenarios_midias.ps1}; executar \code{python scripts/validar_midias.py}. Para outras mídias, congelar a referência com \path{scripts/preparar_referencia_voz.py} e executar \code{python -m techchallenge4.media_stream --help}. A opção \code{--paced} acompanha o relógio da mídia. Relatório, diário de inferência e banco de alertas são salvos no diretório de saída. A reprodução usa arquivos, não uma captura de paciente ao vivo.
 \end{document}

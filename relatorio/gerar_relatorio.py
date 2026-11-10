@@ -11,7 +11,6 @@ import json
 import shutil
 import subprocess
 import zipfile
-from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -164,6 +163,28 @@ def make_manifest():
     return "\n".join(lines)
 
 
+def make_media():
+    evidence = read_json("evidence/midias_complementares.json")
+    if not evidence:
+        return "Execução complementar ainda não registrada."
+    cases = evidence["audio"]["casos"]
+    stream = evidence["stream"]["ritmo_original"]
+    clinical = evidence["video"]["cirurgia_equipe"]
+    lines = [r"Foram criadas seis sínteses novas: duas referências e uma gravação reservada por voz. Não há hashes compartilhados com o corpus de 1.180 WAVs nem com as seis provas externas anteriores. O classificador emocional permaneceu congelado e não participou destes critérios.",
+             r"\begin{center}\small\begin{tabular}{llcc}\toprule Voz & Cenário & Esperado & Obtido\\\midrule"]
+    for case in cases:
+        label = {True: "Sinal", False: "Sem sinal", None: "Inconclusivo"}
+        scenario = {"original": "Original", "ganho_reduzido": "Volume reduzido",
+                    "interrompido": "Pausas inseridas", "silencio": "Silêncio"}[case["cenario"]]
+        lines.append(" & ".join([esc(case["voz"].title()), esc(scenario), label[case["esperado"]], label[case["obtido"]]])+r"\\")
+    lines += [r"\bottomrule\end{tabular}\end{center}",
+              r"A versão interrompida insere 380 ms de silêncio a cada bloco de 180 ms. A versão com ganho reduzido multiplica a amplitude por 0,35. São perturbações técnicas, sem rótulo de doença; as derivações da mesma fonte não são observações independentes.",
+              f"Dois vídeos geométricos novos passaram pelos cálculos reais de fluxo óptico: o controle não gerou eventos e o cenário alterado gerou {len(evidence['video']['casos_controlados'][1]['eventos'])}. Não foi usado oráculo de caixas ou classes. Na montagem recebida foram processados {clinical['quadros_decodificados']} quadros e não houve aumento persistente que atingisse essa regra. Isso não significa ausência de eventos clínicos.",
+              f"A reprodução contínua no ritmo original analisou {stream['quadros_processados']} pares de quadros em {number(stream['tempo_total_parede_s'], 2)} s de parede. Foram avaliadas {len(stream['janelas_audio'])} janelas de voz e persistidas {len(stream['alertas_entregues'])} transições com sinais. O percentil 95 de processamento foi {number(stream['processamento_p95_ms'], 2)} ms por passo, além da espera da janela de cinco segundos. Não inclui ASR, nuvem ou captura clínica.",
+              r"Evidência: \path{evidence/midias_complementares.json}. Nenhuma chamada paga foi feita nesta complementação."]
+    return "\n\n".join(lines)
+
+
 def build_macros():
     audio = read_json("evidence/audio_reproducao.json")
     summary = read_json("evidence/resumo_execucao.json")
@@ -197,6 +218,7 @@ def build_macros():
         "ResultadoReplay": make_replay(replay, audit),
         "ResultadoIntegracao": integration_text,
         "ResultadoRecursos": resource_text,
+        "ResultadoMidias": make_media(),
         "ComandosReproducao": commands,
         "ManifestoEvidencias": make_manifest(),
     }

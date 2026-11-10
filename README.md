@@ -119,4 +119,11 @@ FIAP, *IADT - Fase 4 - Tech challenge*, enunciado fornecido pela equipe; [Uterus
 
 ## Auditoria final de conformidade
 
-Consulte [o parecer detalhado](relatorio/auditoria_conformidade.md) antes de gravar. A suíte após a revisão tem **59 testes e 26 subtestes aprovados**. Foram incluídas pressão sistólica/diastólica e validade temporal das fontes. O prazo de 60 segundos é uma configuração operacional da demonstração, não um limite médico. A avaliação de voz relacionada às condições do enunciado e a inferência YOLO reproduzível permanecem parciais.
+Consulte [o parecer detalhado](relatorio/auditoria_conformidade.md) antes de gravar. A suíte após a revisão tem **68 testes e 26 subtestes aprovados**. Foram incluídas pressão sistólica/diastólica e validade temporal das fontes. O prazo de 60 segundos é uma configuração operacional da demonstração, não um limite médico. Foram acrescentados análise acústica com referência anterior e fluxo óptico incremental sobre mídias. Os controles físicos foram executados; não se atribui diagnóstico às alterações. A inferência anatômica YOLO continua dependente do peso não recebido.
+
+
+## Complementação executável de voz e movimento
+
+[Guia de mídias](integracao/MIDIAS.md): comparação intra-voz de pausas/trechos vocais e fluxo óptico com referência anterior. Os detectores recebem PCM e pixels, sem pesos privados ou respostas injetadas. Oito controles de áudio e dois vídeos geométricos novos foram executados. A montagem da equipe também foi processada; esse detector de movimento não reproduz os achados anatômicos do YOLO.
+
+A reprodução no ritmo original mede extração acústica, inferência visual, fusão e persistência. A espera da janela é de cinco segundos; ASR, nuvem e captura ao vivo ficam fora dessa medição. [Evidência completa](evidence/midias_complementares.json). Sem chamadas pagas adicionais.

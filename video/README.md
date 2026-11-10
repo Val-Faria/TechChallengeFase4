@@ -98,3 +98,8 @@ Arquivos gerados na pasta de saída: o relatório automático (`relatorio_<video
 - O alerta foi avaliado em montagens das imagens do dataset, não em uma cirurgia contínua.
 - O teste é pequeno: no alerta, cada imagem perdida vale cerca de 4 pontos de recall.
 - A regra é heurística: o útero pode sair de cena por motivos normais do procedimento. O alerta é um sinal de triagem para revisão humana, não um diagnóstico.
+
+
+## Detectores complementares executados
+
+Consulte [o guia de mídias](../integracao/MIDIAS.md): comparação acústica intra-voz e fluxo óptico incremental, com controles físicos novos e evidência de execução. Não substituem semanticamente os modelos originais nem comprovam diagnóstico clínico.

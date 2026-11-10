@@ -1,8 +1,8 @@
 {
-  "pages": 23,
-  "sha256": "41d2507dcf5edbd5c4b303a47c50d6b619db628ee07930e352bbc9a6a0493f11",
+  "pages": 25,
+  "sha256": "56421424081f19bd5a84dcb2838b34cb23012ef3ceae2b41768b2478ef411e25",
   "compiled_from": "relatorio/latex/main.tex",
-  "visual_review": "Páginas e apêndice de auditoria revisados; sem cortes ou sobreposição",
+  "visual_review": "Contato completo e paginas finais inspecionados; sem cortes ou sobreposicao",
   "overfull_boxes": 0,
   "date": "2026-11-10"
 }

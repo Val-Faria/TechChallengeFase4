@@ -1,0 +1,920 @@
+{
+  "instante_utc": "2026-11-10T15:38:38.021868+00:00",
+  "regras": {
+    "pause_increase": 0.2,
+    "burst_ratio": 0.65,
+    "min_audio_seconds": 3.0,
+    "motion_z": 6.0,
+    "motion_floor": 0.01,
+    "min_event_seconds": 1.0,
+    "max_camera_speed": 0.12
+  },
+  "sha256_codigo_detector": "2f75acb182099b3bf65fa6cf9b7949105ae519bf574ceef07361e9ee95ea54b5",
+  "audio": {
+    "novas_sinteses": 6,
+    "referencias_por_voz": 2,
+    "provas_ineditas_por_voz": 1,
+    "sobreposicao_sha256_corpus_ou_provas_anteriores": 0,
+    "casos": [
+      {
+        "voz": "daniel",
+        "cenario": "original",
+        "sha256": "b5eac058cbf93a6e281317f826b0afe399753273bf269b42890b382f722d4c9a",
+        "fonte_derivada": false,
+        "sha256_fonte": "b5eac058cbf93a6e281317f826b0afe399753273bf269b42890b382f722d4c9a",
+        "esperado": false,
+        "obtido": false,
+        "aprovado": true,
+        "resultado": {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": false,
+          "nivel": "nenhum",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "A janela não atingiu os dois critérios de alteração acústica.",
+          "caracteristicas": {
+            "duracao_s": 7.223718820861678,
+            "proporcao_pausas": 0.21883656509695293,
+            "trecho_vocal_mediano_s": 0.38,
+            "maior_pausa_s": 0.86,
+            "tempo_vocal_s": 5.64,
+            "rms_p95": 0.1545399621258125,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "daniel",
+            "simulado": true,
+            "sha256_referencias": [
+              "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+              "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.21608508809626126,
+            "trecho_vocal_mediano_s": 0.515,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.002751477000691671,
+          "razao_trecho_vocal": 0.7378640776699029,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem."
+        }
+      },
+      {
+        "voz": "daniel",
+        "cenario": "ganho_reduzido",
+        "sha256": "ec1218378064924ffabc294a7b3eb7529d36604fb7d00172f173035d060fb55d",
+        "fonte_derivada": true,
+        "sha256_fonte": "b5eac058cbf93a6e281317f826b0afe399753273bf269b42890b382f722d4c9a",
+        "esperado": false,
+        "obtido": false,
+        "aprovado": true,
+        "resultado": {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": false,
+          "nivel": "nenhum",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "A janela não atingiu os dois critérios de alteração acústica.",
+          "caracteristicas": {
+            "duracao_s": 7.223718820861678,
+            "proporcao_pausas": 0.21883656509695293,
+            "trecho_vocal_mediano_s": 0.38,
+            "maior_pausa_s": 0.86,
+            "tempo_vocal_s": 5.64,
+            "rms_p95": 0.054077048541361854,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "daniel",
+            "simulado": true,
+            "sha256_referencias": [
+              "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+              "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.21608508809626126,
+            "trecho_vocal_mediano_s": 0.515,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.002751477000691671,
+          "razao_trecho_vocal": 0.7378640776699029,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem."
+        }
+      },
+      {
+        "voz": "daniel",
+        "cenario": "interrompido",
+        "sha256": "5213c10e644287c0f69153110778338e52a2e788a57496b6936cbd524c2b08b5",
+        "fonte_derivada": true,
+        "sha256_fonte": "b5eac058cbf93a6e281317f826b0afe399753273bf269b42890b382f722d4c9a",
+        "esperado": true,
+        "obtido": true,
+        "aprovado": true,
+        "resultado": {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": true,
+          "nivel": "medio",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "Pausas aumentadas e trechos vocais encurtados; revisar possível esforço vocal/respiratório.",
+          "caracteristicas": {
+            "duracao_s": 22.80371882086168,
+            "proporcao_pausas": 0.75,
+            "trecho_vocal_mediano_s": 0.18,
+            "maior_pausa_s": 3.14,
+            "tempo_vocal_s": 5.7,
+            "rms_p95": 0.12532454646247385,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "daniel",
+            "simulado": true,
+            "sha256_referencias": [
+              "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+              "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.21608508809626126,
+            "trecho_vocal_mediano_s": 0.515,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.5339149119037387,
+          "razao_trecho_vocal": 0.3495145631067961,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem."
+        }
+      },
+      {
+        "voz": "daniel",
+        "cenario": "silencio",
+        "sha256": "9810fdfabf33e9e6da076397c8fe54e54bdddd77444c73810d651e85fc430e82",
+        "fonte_derivada": true,
+        "sha256_fonte": "b5eac058cbf93a6e281317f826b0afe399753273bf269b42890b382f722d4c9a",
+        "esperado": null,
+        "obtido": null,
+        "aprovado": true,
+        "resultado": {
+          "modalidade": "audio",
+          "status": "indisponivel",
+          "alerta": null,
+          "nivel": "nenhum",
+          "motivo": "Janela curta, sem voz suficiente ou saturada.",
+          "simulado": true
+        }
+      },
+      {
+        "voz": "maria",
+        "cenario": "original",
+        "sha256": "6f84953a81a2d1ba904d4002d53259d949afc871e2fe39ea8b7abfde92a5bdb0",
+        "fonte_derivada": false,
+        "sha256_fonte": "6f84953a81a2d1ba904d4002d53259d949afc871e2fe39ea8b7abfde92a5bdb0",
+        "esperado": false,
+        "obtido": false,
+        "aprovado": true,
+        "resultado": {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": false,
+          "nivel": "nenhum",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "A janela não atingiu os dois critérios de alteração acústica.",
+          "caracteristicas": {
+            "duracao_s": 7.812607709750567,
+            "proporcao_pausas": 0.30512820512820515,
+            "trecho_vocal_mediano_s": 0.26,
+            "maior_pausa_s": 0.86,
+            "tempo_vocal_s": 5.42,
+            "rms_p95": 0.11570310534416381,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "maria",
+            "simulado": true,
+            "sha256_referencias": [
+              "cc5d5009cf643e6dbad45f22f9daa03bbea5dfab6685a71a78527e4e47296c9d",
+              "f29a29efc72eafdce0fb42ecb737078d4f44a0b848d64ecffb8f5a0551bebafa"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.2513157894736842,
+            "trecho_vocal_mediano_s": 0.36,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.05381241565452094,
+          "razao_trecho_vocal": 0.7222222222222223,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem."
+        }
+      },
+      {
+        "voz": "maria",
+        "cenario": "ganho_reduzido",
+        "sha256": "4367417cc8c4530cdc8285a0112fa38a4f3e74bd030fd9ed8ef92d68175a44e3",
+        "fonte_derivada": true,
+        "sha256_fonte": "6f84953a81a2d1ba904d4002d53259d949afc871e2fe39ea8b7abfde92a5bdb0",
+        "esperado": false,
+        "obtido": false,
+        "aprovado": true,
+        "resultado": {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": false,
+          "nivel": "nenhum",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "A janela não atingiu os dois critérios de alteração acústica.",
+          "caracteristicas": {
+            "duracao_s": 7.812607709750567,
+            "proporcao_pausas": 0.30512820512820515,
+            "trecho_vocal_mediano_s": 0.26,
+            "maior_pausa_s": 0.86,
+            "tempo_vocal_s": 5.42,
+            "rms_p95": 0.040484827435064256,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "maria",
+            "simulado": true,
+            "sha256_referencias": [
+              "cc5d5009cf643e6dbad45f22f9daa03bbea5dfab6685a71a78527e4e47296c9d",
+              "f29a29efc72eafdce0fb42ecb737078d4f44a0b848d64ecffb8f5a0551bebafa"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.2513157894736842,
+            "trecho_vocal_mediano_s": 0.36,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.05381241565452094,
+          "razao_trecho_vocal": 0.7222222222222223,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem."
+        }
+      },
+      {
+        "voz": "maria",
+        "cenario": "interrompido",
+        "sha256": "f70fb182e3afd80eeb0fb7eda9d0fc8d32af5799d4416c212fd19f8692ceac9a",
+        "fonte_derivada": true,
+        "sha256_fonte": "6f84953a81a2d1ba904d4002d53259d949afc871e2fe39ea8b7abfde92a5bdb0",
+        "esperado": true,
+        "obtido": true,
+        "aprovado": true,
+        "resultado": {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": true,
+          "nivel": "medio",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "Pausas aumentadas e trechos vocais encurtados; revisar possível esforço vocal/respiratório.",
+          "caracteristicas": {
+            "duracao_s": 24.532607709750568,
+            "proporcao_pausas": 0.765905383360522,
+            "trecho_vocal_mediano_s": 0.18,
+            "maior_pausa_s": 3.14,
+            "tempo_vocal_s": 5.74,
+            "rms_p95": 0.0989944411099361,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "maria",
+            "simulado": true,
+            "sha256_referencias": [
+              "cc5d5009cf643e6dbad45f22f9daa03bbea5dfab6685a71a78527e4e47296c9d",
+              "f29a29efc72eafdce0fb42ecb737078d4f44a0b848d64ecffb8f5a0551bebafa"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.2513157894736842,
+            "trecho_vocal_mediano_s": 0.36,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.5145895938868379,
+          "razao_trecho_vocal": 0.5,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem."
+        }
+      },
+      {
+        "voz": "maria",
+        "cenario": "silencio",
+        "sha256": "b5ae3bba9dc82d0c4df17b06f3ea7790d7a10f56b8072f4e554c078fafbae853",
+        "fonte_derivada": true,
+        "sha256_fonte": "6f84953a81a2d1ba904d4002d53259d949afc871e2fe39ea8b7abfde92a5bdb0",
+        "esperado": null,
+        "obtido": null,
+        "aprovado": true,
+        "resultado": {
+          "modalidade": "audio",
+          "status": "indisponivel",
+          "alerta": null,
+          "nivel": "nenhum",
+          "motivo": "Janela curta, sem voz suficiente ou saturada.",
+          "simulado": true
+        }
+      }
+    ],
+    "acuracia_clinica": null,
+    "escopo": "Regras de alterações acústicas intra-voz em cenário controlado; não identifica condição médica."
+  },
+  "video": {
+    "casos_controlados": [
+      {
+        "arquivo": "movimento_controle.mp4",
+        "sha256": "70b79982555807c4039057c5439dfad32af15898a29d4ce396ef74dd5e080721",
+        "quadros_decodificados": 360,
+        "pares_analisados": 89,
+        "quadros_com_alerta": 0,
+        "quadros_inconclusivos": 30,
+        "eventos": [],
+        "referencia": {
+          "amostras": 30,
+          "mediana": 4.9438631322118454e-05,
+          "escala": 0.01,
+          "congelada_antes_do_trecho_avaliado": true
+        },
+        "cenario": "controle",
+        "esperado": false,
+        "aprovado": true,
+        "origem": "Cena geométrica inédita; sem paciente; pixels reais, sem oráculo de detecção."
+      },
+      {
+        "arquivo": "movimento_movimento.mp4",
+        "sha256": "1be0d4f38ac57bae37eaeb71d4b9feafa7da126a7314c2059567c8fe22053b19",
+        "quadros_decodificados": 360,
+        "pares_analisados": 89,
+        "quadros_com_alerta": 24,
+        "quadros_inconclusivos": 30,
+        "eventos": [
+          {
+            "inicio_s": 9.2,
+            "fim_s": 11.4,
+            "duracao_s": 2.200000000000001,
+            "descricao": "Aumento persistente de movimento visual frente à referência anterior."
+          },
+          {
+            "inicio_s": 11.8,
+            "fim_s": 16.0,
+            "duracao_s": 4.199999999999999,
+            "descricao": "Aumento persistente de movimento visual frente à referência anterior."
+          }
+        ],
+        "referencia": {
+          "amostras": 30,
+          "mediana": 5.7067760280915536e-05,
+          "escala": 0.01,
+          "congelada_antes_do_trecho_avaliado": true
+        },
+        "cenario": "movimento",
+        "esperado": true,
+        "aprovado": true,
+        "origem": "Cena geométrica inédita; sem paciente; pixels reais, sem oráculo de detecção."
+      }
+    ],
+    "cirurgia_equipe": {
+      "arquivo": "video_test_anotado.mp4",
+      "sha256": "5307a83375c3a6b17a7ae929b81d59692e2023e429772d7e6b2a33643c7ca9d2",
+      "quadros_decodificados": 570,
+      "pares_analisados": 569,
+      "quadros_com_alerta": 0,
+      "quadros_inconclusivos": 36,
+      "eventos": [],
+      "referencia": {
+        "amostras": 30,
+        "mediana": 4.858461397816427e-05,
+        "escala": 0.01,
+        "congelada_antes_do_trecho_avaliado": true
+      },
+      "origem": "Vídeo cirúrgico anotado recebido da equipe, já usado anteriormente.",
+      "inedito": false,
+      "rotulo_clinico_para_fluxo_optico": null,
+      "limitacao": "Sobreposições do detector original também afetam o movimento medido. Eventos inespecíficos não equivalem aos eventos anatômicos YOLO."
+    },
+    "pesos_privados_necessarios": false,
+    "detector_yolo_reexecutado": false,
+    "desempenho_clinico": null
+  },
+  "stream": {
+    "acelerado": {
+      "schema_version": 1,
+      "caso": "midias-acelerado",
+      "modo": "arquivo_acelerado",
+      "entrada": "quadros_e_amostras_PCM; sem_resultados_audio_video_precalculados",
+      "aquisicao_clinica_ao_vivo": false,
+      "simulado": true,
+      "sha256_video": "1be0d4f38ac57bae37eaeb71d4b9feafa7da126a7314c2059567c8fe22053b19",
+      "sha256_audio": "5213c10e644287c0f69153110778338e52a2e788a57496b6936cbd524c2b08b5",
+      "quadros_processados": 89,
+      "duracao_processada_s": 17.8,
+      "tempo_total_parede_s": 1.2162562000448816,
+      "processamento_mediano_ms": 11.495599988847971,
+      "processamento_p95_ms": 20.049899991136044,
+      "escopo_latencia": "decodificacao_inicial_no_tempo_total; extracao_acustica_fluxo_optico_fusao_sqlite_por_passo; sem_ASR_nuvem",
+      "janela_audio_s": 5.0,
+      "janelas_audio": [
+        {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": true,
+          "nivel": "medio",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "Pausas aumentadas e trechos vocais encurtados; revisar possível esforço vocal/respiratório.",
+          "caracteristicas": {
+            "duracao_s": 5.0,
+            "proporcao_pausas": 0.76,
+            "trecho_vocal_mediano_s": 0.14,
+            "maior_pausa_s": 0.46,
+            "tempo_vocal_s": 1.2,
+            "rms_p95": 0.12753745981773557,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "daniel",
+            "simulado": true,
+            "sha256_referencias": [
+              "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+              "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.21608508809626126,
+            "trecho_vocal_mediano_s": 0.515,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.5439149119037388,
+          "razao_trecho_vocal": 0.2718446601941748,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem.",
+          "fim_janela_s": 5.0
+        },
+        {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": true,
+          "nivel": "medio",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "Pausas aumentadas e trechos vocais encurtados; revisar possível esforço vocal/respiratório.",
+          "caracteristicas": {
+            "duracao_s": 5.0,
+            "proporcao_pausas": 0.712,
+            "trecho_vocal_mediano_s": 0.18,
+            "maior_pausa_s": 0.42,
+            "tempo_vocal_s": 1.44,
+            "rms_p95": 0.13364293772521987,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "daniel",
+            "simulado": true,
+            "sha256_referencias": [
+              "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+              "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.21608508809626126,
+            "trecho_vocal_mediano_s": 0.515,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.4959149119037387,
+          "razao_trecho_vocal": 0.3495145631067961,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem.",
+          "fim_janela_s": 10.0
+        },
+        {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": true,
+          "nivel": "medio",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "Pausas aumentadas e trechos vocais encurtados; revisar possível esforço vocal/respiratório.",
+          "caracteristicas": {
+            "duracao_s": 5.0,
+            "proporcao_pausas": 0.6759999999999999,
+            "trecho_vocal_mediano_s": 0.18,
+            "maior_pausa_s": 0.38,
+            "tempo_vocal_s": 1.62,
+            "rms_p95": 0.13887903020144193,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "daniel",
+            "simulado": true,
+            "sha256_referencias": [
+              "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+              "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.21608508809626126,
+            "trecho_vocal_mediano_s": 0.515,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.4599149119037387,
+          "razao_trecho_vocal": 0.3495145631067961,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem.",
+          "fim_janela_s": 15.0
+        }
+      ],
+      "eventos_video": [
+        {
+          "inicio_s": 9.2,
+          "fim_s": 11.4,
+          "duracao_s": 2.200000000000001,
+          "descricao": "Aumento persistente de movimento visual frente à referência anterior."
+        },
+        {
+          "inicio_s": 11.8,
+          "fim_s": 16.0,
+          "duracao_s": 4.199999999999999,
+          "descricao": "Aumento persistente de movimento visual frente à referência anterior."
+        }
+      ],
+      "alertas_entregues": [
+        {
+          "instante_midia_s": 5.0,
+          "id_resultado": "f036674a5c483bbe867b",
+          "fontes_positivas": [
+            "audio"
+          ]
+        },
+        {
+          "instante_midia_s": 6.2,
+          "id_resultado": "fae149c84fc992d2804f",
+          "fontes_positivas": [
+            "audio"
+          ]
+        },
+        {
+          "instante_midia_s": 10.2,
+          "id_resultado": "be7ba22fa12ad5b9cba0",
+          "fontes_positivas": [
+            "audio",
+            "video"
+          ]
+        },
+        {
+          "instante_midia_s": 11.6,
+          "id_resultado": "38aaa55ea1746de6ae77",
+          "fontes_positivas": [
+            "audio"
+          ]
+        },
+        {
+          "instante_midia_s": 12.8,
+          "id_resultado": "76041d642334e8e9c671",
+          "fontes_positivas": [
+            "audio",
+            "video"
+          ]
+        },
+        {
+          "instante_midia_s": 16.2,
+          "id_resultado": "3789fae2d8bda3c4a14f",
+          "fontes_positivas": [
+            "audio"
+          ]
+        }
+      ],
+      "regras": {
+        "pause_increase": 0.2,
+        "burst_ratio": 0.65,
+        "min_audio_seconds": 3.0,
+        "motion_z": 6.0,
+        "motion_floor": 0.01,
+        "min_event_seconds": 1.0,
+        "max_camera_speed": 0.12
+      },
+      "inicializacao_referencia_visual_amostras": 30,
+      "chamadas_pagas": 0,
+      "observacao": "Resultado de arquivo reproduzido. Latência por passo exclui espera da janela; câmera/microfone e modelos de nuvem não estão nesta medição."
+    },
+    "ritmo_original": {
+      "schema_version": 1,
+      "caso": "midias-tempo-original",
+      "modo": "reproducao_no_ritmo_original",
+      "entrada": "quadros_e_amostras_PCM; sem_resultados_audio_video_precalculados",
+      "aquisicao_clinica_ao_vivo": false,
+      "simulado": true,
+      "sha256_video": "1be0d4f38ac57bae37eaeb71d4b9feafa7da126a7314c2059567c8fe22053b19",
+      "sha256_audio": "5213c10e644287c0f69153110778338e52a2e788a57496b6936cbd524c2b08b5",
+      "quadros_processados": 89,
+      "duracao_processada_s": 17.8,
+      "tempo_total_parede_s": 17.830085999972653,
+      "processamento_mediano_ms": 10.771599947474897,
+      "processamento_p95_ms": 15.20419999724254,
+      "escopo_latencia": "decodificacao_inicial_no_tempo_total; extracao_acustica_fluxo_optico_fusao_sqlite_por_passo; sem_ASR_nuvem",
+      "janela_audio_s": 5.0,
+      "janelas_audio": [
+        {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": true,
+          "nivel": "medio",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "Pausas aumentadas e trechos vocais encurtados; revisar possível esforço vocal/respiratório.",
+          "caracteristicas": {
+            "duracao_s": 5.0,
+            "proporcao_pausas": 0.76,
+            "trecho_vocal_mediano_s": 0.14,
+            "maior_pausa_s": 0.46,
+            "tempo_vocal_s": 1.2,
+            "rms_p95": 0.12753745981773557,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "daniel",
+            "simulado": true,
+            "sha256_referencias": [
+              "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+              "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.21608508809626126,
+            "trecho_vocal_mediano_s": 0.515,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.5439149119037388,
+          "razao_trecho_vocal": 0.2718446601941748,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem.",
+          "fim_janela_s": 5.0
+        },
+        {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": true,
+          "nivel": "medio",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "Pausas aumentadas e trechos vocais encurtados; revisar possível esforço vocal/respiratório.",
+          "caracteristicas": {
+            "duracao_s": 5.0,
+            "proporcao_pausas": 0.712,
+            "trecho_vocal_mediano_s": 0.18,
+            "maior_pausa_s": 0.42,
+            "tempo_vocal_s": 1.44,
+            "rms_p95": 0.13364293772521987,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "daniel",
+            "simulado": true,
+            "sha256_referencias": [
+              "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+              "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.21608508809626126,
+            "trecho_vocal_mediano_s": 0.515,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.4959149119037387,
+          "razao_trecho_vocal": 0.3495145631067961,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem.",
+          "fim_janela_s": 10.0
+        },
+        {
+          "modalidade": "audio",
+          "status": "ok",
+          "alerta": true,
+          "nivel": "medio",
+          "simulado": true,
+          "origem": "comparacao_acustica_intra_voz",
+          "motivo": "Pausas aumentadas e trechos vocais encurtados; revisar possível esforço vocal/respiratório.",
+          "caracteristicas": {
+            "duracao_s": 5.0,
+            "proporcao_pausas": 0.6759999999999999,
+            "trecho_vocal_mediano_s": 0.18,
+            "maior_pausa_s": 0.38,
+            "tempo_vocal_s": 1.62,
+            "rms_p95": 0.13887903020144193,
+            "fracao_clipping": 0.0,
+            "proxy_atividade_vocal": "energia_relativa_20ms"
+          },
+          "referencia": {
+            "schema_version": 1,
+            "speaker": "daniel",
+            "simulado": true,
+            "sha256_referencias": [
+              "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+              "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+            ],
+            "referencia_congelada": true,
+            "proporcao_pausas": 0.21608508809626126,
+            "trecho_vocal_mediano_s": 0.515,
+            "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+          },
+          "diferenca_pausas": 0.4599149119037387,
+          "razao_trecho_vocal": 0.3495145631067961,
+          "regras": {
+            "pause_increase": 0.2,
+            "burst_ratio": 0.65,
+            "min_audio_seconds": 3.0,
+            "motion_z": 6.0,
+            "motion_floor": 0.01,
+            "min_event_seconds": 1.0,
+            "max_camera_speed": 0.12
+          },
+          "limitacoes": "Não identifica a causa das pausas, respirações, doença ou fadiga clínica. Ruído, conteúdo e microfone interferem.",
+          "fim_janela_s": 15.0
+        }
+      ],
+      "eventos_video": [
+        {
+          "inicio_s": 9.2,
+          "fim_s": 11.4,
+          "duracao_s": 2.200000000000001,
+          "descricao": "Aumento persistente de movimento visual frente à referência anterior."
+        },
+        {
+          "inicio_s": 11.8,
+          "fim_s": 16.0,
+          "duracao_s": 4.199999999999999,
+          "descricao": "Aumento persistente de movimento visual frente à referência anterior."
+        }
+      ],
+      "alertas_entregues": [
+        {
+          "instante_midia_s": 5.0,
+          "id_resultado": "89e531ac585c51aea15c",
+          "fontes_positivas": [
+            "audio"
+          ]
+        },
+        {
+          "instante_midia_s": 6.2,
+          "id_resultado": "908290930ff6b727c1fc",
+          "fontes_positivas": [
+            "audio"
+          ]
+        },
+        {
+          "instante_midia_s": 10.2,
+          "id_resultado": "36b8270e6e2972619d4d",
+          "fontes_positivas": [
+            "audio",
+            "video"
+          ]
+        },
+        {
+          "instante_midia_s": 11.6,
+          "id_resultado": "834c12925bb6ee3e69ab",
+          "fontes_positivas": [
+            "audio"
+          ]
+        },
+        {
+          "instante_midia_s": 12.8,
+          "id_resultado": "94456e4f867eb32232f9",
+          "fontes_positivas": [
+            "audio",
+            "video"
+          ]
+        },
+        {
+          "instante_midia_s": 16.2,
+          "id_resultado": "37390039903c08e77bd9",
+          "fontes_positivas": [
+            "audio"
+          ]
+        }
+      ],
+      "regras": {
+        "pause_increase": 0.2,
+        "burst_ratio": 0.65,
+        "min_audio_seconds": 3.0,
+        "motion_z": 6.0,
+        "motion_floor": 0.01,
+        "min_event_seconds": 1.0,
+        "max_camera_speed": 0.12
+      },
+      "inicializacao_referencia_visual_amostras": 30,
+      "chamadas_pagas": 0,
+      "observacao": "Resultado de arquivo reproduzido. Latência por passo exclui espera da janela; câmera/microfone e modelos de nuvem não estão nesta medição."
+    }
+  },
+  "chamadas_pagas": 0,
+  "referencias": [
+    "https://arxiv.org/abs/2011.09270",
+    "https://docs.opencv.org/4.x/d4/dee/tutorial_optical_flow.html"
+  ],
+  "limites": "Cenas de controle não são vídeos clínicos. Derivações compartilham fonte e não são amostras independentes. Não se mediu sensibilidade a doenças ou generalização clínica."
+}

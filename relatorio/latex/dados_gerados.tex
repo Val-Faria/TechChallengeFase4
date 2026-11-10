@@ -22,7 +22,7 @@ Tristeza & 0 & 0 & 40\\
 Modelo utilizado: \textbf{gpt-4o-mini (texto) e gpt-4o-mini-transcribe (áudio)}. Chamadas reais registradas: \textbf{18}. Custo estimado acumulado: \textbf{US\$ 0,005980}. Estado registrado: 16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha.
 }
 \newcommand{\ResultadoTestes}{%
-Suíte \textbf{pytest Python3.12 após auditoria}: 59 verificações aprovadas, 0 falhas.
+Suíte \textbf{pytest Python3.12 com detectores complementares}: 68 verificações aprovadas, 0 falhas.
 
 Também foram aprovadas 26 verificações parametrizadas adicionais (subtestes), registradas separadamente da contagem de testes.
 }
@@ -36,6 +36,37 @@ No monitor incremental foram processados 32 pacotes. Latência local média: 0,6
 }
 \newcommand{\ResultadoRecursos}{%
 GPU local NVIDIA RTX2060. Processamento principal encerrado; nenhuma sessão Colab foi iniciada. GPU utilizada nesta consolidação: sim. Sessão de computação encerrada ao final: sim.
+}
+\newcommand{\ResultadoMidias}{%
+Foram criadas seis sínteses novas: duas referências e uma gravação reservada por voz. Não há hashes compartilhados com o corpus de 1.180 WAVs nem com as seis provas externas anteriores. O classificador emocional permaneceu congelado e não participou destes critérios.
+
+\begin{center}\small\begin{tabular}{llcc}\toprule Voz & Cenário & Esperado & Obtido\\\midrule
+
+Daniel & Original & Sem sinal & Sem sinal\\
+
+Daniel & Volume reduzido & Sem sinal & Sem sinal\\
+
+Daniel & Pausas inseridas & Sinal & Sinal\\
+
+Daniel & Silêncio & Inconclusivo & Inconclusivo\\
+
+Maria & Original & Sem sinal & Sem sinal\\
+
+Maria & Volume reduzido & Sem sinal & Sem sinal\\
+
+Maria & Pausas inseridas & Sinal & Sinal\\
+
+Maria & Silêncio & Inconclusivo & Inconclusivo\\
+
+\bottomrule\end{tabular}\end{center}
+
+A versão interrompida insere 380 ms de silêncio a cada bloco de 180 ms. A versão com ganho reduzido multiplica a amplitude por 0,35. São perturbações técnicas, sem rótulo de doença; as derivações da mesma fonte não são observações independentes.
+
+Dois vídeos geométricos novos passaram pelos cálculos reais de fluxo óptico: o controle não gerou eventos e o cenário alterado gerou 2. Não foi usado oráculo de caixas ou classes. Na montagem recebida foram processados 570 quadros e não houve aumento persistente que atingisse essa regra. Isso não significa ausência de eventos clínicos.
+
+A reprodução contínua no ritmo original analisou 89 pares de quadros em 17,83 s de parede. Foram avaliadas 3 janelas de voz e persistidas 6 transições com sinais. O percentil 95 de processamento foi 15,20 ms por passo, além da espera da janela de cinco segundos. Não inclui ASR, nuvem ou captura clínica.
+
+Evidência: \path{evidence/midias_complementares.json}. Nenhuma chamada paga foi feita nesta complementação.
 }
 \newcommand{\ComandosReproducao}{%
 \begin{enumerate}
@@ -54,7 +85,7 @@ Artefato & SHA-256 (prefixo)\\\midrule\endhead
 \path{audio/evidencias/particoes_audio.csv} & \texttt{30dc41d77d9167b3}\\
 \path{audio/evidencias/predicoes_avaliacao.csv} & \texttt{a6b46c44b1312d97}\\
 \path{artifacts/audio/manifesto_audio.json} & \texttt{fafd4dbbe961e037}\\
-\path{evidence/resumo_execucao.json} & \texttt{b16ac9a8cd7aebef}\\
+\path{evidence/resumo_execucao.json} & \texttt{cf71bfc1d32dbda6}\\
 \path{evidence/audio_externo_transcricoes.json} & \texttt{8da6101b626df962}\\
 \path{evidence/asr_comparacao.json} & \texttt{c86c4ff64c6c6263}\\
 \path{evidence/audio_externo.json} & \texttt{20d055c33a303003}\\

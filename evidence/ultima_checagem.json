@@ -8,7 +8,7 @@
   "ambiente_minimo": {
     "python": "3.12",
     "dependencias_de_teste": "pytest e dependencias basicas instaladas do cache",
-    "testes_aprovados": 59,
+    "testes_aprovados": 68,
     "subtestes_aprovados": 26,
     "notebook_zip_sem_git_executado": true,
     "gpu": false,
@@ -23,9 +23,14 @@
     "url": "https://github.com/Val-Faria/TechChallengeFase4/actions/runs/42839282042"
   },
   "pendencias_funcionais_preservadas": [
-    "pesos e inferencia YOLO reproduzivel",
-    "demonstracao de alteracoes vocais medicas",
-    "comprovar inferencia multimodal continua se apresentada como tempo real",
+    "reproducao especifica YOLO depende do peso nao recebido",
+    "avaliacao clinica independente nao obtida; controles sao tecnicos",
     "gravacao e publicacao pelo grupo"
-  ]
+  ],
+  "complementacao_executada": {
+    "audio": "comparacao intra-voz; oito controles fisicos aprovados",
+    "video": "fluxo optico real sem pesos privados; dois clipes novos e montagem recebida",
+    "continuidade": "PCM e quadros analisados no ritmo original; inferencia e entrega local",
+    "chamadas_api_adicionais": 0
+  }
 }

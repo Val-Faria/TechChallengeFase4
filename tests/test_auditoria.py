@@ -2,9 +2,7 @@
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 from datetime import datetime, timedelta
-import csv
 import json
-from pathlib import Path
 import pytest
 from techchallenge4.core import detectar_series, combinar_audio_video, validar_fonte
 from techchallenge4.demo import load_audio, structured_examples

@@ -21,3 +21,8 @@ O áudio `novo-03.wav` foi criado depois da divisão do dataset e não entra no 
 ## Credenciais e GPU
 
 Use Secrets do Colab ou variáveis de ambiente. Arquivos `.env`, mídia privada e modelos são ignorados pelo Git. Se ativar GPU, salve antes os artefatos no Drive e desconecte/exclua o ambiente ao terminar; fechar a aba não basta.
+
+
+## Detectores complementares executados
+
+Consulte [o guia de mídias](../integracao/MIDIAS.md): comparação acústica intra-voz e fluxo óptico incremental, com controles físicos novos e evidência de execução. Não substituem semanticamente os modelos originais nem comprovam diagnóstico clínico.

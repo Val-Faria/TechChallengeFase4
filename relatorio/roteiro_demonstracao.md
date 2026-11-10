@@ -39,7 +39,12 @@ Duração planejada: **13 minutos e 30 segundos**, com margem até 15 minutos. P
 - “As falas são sintéticas. A verificação cega foi reservada para o novo classificador, sem representar validação em pacientes.”
 - “O professor autorizou outros fornecedores. Utilizamos Whisper e análise textual OpenAI.”
 - “O vídeo recebido pertence à avaliação original; os clipes inéditos são verificações controladas de software.”
-- “A reprodução é temporal e a latência apresentada mede a persistência local do alerta.”
+- “Há medições distintas: replay de resultados, monitor estruturado e nova inferência de mídia sobre arquivos no ritmo original. Esta última mede extração acústica, fluxo óptico, fusão e persistência; a espera da janela é de cinco segundos e a nuvem está fora dessa latência.”
 - “O painel demonstra entrega e revisão no protótipo, sem conexão hospitalar.”
 
 Após publicar, inserir o link no README e conferir duração e revisão do código. Não publicar credenciais, bancos ou mídias privadas junto do código.
+
+
+## Trecho prático acrescentado
+
+Reserve cerca de um minuto das partes de áudio/vídeo para o comando de [MIDIAS.md](../integracao/MIDIAS.md). Mostre o controle estável, o vídeo geométrico alterado, as janelas de voz e o banco gerado. O exemplo usa PCM e pixels, não decisões prontas. Explique que os critérios observacionais não identificam a causa médica nem reconhecem anatomia. No original da equipe, diferencie resultados YOLO recebidos da nova inferência de movimento. Não diga que o peso anatômico foi recuperado.

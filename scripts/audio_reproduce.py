@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
-from collections import Counter
 from datetime import datetime, timezone
 import hashlib
 import importlib.metadata
@@ -16,7 +15,6 @@ import json
 import os
 from pathlib import Path
 import re
-import sys
 import time
 import unicodedata
 import zipfile
@@ -191,7 +189,6 @@ def metrics(truth, prediction, labels):
 
 def evaluate_and_save(features, dataset: Path, output: Path, evidence: Path, device: str):
     import joblib
-    import numpy as np
     import pandas as pd
     from sklearn.ensemble import RandomForestClassifier
     output.mkdir(parents=True, exist_ok=True)

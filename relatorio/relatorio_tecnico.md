@@ -56,7 +56,7 @@ As métricas de vídeo **mAP50 0,928**, precisão **1,00** e recall **0,72** sã
 
 ## Entrega e tempo de resposta
 
-O painel local mostra a caixa persistida em SQLite e permite confirmar revisão. A auditoria diferencia entrega, repetição e confirmação. A latência do reprodutor mede persistência; a do monitor incremental inclui detectores estatísticos, fusão e entrega local. Ambas excluem captura, inferência dos modelos e atendimento hospitalar.
+O painel local mostra a caixa persistida em SQLite e permite confirmar revisão. A auditoria diferencia entrega, repetição e confirmação. A latência do reprodutor mede persistência; a do monitor incremental inclui detectores estatísticos, fusão e entrega local. Ambas excluem captura, inferência dos modelos e atendimento hospitalar. A nova execução de mídia, registrada separadamente, inclui características acústicas, fluxo óptico, fusão e persistência, além da espera da janela; não inclui ASR ou nuvem.
 
 ## Limitações
 
@@ -76,12 +76,14 @@ A cobertura está em `matriz_requisitos.md`. O roteiro de Benicio está em `rote
 - **Áudio:** validação 93,60% (172 WAVs); teste 86,36% (176); verificação cega 88,33% (120). F1 macro: 0,933 / 0,862 / 0,883. Nenhuma sobreposição por família, gravação original ou SHA-256. Modelo ajustado somente com 712 WAVs de treino.
 - **Áudios novos:** seis WAVs em duas novas vozes, fora do corpus. Todas as saídas acústicas têm confiança entre 0,50 e 0,60 e são inconclusivas pelo limiar 0,70; não há acurácia emocional externa.
 - **ASR:** nos mesmos seis WAVs, Whisper tiny errou 13 de 109 palavras (WER 11,93%) e a API não errou palavras (0%). Amostra pequena e sintética, sem conclusão clínica ou superioridade geral.
-- **Software:** 59 testes pytest e 26 subtestes aprovados, zero falhas.
+- **Software:** 68 testes pytest e 26 subtestes aprovados, zero falhas.
 - **Nuvem:** 18 chamadas, estimativa conservadora total US$ 0,005980495; inclui duas respostas rejeitadas e uma reserva conservadora. Não representa leitura da fatura.
 - **Drive:** modelo e CSV corrigidos recebidos; 1.180 linhas e zero nomes ausentes. Modelo da autora treinado em todo corpus, separado do modelo da avaliação cega.
 - **Integração:** alerta alto preservado, cobertura incompleta pela baixa confiança acústica; entrega e revisão local confirmadas.
 - **Recursos:** GPU local RTX 2060 utilizada e processamento encerrado. Nenhuma sessão Colab iniciada.
 
-## Parecer após auditoria
+## Parecer após complementação
 
-O atendimento integral ainda não está demonstrado. Além do vídeo de apresentação, faltam a reprodução da inferência YOLO com o peso personalizado e uma demonstração de alterações vocais relacionadas às condições médicas do enunciado. O monitor incremental de séries não deve ser descrito como inferência multimodal contínua. O [parecer completo](auditoria_conformidade.md) detalha limites, correções e o plano de fechamento. Não houve novas chamadas pagas na revisão.
+Foram implementadas comparação acústica intra-voz e inferência contínua de áudio/vídeo em arquivos. Oito controles de áudio e dois clipes visuais novos tiveram os resultados esperados. Referências e provas foram separadas; não houve retreinamento do classificador emocional ou novas chamadas pagas. O fluxo óptico dispensa pesos privados, mas detecta movimento inespecífico e não reproduz a análise anatômica YOLO. A montagem cirúrgica foi processada e não atingiu a nova regra de aumento persistente.
+
+A gravação continua com Benicio. O peso ausente ainda impede reproduzir especificamente o detector anatômico original. A avaliação de voz é uma prova controlada de alterações físicas, sem sensibilidade clínica; os vídeos geométricos inéditos não são vídeos clínicos independentes. Esses limites devem ser apresentados, sem transformar testes de software em resultados médicos. Consulte [a auditoria atualizada](auditoria_conformidade.md) e [o guia de reprodução](../integracao/MIDIAS.md).

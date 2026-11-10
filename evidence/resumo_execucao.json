@@ -8,8 +8,8 @@
     "status": "16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha"
   },
   "tests": {
-    "name": "pytest Python3.12 após auditoria",
-    "passed": 59,
+    "name": "pytest Python3.12 com detectores complementares",
+    "passed": 68,
     "failed": 0,
     "subtests_passed": 26
   },
@@ -32,5 +32,13 @@
     "conformidade_integral": false,
     "documento": "relatorio/auditoria_conformidade.md",
     "sem_chamadas_api_adicionais": true
+  },
+  "media_complementares": {
+    "evidencia": "evidence/midias_complementares.json",
+    "sem_pesos_privados": true,
+    "cenario_audio": "comparacao_acustica_intra_voz_controlada",
+    "cenario_video": "fluxo_optico_inespecifico",
+    "captura_clinica_ao_vivo": false,
+    "novas_chamadas_api": 0
   }
 }

@@ -39,16 +39,16 @@ def main():
         inventory.append({'arquivo':name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
                           'celulas_codigo':code_cells})
     requirements = [
-        {'requisito':'Vídeo clínico e eventos','status':'parcial',
-         'falta':'Pesos personalizados e exemplo de inferência reproduzível; avaliação independente conforme pedido do integrante.'},
-        {'requisito':'Alterações vocais indicativas de condições médicas','status':'parcial',
-         'falta':'Cenários e referência apropriados para sinais vocais do enunciado; classes emocionais sintéticas não os substituem.'},
+        {'requisito':'Vídeo clínico e eventos','status':'implementado_com_escopo_distinto_por_detector',
+         'observacao':'YOLO anatômico preservado sem peso; fluxo óptico reexecutável sem pesos privados, com controles novos e processamento da montagem recebida. Não equivale a reproduzir o YOLO.'},
+        {'requisito':'Alterações vocais indicativas de condições médicas','status':'demonstracao_acustica_controlada',
+         'observacao':'Referência intra-voz anterior, pausas e duração dos trechos vocais. Controles físicos executados. Sem rótulos médicos, sensibilidade clínica ou atribuição causal.'},
         {'requisito':'Transcrição, termos críticos e sentimentos em nuvem','status':'atendido_no_prototipo',
          'observacao':'OpenAI autorizada pelo professor. Chamadas reais salvas; sentimento não é gravidade clínica.'},
         {'requisito':'Sinais vitais, prescrições e movimento','status':'demonstrado_com_dados_sinteticos',
          'observacao':'Inclui batimentos, oxigenação e pressão arterial. Limiares demonstrativos, sem exigência inferida de ensaio hospitalar.'},
         {'requisito':'Alertas e monitoramento temporal','status':'demonstrado_no_prototipo_local',
-         'observacao':'Eventos incrementais, fontes com validade, caixa persistente e revisão; sem comprovação de latência dos modelos.'},
+         'observacao':'Eventos estruturados e inferência acústica/visual incremental sobre arquivos, medida no ritmo original; a latência de nuvem/captura ao vivo não está incluída.'},
         {'requisito':'Código e relatório','status':'atendido_com_limitacoes_explicitas'},
         {'requisito':'Vídeo de até15min noYouTube/Vimeo','status':'pendente_grupo'}]
     result = {'data':'2026-11-10','codigo':inventory,'arquivos_python':sum(x['arquivo'].endswith('.py') for x in inventory),

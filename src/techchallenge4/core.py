@@ -3,7 +3,6 @@
 Os limiares são demonstrativos; nenhuma saída constitui diagnóstico.
 """
 from __future__ import annotations
-import csv
 import hashlib
 import json
 import math
@@ -11,7 +10,6 @@ import re
 import statistics
 from copy import deepcopy
 from datetime import datetime, timezone
-from pathlib import Path
 
 NIVEIS = {"nenhum": 0, "baixo": 1, "medio": 2, "alto": 3}
 CLASSES_AUDIO = {"ansiedade_hesitacao", "neutro", "tristeza"}

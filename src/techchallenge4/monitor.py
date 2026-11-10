@@ -11,7 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 import time
-from .core import (combinar_audio_video, detectar_prescricoes, detectar_series,
+from .core import (detectar_prescricoes, detectar_series,
                    fonte_indisponivel, fundir_fontes_normalizadas, normalizar_audio, normalizar_video,
                    numero_finito, validar_fonte)
 from .delivery import AlertStore

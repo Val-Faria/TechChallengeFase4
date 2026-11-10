@@ -49,3 +49,8 @@ python scripts/audio_external.py
 O resultado é `evidence/audio_externo.json`, contendo transcrição, características, probabilidades e WER (erros de palavras em relação ao texto sintetizado). Não há rótulos emocionais ou clínicos validados nessas gravações; portanto **não se calcula acurácia emocional ou médica**. O objetivo é verificar comportamento do software sob mudança de voz e conteúdo.
 
 As classes `ansiedade_hesitacao`, `neutro` e `tristeza` são rótulos do corpus sintético. Elas não comprovam reconhecimento de fadiga, disartria, falta de ar, depressão ou qualquer condição clínica em pacientes reais.
+
+
+## Detectores complementares executados
+
+Consulte [o guia de mídias](../integracao/MIDIAS.md): comparação acústica intra-voz e fluxo óptico incremental, com controles físicos novos e evidência de execução. Não substituem semanticamente os modelos originais nem comprovam diagnóstico clínico.

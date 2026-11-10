@@ -2,26 +2,30 @@
 
 Data: 10/11/2026. Referência primária: PDF original `IADT - Fase 4 - Tech challenge.pdf`, páginas 2–4, relido nesta auditoria.
 
-## Parecer
+## Parecer atualizado após execução das pendências
 
-**O protótipo está organizado e executável, mas não há evidência suficiente para declarar atendimento integral ao enunciado.** A gravação da apresentação não é a única pendência. A resposta anterior que destacou somente os pesos do vídeo estava incompleta: também permanece uma diferença funcional entre classificar emoções sintéticas e demonstrar alterações vocais indicativas das condições médicas citadas no PDF.
+Foram acrescentados e executados os módulos que podiam ser construídos com os materiais disponíveis: comparação acústica intra-voz, detecção de mudanças visuais sem pesos privados e inferência incremental sobre amostras/quadros. As novas evidências permitem demonstrar essas funções, com controles físicos e limites explícitos. Não equivalem a validação clínica nem à reprodução do detector anatômico cujo peso não foi recebido.
 
-## Cobertura verificada
+| Solicitação | Estado verificável |
+|---|---|
+| Vídeo e eventos | YOLO histórico preservado; novo fluxo óptico executado diretamente em dois vídeos geométricos inéditos e na montagem recebida. Sem aumento persistente na montagem pela nova regra. |
+| Alterações vocais | Referência congelada por voz; oito cenários controlados com pausas, volume e silêncio. Detecta mudança física; não identifica causa médica. |
+| Transcrição, termos e sentimentos em nuvem | Chamadas reais OpenAI preservadas; alternativa ao Azure autorizada pelo professor. |
+| Sinais vitais, prescrições e movimento | Cenários sintéticos executados, incluindo pressão arterial. |
+| Fusão, alertas e resposta | Caixa SQLite e painel; inferência acústica/visual incremental executada no ritmo original. ASR/nuvem e captura ao vivo não fazem parte dessa medida. |
+| Código, relatório e fontes | Branch Nirton, documentação, testes, PDF e Overleaf atualizados. |
+| Apresentação até 15 minutos | Benicio grava e publica; inserir o link final. |
 
-| Solicitação do PDF | Situação | Evidência ou ação necessária |
-|---|---|---|
-| Processar vídeo clínico, detectar evento e produzir relatório | Parcialmente demonstrado | Código YOLO e eventos/relatório do Marcelo existem. Falta disponibilizar o peso personalizado e reproduzir a inferência a partir do vídeo selecionado. |
-| Processar consulta e detectar alterações vocais | Parcial | Existem transcrição, características acústicas e classificador emocional sintético. Esses resultados não demonstram detecção de cansaço ou dificuldade respiratória pela voz. É necessário acrescentar cenários e uma referência apropriada para avaliar essa funcionalidade. |
-| Transcrição e análise textual em nuvem | Demonstrado no protótipo | Chamadas reais da OpenAI e respostas salvas. O professor autorizou substituir o Azure; o fornecedor não é pendência. |
-| Termos críticos e sentimentos | Implementado e demonstrado | Citações literais, negação e contexto; quatro controles verificam os alertas, sem constituir avaliação abrangente da qualidade de sentimentos. |
-| Anomalias em batimentos, pressão e oxigenação | Demonstrado com dados sintéticos | Pressão sistólica e diastólica foram acrescentadas nesta auditoria. Mediana/MAD e referência anterior detectam as alterações controladas. |
-| Evolução de prescrições | Demonstrado com dados sintéticos | Mudanças de dose, unidade, via e intervalo são encaminhadas à revisão. Não recomenda tratamento. |
-| Padrões de movimentação | Demonstrado com série sintética | Detector de intensidade ao longo do tempo; não é reconhecimento de postura clínica. O PDF não obriga usar OpenPose especificamente. |
-| Alertas automáticos e monitoramento temporal | Demonstrado localmente | Entrada incremental JSONL, validade das fontes, caixa persistente, painel e confirmação. A latência medida exclui os modelos e não demonstra processamento multimodal completo em tempo real. |
-| Código completo e relatório | Entregues, com restrição de reprodução do detector | Branch Nirton, módulos, notebooks, testes, PDF e LaTeX. Distribuir o peso de vídeo ou documentar uma forma efetivamente reproduzível de obtê-lo. |
-| Vídeo de até 15 minutos no YouTube/Vimeo | Com o grupo | Benicio grava; depois inserir o link no README e na entrega. |
+Não se deve afirmar que o sistema detecta clinicamente fadiga, disartria ou dificuldade respiratória com sensibilidade conhecida. Os exemplos médicos do PDF motivam a triagem; não são rótulos dos controles. Também não se deve apresentar o fluxo óptico como identificação de útero/instrumentos. Dados clínicos reais, ensaio hospitalar e envio por e-mail não foram acrescentados como obrigações do enunciado.
 
-Dados clínicos reais, ensaio hospitalar, homologação médica e envio de mensagens por e-mail não foram tratados como exigências adicionais. Os datasets do PDF são sugestões. O uso de exemplos sintéticos deve continuar declarado. A avaliação em mídias inéditas foi uma exigência adicional do integrante e não uma regra de particionamento expressa no PDF.
+## Complementação executada
+
+- Seis novas sínteses, com duas referências e uma prova reservada por voz; sem hashes compartilhados com o corpus ou as provas anteriores.
+- Oito controles acústicos: originais e ganho reduzido sem sinal, pausas inseridas com sinal, silêncio inconclusivo. Regras fixas, sem baixar o limiar emocional.
+- Dois vídeos geométricos inéditos processados por fluxo óptico real: controle sem evento; movimento aumentado com dois intervalos. Sem oráculo ou resultados de detecção injetados.
+- Montagem recebida reprocessada: 570 quadros; nenhum aumento persistente atingiu a regra. Não se interpreta isso como ausência de anomalia clínica.
+- Fluxo de mídia no ritmo original, com 89 pares de quadros, três janelas de voz e alertas persistidos durante a inferência. A espera da janela de cinco segundos é distinta da latência computacional.
+- Evidência em `evidence/midias_complementares.json`; guia em `integracao/MIDIAS.md`. Nenhuma nova chamada paga, GPU ou sessão Colab.
 
 ## Correções realizadas nesta auditoria
 
@@ -44,7 +48,7 @@ Dados clínicos reais, ensaio hospitalar, homologação médica e envio de mensa
 ## Verificações
 
 - Inventário e análise sintática: **28 arquivos Python e 3 notebooks**, sem erros; inventário com hashes em `evidence/auditoria_projeto.json`.
-- Suíte: **59 testes e 26 subtestes aprovados**; evidência em `evidence/testes_auditoria.xml`.
+- Suíte: **68 testes e 26 subtestes aprovados**; evidência em `evidence/testes_auditoria.xml`.
 - Análise estática: verificações de sintaxe, nomes indefinidos e erros de controle passaram no Ruff.
 - Demonstrações reexecutadas: cinco casos em lote e 32 eventos incrementais, com um alerta estruturado.
 - Instalação editável do pacote e comandos de entrada por `python -m` verificados.
@@ -52,16 +56,14 @@ Dados clínicos reais, ensaio hospitalar, homologação médica e envio de mensa
 - As métricas acústicas anteriores continuam válidas para o modelo e as partições registrados. Não houve ajuste do modelo, dos limiares ou do conjunto cego para melhorar resultados nesta revisão.
 - **Nenhuma chamada adicional à OpenAI e nenhuma nova sessão de GPU** nesta auditoria.
 
-## O que fechar antes de afirmar atendimento integral
+## Limites e dependências externas que permanecem
 
-**Vídeo — Marcelo:** fornecer `best_uterus_tools_v4.pt` e o vídeo autorizado da demonstração; executar o detector, conferir os eventos e registrar a origem dos dados. Para o teste independente solicitado pelo integrante, usar outra mídia que não pertença às partições já usadas pelo detector.
+**Detector anatômico original:** somente o arquivo `best_uterus_tools_v4.pt` da equipe permite repetir especificamente a inferência YOLO publicada por Marcelo. O peso não foi localizado. O detector complementar é uma alternativa funcional com outro escopo, não uma recuperação daquele modelo.
 
-**Áudio — frente responsável:** demonstrar alterações vocais relacionadas ao objetivo médico do trabalho com dados/cenários e referência adequados. Separar essa funcionalidade da extração de sintomas mencionados no texto e da classificação emocional. Os seis áudios novos ficaram abaixo do limiar de confiança; isso é uma limitação observada, não deve ser corrigida diminuindo o limiar depois de ver seus resultados.
+**Avaliação clínica e mídia independente:** os novos clipes são geométricos; a montagem cirúrgica recebida já foi usada. Não há nova avaliação em cirurgia/fisioterapia clínica independente, nem rótulos médicos para as vozes de controle. A exigência adicional do integrante sobre mídias clínicas inéditas permanece limitada pela disponibilidade dos materiais. Recortar a montagem ou transformar o mesmo áudio não torna suas fontes independentes.
 
-**Tempo real e demonstração — integração/grupo:** apresentar o modo incremental com seus limites. Se o grupo pretende declarar todo o fluxo de áudio/vídeo em tempo real, ainda precisa executar essa aquisição/inferência contínua e medir o tempo total. A evidência atual sustenta processamento incremental das séries estruturadas e integração de resultados multimodais previamente calculados.
+**Apresentação:** Benicio grava/publica e o grupo inclui o link. A entrega deve mostrar o que cada detector efetivamente mede. Não se declara atendimento integral com validação médica ou reprodução YOLO inexistentes.
 
-**Entrega — grupo:** reunir a versão correta da branch, os artefatos necessários, o relatório atualizado e o link final da apresentação. Não apresentar fonte ausente ou baixa confiança como cobertura completa.
+## Distribuição e regressões
 
-## Última checagem da distribuição
-
-O PDF anexado em Downloads foi comparado com o original do projeto: os dois têm cinco páginas e SHA-256 `5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1`. Uma cópia exportada sem metadados Git foi verificada em outro ambiente Python 3.12, contendo apenas pytest e suas dependências básicas. Os 59 testes e 26 subtestes passaram. O notebook padrão executou nessa cópia sem GPU, credenciais ou dependências de aprendizado de máquina. Foi corrigida a leitura incondicional da revisão Git no notebook exportado. As fontes do ZIP Overleaf são idênticas às usadas na compilação, e não foram encontrados links locais quebrados. Registro: `evidence/ultima_checagem.json`. As pendências funcionais acima continuam abertas; estes testes de distribuição não as substituem.
+O PDF anexado em Downloads foi comparado ao original: ambos têm cinco páginas e SHA-256 `5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1`. A revisão anterior verificou uma exportação sem Git em Python limpo e corrigiu a inicialização do notebook. A complementação mantém o pacote básico sem dependências de mídia obrigatórias; NumPy/OpenCV são opcionais. A suíte atual tem 68 testes e 26 subtestes aprovados, incluindo qualidade de voz, referência congelada, persistência, lacunas e câmera instável. Consulte os registros de distribuição e execução em `evidence/`.
