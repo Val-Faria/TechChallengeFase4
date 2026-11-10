@@ -1,0 +1,36 @@
+{
+  "alerta": true,
+  "nivel": "alto",
+  "motivo": "2 trecho(s) com instrumento ativo e útero fora de vista",
+  "eventos": [
+    {
+      "descricao": "Instrumento em cena sem visualização do útero por 6.0 s",
+      "inicio_s": 76.0,
+      "fim_s": 82.0,
+      "duracao_s": 6.0,
+      "confianca": 0.82
+    },
+    {
+      "descricao": "Instrumento em cena sem visualização do útero por 30.0 s",
+      "inicio_s": 84.0,
+      "fim_s": 114.0,
+      "duracao_s": 30.0,
+      "confianca": 0.81
+    }
+  ],
+  "estatisticas": {
+    "duracao_video_s": 114.0,
+    "quadros_analisados": 570,
+    "prop_quadros_com_utero": 0.484,
+    "prop_quadros_com_instrumento": 0.825,
+    "prop_instrumento_sem_utero": 0.474
+  },
+  "parametros": {
+    "conf": 0.4,
+    "conf_area": 0.6,
+    "min_perda_s": 5
+  },
+  "aviso": "Sinal de triagem para revisão da equipe médica. Não constitui diagnóstico.",
+  "origem": "Saída recebida da frente de vídeo; sem reexecução YOLO nesta entrega",
+  "natureza": "Montagem de imagens já usadas no teste; não é vídeo clínico independente"
+}

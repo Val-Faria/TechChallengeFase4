@@ -1,0 +1,18 @@
+{
+  "text": "Estou preocupada com o exame de amanhã. Meu coração parece acelerado e gostaria de conversar com alguém da equipe.",
+  "usage": {
+    "type": "tokens",
+    "total_tokens": 116,
+    "input_tokens": 91,
+    "input_token_details": {
+      "text_tokens": 0,
+      "audio_tokens": 91
+    },
+    "output_tokens": 25
+  },
+  "modelo": "gpt-4o-mini-transcribe",
+  "duracao_s": 9.127845804988661,
+  "latencia_s": 2.4284192000050098,
+  "sha256_audio": "97acb73205e779deb05f7c29a53a17ab562ccd9589ebf8919d2296e97bb4348b",
+  "custo_estimado_usd": 0.00045639229024943307
+}

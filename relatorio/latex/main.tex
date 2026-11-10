@@ -1,0 +1,543 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{lmodern,microtype}
+\usepackage[a4paper,top=2.5cm,bottom=2.4cm,left=2.7cm,right=2.4cm]{geometry}
+\usepackage{graphicx,booktabs,tabularx,longtable,array,multirow}
+\usepackage{xcolor,enumitem,fancyhdr,lastpage,amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+\usepackage{hyperref}
+\definecolor{navy}{HTML}{17324D}
+\definecolor{teal}{HTML}{007F86}
+\definecolor{light}{HTML}{EDF4F7}
+\definecolor{muted}{HTML}{526575}
+\definecolor{pink}{HTML}{ED145B}
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=teal,citecolor=navy,pdftitle={Monitoramento multimodal em saúde da mulher - Fase 4},pdfauthor={Equipe Tech Challenge FIAP}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{3em}
+\setcounter{tocdepth}{1}
+\renewcommand{\arraystretch}{1.22}
+\setlist[itemize]{leftmargin=1.4em,itemsep=3pt,topsep=3pt}
+\setlist[enumerate]{leftmargin=1.8em,itemsep=3pt,topsep=3pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{muted}FIAP | Pós Tech - IA para Devs}
+\fancyhead[R]{\small\color{muted}Tech Challenge - Fase 4}
+\fancyfoot[L]{\scriptsize\color{muted}Monitoramento multimodal em saúde da mulher}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\newcommand{\code}[1]{\texttt{\small\detokenize{#1}}}
+\newcommand{\note}[1]{\vspace{4pt}\noindent\colorbox{light}{\parbox{\dimexpr\linewidth-2\fboxsep}{\small #1}}\vspace{5pt}}
+\newcommand{\sectionpage}[1]{\clearpage\section{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\input{dados_gerados.tex}
+\begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\thispagestyle{empty}
+\vspace*{8mm}
+{\large\bfseries\color{pink}FIAP}\par
+{\small Faculdade de Informática e Administração Paulista}\par
+\vspace{12mm}
+{\large Pós Tech - Inteligência Artificial para Devs}\par
+{\large Tech Challenge | Fase 4}\par
+\vspace{23mm}
+{\Huge\bfseries\color{navy}Monitoramento\par multimodal em\par saúde da mulher}\par
+\vspace{7mm}
+{\Large Integração de áudio, vídeo e texto\par com detecção de anomalias e alertas auditáveis}\par
+\vspace{16mm}
+\begin{tabularx}{\linewidth}{Y r}
+\toprule
+\textbf{Integrante} & \textbf{RM}\\
+Benicio Antonio Cardoso & 371527\\
+Marcelo Viana de Araújo & 372707\\
+Nirton Afonso de Oliveira Filho & 370221\\
+Valkiria Nonato de Faria & 373256\\
+\bottomrule
+\end{tabularx}
+\vfill
+{\large Relatório técnico e evidências de reprodução}\par
+{\small Versão consolidada | \DataRelatorio}\par
+{\small Código e artefatos: branch \texttt{Nirton}}\par
+\end{titlepage}
+
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
+\section*{Resumo}
+\addcontentsline{toc}{section}{Resumo}
+Este trabalho apresenta um protótipo de monitoramento multimodal com recorte em saúde da mulher. A solução combina características acústicas de falas sintéticas, eventos de perda de visualização de uma área crítica em vídeos laparoscópicos e análise textual por serviço gerenciado de inteligência artificial. Um contrato comum preserva a origem, a disponibilidade e a prioridade de cada evidência. O resultado alimenta relatórios automáticos e uma caixa de alertas local, com registro de entrega e confirmação de leitura.
+
+A frente de áudio utiliza Whisper, Librosa e Random Forest. A frente de vídeo reaproveita o detector YOLOv8 de instrumentos e útero desenvolvido pela equipe. A integração inclui detectores demonstrativos para séries temporais de sinais vitais e movimentação e para alterações sucessivas em prescrições. A análise textual e a transcrição dos WAVs novos são realizadas por APIs da OpenAI, substituição de fornecedor autorizada pelo professor; Whisper permanece na representação acústica. O texto é analisado para sentimento e menções relevantes. O processamento incremental é demonstrado por reprodução temporal de eventos; as medidas de latência abrangem a persistência local do alerta, não toda a inferência nem uma operação hospitalar.
+
+O protocolo distingue avaliações de desenvolvimento, teste e verificação cega. As famílias de gravações reservadas para a verificação final não participam do ajuste do novo classificador. Métricas anteriores publicadas pela equipe são identificadas como históricas e não substituem os resultados reproduzidos nesta versão. Os dados sintéticos, a ausência de um conjunto clínico pareado e as limitações de proveniência do vídeo restringem as conclusões à viabilidade técnica do fluxo.
+
+\textbf{Palavras-chave:} inteligência artificial multimodal; análise de áudio; visão computacional; processamento de linguagem natural; anomalias; rastreabilidade.
+
+\vspace{8mm}
+\subsection*{Como ler as evidências}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Executado] Há registro de execução e saída verificável nesta consolidação.
+\item[Relatado pela equipe] Resultado preservado de material da frente responsável; não significa nova medição.
+\item[Sintético ou controlado] Cenário construído para verificar comportamento de software, sem validação clínica.
+\item[Limitação] Condição que impede uma conclusão mais ampla, explicitada na seção correspondente.
+\end{description}
+\clearpage
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{Problema, objetivo e escopo}
+O desafio propõe ampliar uma solução clínica para analisar texto, áudio e vídeo, detectar alterações fora do padrão e apoiar o monitoramento preventivo. O enunciado requer análise de vídeos clínicos, processamento de voz, análise textual, detecção de anomalias em dados estruturados e geração de alertas. As entregas são o código completo, o relatório técnico e uma demonstração em vídeo de até 15 minutos.
+
+O recorte da equipe reúne vídeos de laparoscopia ginecológica e falas sintéticas com configurações de prosódia associadas a ansiedade/hesitação, neutralidade e tristeza. O sistema registra sinais de triagem e solicita revisão humana. Não recomenda tratamento e não converte confiança de modelo em probabilidade de doença.
+
+\subsection{Objetivos técnicos}
+\begin{enumerate}
+\item Preservar as implementações de áudio e vídeo, com uma interface única e verificável.
+\item Incorporar análise textual em nuvem sem incorporar credenciais ao repositório.
+\item Demonstrar anomalias em sinais vitais, prescrições e movimento por entradas temporais documentadas.
+\item Entregar alertas a uma interface local, mantendo evidência da persistência e do reconhecimento de leitura.
+\item Reproduzir a avaliação com isolamento de dados, registrar versões e separar resultados técnicos de inferências clínicas.
+\end{enumerate}
+
+\subsection{Interpretação do uso de nuvem}
+O PDF original cita Azure Speech to Text e Azure Text Analytics. Em esclarecimento de 9 de novembro de 2026, apresentado pelo integrante responsável pela integração, o professor Wagner Santos autorizou serviços alternativos, inclusive OpenAI, e explicou que Azure é sugestão. Esta versão utiliza a equivalência funcional: Whisper local para a representação acústica, transcrição gerenciada pela OpenAI para os novos WAVs e análise textual pela OpenAI. A síntese original das falas com Azure é registrada como etapa de construção do dataset, não como execução de Speech to Text.
+
+\subsection{Responsabilidades}
+\begin{tabularx}{\linewidth}{l Y}
+\toprule
+\textbf{Frente} & \textbf{Responsável e contribuição}\\
+Áudio & Valkiria: dataset, transcrição, características e classificador.\\
+Vídeo & Marcelo: detector YOLOv8 e regra temporal de perda de visualização.\\
+Integração & Nirton Afonso: fusão, nuvem, alertas, reprodução e documentação consolidada.\\
+Demonstração & Benicio: gravação, edição e publicação do vídeo final.\\
+\bottomrule
+\end{tabularx}
+
+\sectionpage{Arquitetura e organização da solução}
+As modalidades são processadas por componentes distintos e convergem em um contrato de evidências. A separação permite reutilizar resultados já produzidos, executar cada modelo isoladamente e identificar fontes que falharam. Uma falha de reconhecimento não é convertida artificialmente em áudio neutro ou ausência de risco.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[node distance=5mm and 7mm,box/.style={draw=navy,rounded corners=2pt,fill=light,align=center,font=\small,text width=3.8cm,minimum height=11mm},arr/.style={-{Latex[length=2mm]},thick,color=teal}]
+\node[box](a){WAV e metadados\\Whisper + Librosa + RF};
+\node[box,right=of a](v){Vídeo / JSON da equipe\\YOLOv8 + regra temporal};
+\node[box,below=of a](t){Transcrição\\OpenAI: análise textual};
+\node[box,below=of v](s){Séries e prescrições\\Detectores demonstrativos};
+\node[box,below=12mm of t,xshift=22mm,text width=6.8cm](f){Validação do contrato e fusão por caso\\Maior prioridade, origem e cobertura explícitas};
+\node[box,below=of f,text width=6.8cm](o){JSON / Markdown / CSV + caixa de alertas\\Persistência SQLite, painel e auditoria};
+\draw[arr](a)--(t);\draw[arr](a.south east)--(f.north west);\draw[arr](v.east)--++(4mm,0)|-(f.east);\draw[arr](t)--(f);\draw[arr](s)--(f);\draw[arr](f)--(o);
+\end{tikzpicture}
+\caption{Fluxo lógico da integração. As fontes disponíveis não constituem uma coorte clínica pareada.}
+\end{figure}
+
+\subsection{Camadas}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Entradas e proveniência] Caminhos, identificadores, hashes, timestamps e indicação de origem sintética ou de artefato da equipe.
+\item[Processamento por modalidade] Inferência acústica, importação de eventos de vídeo, análise textual e comparação de observações estruturadas.
+\item[Fusão e regras] Normalização das saídas, preservação da maior prioridade e representação das fontes inconclusivas.
+\item[Entrega] Relatórios por caso, resumo de lote, caixa persistente de alertas e confirmação de revisão no painel local.
+\item[Evidências] Resultados dos testes, métricas, partições, contagem de arquivos e custos das chamadas de nuvem.
+\end{description}
+
+\sectionpage{Dados, proveniência e controle de versões}
+\subsection{Áudio}
+O conjunto corrigido contém 1.180 WAVs e 1.180 linhas de metadados, distribuídos entre 380 exemplos de ansiedade/hesitação, 400 neutros e 400 de tristeza. Há 295 gravações originais, com quatro versões por gravação: original, lenta, rápida e com ruído. As falas foram produzidas por síntese de voz e aumento de dados.
+
+A versão anterior usava o nome nominal de 1.200 arquivos e um CSV com essa quantidade. A consolidação considera o conteúdo efetivo do ZIP corrigido. O nome do arquivo não é usado como evidência suficiente da quantidade; a contagem e os identificadores são auditados.
+
+Os artefatos corrigidos do Drive também foram obtidos e auditados: o CSV da autora contém 1.180 linhas e nenhum nome ausente no dataset. O modelo recebido, ajustado com todo o conjunto, é preservado como artefato histórico. A avaliação independente deste relatório usa outro modelo, regenerado somente com os 712 exemplos de treino. Os hashes e a auditoria constam em \path{evidence/audio_recebido_drive.json}.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{l r r}
+\toprule
+\textbf{Classe de origem} & \textbf{WAVs} & \textbf{Participação}\\
+Ansiedade/hesitação & 380 & 32,2\%\\
+Neutro & 400 & 33,9\%\\
+Tristeza & 400 & 33,9\%\\
+\midrule
+Total & 1.180 & 100\%\\
+\bottomrule
+\end{tabular}
+\caption{Distribuição do dataset sintético corrigido. Rótulos construídos para experimento técnico.}
+\end{table}
+
+\subsection{Vídeo}
+O detector da equipe foi desenvolvido sobre Uterus Dataset v4, disponibilizado no Roboflow Universe sob indicação de licença CC BY 4.0. A divisão relatada é de 1.197 imagens de treino, incluindo aumentos, 114 de validação e 57 de teste; a biblioteca avaliou 56 imagens válidas no teste. Os quadros têm origem em vídeos de terceiros e não são redistribuídos neste relatório.
+
+O pacote recebido contém o JSON de resultado, o relatório automático, imagens de eventos e o vídeo anotado. Esses artefatos permitem verificar o consumo da saída real da frente de vídeo. Não demonstram, isoladamente, generalização a um novo procedimento.
+
+\subsection{Demais entradas}
+As séries de sinais vitais e movimentação e os registros de prescrição usados na demonstração são sintéticos. Seus timestamps permitem verificar ordem de chegada, cálculo de desvios, entrega e revisão de alertas. Não foram obtidos dados de pacientes para esta consolidação.
+
+\sectionpage{Processamento e avaliação de áudio}
+\subsection{Representação acústica}
+O WAV é convertido para mono, com taxa de 16 kHz. O Whisper tiny produz a transcrição em português. O Librosa extrai seis características numéricas que alimentam o Random Forest. Manter essa representação é necessário para não trocar, sem avaliação, a entrada usada no treinamento.
+
+\begin{tabularx}{\linewidth}{l Y}
+\toprule
+\textbf{Característica} & \textbf{Definição operacional}\\
+Duração & Quantidade de amostras dividida pela taxa de amostragem.\\
+Energia média & Média da energia RMS calculada em janelas.\\
+Proporção de pausas & Duração fora dos intervalos sonoros, com \code{top_db=30}, dividida pela duração.\\
+Ritmo de fala & Número de palavras transcritas dividido pela duração em minutos.\\
+Tom médio & Média dos valores válidos de F0 estimados por pYIN.\\
+Variação do tom & Desvio padrão dos valores válidos de F0.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Classificador e confiança}
+É utilizado Random Forest com 200 árvores, semente fixa e balanceamento de classes. A saída inclui classe e \code{predict_proba}. Esse valor é uma estimativa interna do classificador. Não é uma confiança clínica calibrada.
+
+A detecção de silêncio, arquivos inválidos e transcrições vazias evita que uma falha operacional seja tratada como normalidade. A integração aplica um limiar de confiança configurável para decidir se há evidência acústica utilizável. Esse limiar é demonstrativo e não foi validado para triagem assistencial.
+
+As métricas do classificador são calculadas sobre sua classe prevista, enquanto a integração também pode se abster por confiança inferior a 0,70. A acurácia de classificação não é, portanto, a taxa de decisões conclusivas da integração. Uma previsão correta com baixa confiança pode continuar inconclusiva para o fluxo de alerta.
+
+\subsection{Separação entre reprodução e generalização}
+Classificar novamente o dataset com um modelo ajustado em todos os seus exemplos verifica o funcionamento do software e gera o CSV de resultados. Essa execução não mede generalização. Para avaliação independente do novo modelo, o ajuste é restrito à partição de treino, com conjuntos reservados separados e manifestos explícitos.
+
+\note{As classes são descrições do experimento de prosódia. O trabalho não demonstra detecção de fadiga, disartria, depressão ou insuficiência respiratória em pacientes reais.}
+
+\sectionpage{Isolamento de dados e verificação cega}
+A versão original da avaliação agrupava as quatro variações de cada gravação, impedindo que original e versão aumentada fossem distribuídos entre treino e teste. Entretanto, a reutilização das mesmas frases-base em gravações diferentes ainda permite semelhança textual entre conjuntos.
+
+Na reprodução consolidada, a unidade de separação é a família da frase-base. O manifesto atribui cada família a uma única partição, preservando suas gravações e aumentos no mesmo conjunto. Os parâmetros do Random Forest são fixados antes da verificação cega.
+
+\begin{tabularx}{\linewidth}{l r Y}
+\toprule
+\textbf{Partição} & \textbf{Famílias previstas} & \textbf{Uso}\\
+Treino & 12 & Ajuste das árvores e de operações dependentes de dados.\\
+Validação & 3 & Observação do comportamento sem incluir no ajuste final.\\
+Teste & 3 & Avaliação técnica reservada do modelo congelado.\\
+Verificação cega & 2 & Última verificação, separada das três partições anteriores.\\
+\bottomrule
+\end{tabularx}
+
+As quantidades efetivamente reservadas são 712 WAVs de treino, 172 de validação, 176 de teste e 120 de verificação cega. O arquivo de partições conserva o identificador da gravação original e a família de frase-base, permitindo conferir a distribuição antes do ajuste.
+
+\subsection{Verificações de não sobreposição}
+\begin{itemize}
+\item Cada arquivo tem identificador e hash. Não pode constar em duas partições.
+\item Uma gravação original e seus aumentos permanecem juntos.
+\item Uma família de frase-base pertence a uma única partição.
+\item O modelo usado na verificação cega não é reajustado com exemplos reservados.
+\item As métricas da verificação cega são publicadas separadamente, sem escolher a melhor semente depois de observá-las.
+\end{itemize}
+
+\subsection{O significado de ``inédito''}
+As gravações reservadas não são vistas pelo novo classificador no ajuste, na validação ou no teste. Elas continuam pertencendo ao mesmo domínio sintético e à mesma voz de origem. Portanto, o protocolo melhora o isolamento experimental, mas não equivale a uma validação externa com novos pacientes, novos locutores e novos ambientes.
+
+As 120 versões do conjunto cego não são 120 observações clínicas independentes: há aumentos de gravações e somente duas famílias textuais reservadas. A acurácia e o F1 descrevem esse conjunto técnico. Intervalos estatísticos que tratassem todos os WAVs como amostras independentes poderiam subestimar a incerteza.
+
+O Whisper é pré-treinado e sua base completa de pré-treinamento não é auditável nesta entrega. A afirmação de isolamento refere-se ao treinamento supervisionado local do classificador e aos conjuntos controlados pelo projeto.
+
+\subsection{Gravações novas e erros de transcrição}
+Além das famílias reservadas, foram criados seis WAVs novos com textos próprios e vozes Microsoft Daniel e Microsoft Maria Desktop, distintas da voz usada na origem do corpus. Seus hashes e textos de referência são registrados. As gravações não são incorporadas ao ajuste do classificador. Como não há anotação emocional independente, suas previsões não são convertidas em acurácia emocional.
+
+O Whisper tiny foi executado nesses seis arquivos. O registro de ASR contabiliza 13 erros de palavra em 109 palavras de referência, WER agregado de 11,9\% segundo a normalização do script. No caso novo-03, ``falta de ar'' foi transcrito como ``falta de área''. O erro é preservado na evidência; não se substitui silenciosamente a transcrição pelo texto de referência. Esse caso mostra como a qualidade do ASR pode alterar a análise textual posterior. O resultado completo está em \path{evidence/audio_externo_transcricoes.json}.
+
+Os mesmos WAVs também foram enviados ao modelo \texttt{gpt-4o-mini-transcribe}, verificando igualdade dos hashes antes da comparação. A tokenização usa normalização NFC, ignora caixa e pontuação e preserva acentos. Nessa pequena amostra, a API produziu zero erros de palavra, corrigindo a expressão do caso novo-03. O resultado não estima desempenho em pacientes nem permite concluir superioridade geral do serviço.
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Transcritor} & \textbf{WAVs} & \textbf{Erros / palavras} & \textbf{WER agregado}\\
+Whisper tiny local & 6 & 13 / 109 & 11,9\%\\
+OpenAI mini-transcribe & 6 & 0 / 109 & 0,0\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+O ritmo usado pelo classificador acústico permanece calculado com Whisper, preservando a representação do treinamento. A transcrição da API é uma evidência adicional de comparação e pode alimentar a análise textual sem alterar silenciosamente as características do modelo. A comparação completa está em \path{evidence/asr_comparacao.json}.
+
+Aplicado o classificador congelado aos seis WAVs novos, todas as previsões foram da classe neutro, com confianças entre 0,50 e 0,60. Como o limiar de integração é 0,70, as seis saídas foram consideradas \textbf{inconclusivas}, não evidências de neutralidade. Não há rótulos emocionais validados para calcular acurácia externa. A baixa confiança com vozes diferentes explicita a limitação de generalização. O caso integrado mantém essa indicação sem reduzir o alerta alto do vídeo. A evidência está em \path{evidence/audio_externo.json}.
+
+\sectionpage{Análise de vídeo e regra temporal}
+O detector YOLOv8s da equipe foi ajustado a partir de pesos COCO para duas classes: instrumentos e útero. A documentação registra resolução de $416\times416$, até 80 épocas, batch 16 e parada antecipada com paciência 20, em GPU T4 no Colab.
+
+\subsection{Construção do evento}
+A regra identifica a presença de instrumento com confiança mínima de 0,4 e ausência de útero detectado com confiança mínima de 0,6. A condição precisa persistir por pelo menos 5 segundos, tolerando interrupções curtas de até 1 segundo. O limiar específico da área crítica procura reduzir falsos positivos de útero que poderiam ocultar eventos.
+
+\begin{tabularx}{\linewidth}{l Y}
+\toprule
+\textbf{Prioridade} & \textbf{Regra operacional da frente de vídeo}\\
+Baixa & Evento a partir de 5 segundos.\\
+Média & Maior evento a partir de 10 segundos.\\
+Alta & Maior evento a partir de 15 segundos ou pelo menos três eventos.\\
+Nenhuma & Ausência de evento que satisfaça as condições.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Artefato integrado}
+O pacote do Marcelo registra duração de 114 segundos, 570 quadros analisados e dois intervalos de perda de visualização: 76--82 segundos e 84--114 segundos. O segundo evento tem 30 segundos e preserva a prioridade alta na fusão. As confianças médias registradas são 0,82 e 0,81.
+
+\subsection{Verificação executada nesta consolidação}
+O vídeo anotado foi decodificado integralmente: 570 quadros, 5 FPS e 114 segundos. A aplicação da regra temporal às detecções por quadro fornecidas pela equipe reproduziu os intervalos 76--82 e 84--114 segundos. Essa verificação confirma o processamento dos artefatos, sem executar novamente o detector YOLO.
+
+Foram gerados dois clipes sintéticos inéditos, de 8 e 18 segundos. Um oráculo de marcadores coloridos forneceu detecções controladas para verificar decodificação, amostragem, duração dos eventos, nível de alerta, exportação e fechamento de recursos. O cenário normal produziu nível nenhum e o cenário de 18 segundos produziu nível alto, conforme esperado. O oráculo não é um detector anatômico e esses resultados não medem desempenho do YOLO. A evidência está em \path{evidence/video_validacao.json}.
+
+\subsection{Limites da interpretação}
+O vídeo de avaliação é uma montagem de imagens do dataset, com dois segundos por imagem, não uma cirurgia contínua independente. Perda de visualização pode ocorrer em situações normais. A regra mede uma condição visual observável e solicita revisão; não demonstra uma complicação cirúrgica.
+
+A proveniência por clipe e a possível proximidade de quadros entre conjuntos limitam a independência das métricas históricas. Uma avaliação realmente externa exigiria vídeo de origem conhecida, fora do dataset, e anotações de referência adequadas.
+
+\sectionpage{Análise textual gerenciada e controle de custos}
+A transcrição alimenta a API da OpenAI para extrair sentimento, menções relevantes, contexto e trechos literais de evidência. O resultado segue um esquema estruturado. A análise deve preservar negação e incerteza, vincular cada menção a um trecho da transcrição e evitar inferir informações ausentes.
+
+\subsection{Contrato de saída e evidência}
+O esquema limita os campos esperados e diferencia menção afirmada, negada ou incerta. A integração verifica a estrutura e usa os trechos retornados como evidência de origem textual. Um JSON bem formado não garante correção semântica; por isso os testes incluem pares com negação e instruções conflitantes inseridas no texto.
+
+Os controles textuais verificam a decisão de alerta e o contexto das menções. Eles não constituem uma avaliação rotulada do sentimento. A classificação de sentimento é preservada para inspeção e não determina, sozinha, gravidade ou diagnóstico.
+
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Entrada de verificação} & \textbf{Comportamento esperado}\\
+``Estou com falta de ar.'' & Preservar a menção afirmada e o trecho literal.\\
+``Não estou com falta de ar.'' & Preservar a negação; não transformar em sintoma afirmado.\\
+``Talvez eu tenha sentido tontura.'' & Manter a incerteza.\\
+Texto sem menção relevante & Devolver ausência de menções sem inventar conteúdo.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Credenciais e orçamento}
+A chave é lida do ambiente local ou dos Secrets do Colab. O arquivo de credenciais não compõe o código, os exemplos, os logs, o ZIP do Overleaf ou o pacote de entrega. A execução limita tamanho de entrada e saída, quantidade de chamadas e custo acumulado estimado. O cache evita repetir a mesma consulta.
+
+O gasto registrado é uma estimativa obtida a partir do uso retornado pela API e da tabela de preços declarada no código. A cobrança efetiva deve ser confirmada no painel da conta. A transcrição local com Whisper não consome créditos de transcrição da API.
+
+\subsection{Resultado desta consolidação}
+\ResultadoNuvem
+
+\note{As instruções encontradas no texto de entrada são tratadas como dados a analisar. Não autorizam envio a terceiros, mudança de regras, execução de código ou inclusão de diagnósticos.}
+
+\sectionpage{Detecção de anomalias estruturadas}
+\subsection{Sinais vitais e movimentação}
+As funções recebem histórico anterior e observações posteriores do mesmo caso. O valor de referência é a mediana do histórico. A dispersão é estimada pela mediana dos desvios absolutos (MAD), com o fator 1,4826:
+\begin{equation}
+z_{robusto}(x)=\frac{|x-\operatorname{mediana}(H)|}{1{,}4826\operatorname{MAD}(H)}.
+\end{equation}
+O limiar demonstrativo é de seis escalas robustas. Histórico insuficiente ou sem dispersão não produz uma normalidade artificial: exige uma decisão explícita de qualidade de dados. As entradas são verificadas quanto a valores finitos, ordem temporal e consistência dos campos declarados.
+
+O mesmo mecanismo pode operar sobre frequência cardíaca, saturação, pressão ou uma característica numérica de movimento. Os nomes das variáveis não convertem um limiar estatístico em faixa clínica. A demonstração de movimento utiliza uma série estruturada; não corresponde à estimação de postura por vídeo.
+
+\subsection{Evolução de prescrições}
+Registros sucessivos do mesmo medicamento são comparados. A alteração relativa de dose só é calculada quando unidade e via são compatíveis. Mudanças de unidade, via e intervalo são destacadas separadamente, pois comparar números sem preservar seu significado geraria alertas incorretos.
+
+O limiar de variação de dose é de 50\% no cenário demonstrativo. O sistema indica mudança inesperada para conferência. Não julga adequação terapêutica e não modifica prescrições.
+
+\subsection{Cenários de verificação}
+\begin{itemize}
+\item Série estável e observação próxima ao histórico: não produzir desvio indevido.
+\item Observação distante do histórico: registrar variável, instante, valor e referência.
+\item Histórico sem qualidade: solicitar revisão por fonte inconclusiva.
+\item Mudança de unidade ou via: não calcular porcentagem de dose incompatível.
+\item Alteração relevante de dose com unidade e via iguais: gerar evidência de mudança.
+\end{itemize}
+
+\sectionpage{Fusão multimodal e contrato por caso}
+A fusão combina evidências com semânticas diferentes sem somar probabilidades incompatíveis. A regra preserva o maior nível de prioridade entre os sinais válidos. Assim, áudio neutro não cancela um evento alto de vídeo. Baixa confiança, ausência ou falha de uma modalidade compõem a cobertura do caso.
+
+\begin{tabularx}{\linewidth}{l Y}
+\toprule
+\textbf{Campo conceitual} & \textbf{Significado}\\
+Identificador do caso & Associação explícita entre as entradas da demonstração.\\
+Identificador do resultado & Rastreia o conjunto de evidências e permite evitar duplicação.\\
+Alerta e nível & Existência de sinal válido e maior prioridade operacional.\\
+Revisão necessária & Sinal presente ou fonte inconclusiva que requer conferência.\\
+Cobertura & Fontes esperadas, disponíveis, ausentes ou inválidas.\\
+Proveniência & Origem de arquivo, hash, versão e indicação de simulação.\\
+Entrega & Persistência na caixa local e eventos de confirmação.\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Pareamento e independência das fontes}
+O identificador usado na demonstração é um vínculo de software. As fontes de áudio e vídeo disponíveis não são observações simultâneas de uma mesma pessoa. A composição é declarada, evitando criar uma trajetória clínica fictícia.
+
+\subsection{Falhas e repetição}
+Os contratos rejeitam valores não finitos, intervalos incoerentes e níveis desconhecidos. As falhas são mantidas no relatório com seu estado de cobertura. Reexecutar um caso não deve produzir cópias indistinguíveis do mesmo alerta. A persistência usa identificador estável e testes verificam a idempotência.
+
+\subsection{Saídas}
+Cada caso produz uma representação JSON e uma leitura Markdown. O lote produz JSONL e CSV. A caixa de alertas mantém os resultados que exigem revisão. O painel mostra o mesmo conteúdo persistido e registra confirmação de leitura, sem depender de um aplicativo de mensagens externo.
+
+\sectionpage{Monitoramento incremental e entrega de alertas}
+A solução oferece reprodução de eventos e leitura incremental de arquivo JSONL. No modo de acompanhamento, novos registros anexados ao arquivo são consumidos com limites de tempo ocioso e quantidade de eventos. Cada observação tem timestamp e identificador do caso. O sistema atualiza o histórico, executa os detectores, consolida as evidências e persiste o alerta na caixa local.
+
+\subsection{O que é medido}
+A medida de latência do reprodutor refere-se à persistência local do alerta. No monitor incremental, o intervalo inclui os detectores estatísticos, a fusão e a persistência do pacote. Nenhuma dessas medidas inclui captura de sensor, execução do Whisper, inferência YOLO, envio de áudio em rede ou resposta da API de linguagem.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[node distance=9mm,box/.style={draw=navy,fill=light,rounded corners=2pt,align=center,font=\small,text width=10.2cm,minimum height=10mm},arr/.style={-{Latex[length=2mm]},thick,color=teal}]
+\node[box](a){Evento com instante e identificador do caso};
+\node[box,below=of a](b){Validação, detector e atualização das evidências};
+\node[box,below=of b](c){Fusão e persistência idempotente em SQLite};
+\node[box,below=of c](d){Painel local da equipe + confirmação de revisão};
+\draw[arr](a)--(b);\draw[arr](b)--(c);\draw[arr](c)--(d);
+\end{tikzpicture}
+\caption{Ciclo de entrega demonstrado localmente. Não representa conexão a um hospital.}
+\end{figure}
+
+\subsection{Auditoria da revisão}
+Um evento de entrega e um evento de confirmação são fatos distintos. O banco registra a criação do alerta; o operador reconhece o item no painel. Essa confirmação mostra o fluxo final da revisão no protótipo, sem afirmar que uma equipe hospitalar real foi notificada.
+
+\ResultadoReplay
+
+O monitor foi exercitado com 32 pacotes sintéticos: 30 para construir o histórico, uma observação normal e uma observação alterada de sinais vitais, movimento e prescrição. A execução produziu um alerta persistido. A auditoria detalha a evolução em \path{integracao/evidencias/monitoramento_final/eventos_processados.jsonl} e resume o cenário em \path{integracao/evidencias/monitoramento_final/monitoramento_resumo.json}.
+
+\sectionpage{Protocolo de testes e resultados reproduzidos}
+\subsection{Testes de software}
+Os testes automatizados verificam comportamento de contrato e de regra: preservação de prioridade, fonte ausente, baixa confiança, validação temporal, comparação de unidades e entrega idempotente. Casos controlados cobrem comportamentos que uma demonstração positiva isolada não exercita.
+
+O teste do adaptador textual utiliza cliente controlado para verificar tratamento de erros, esquema, cache e orçamento sem consumir créditos. As chamadas reais são registradas separadamente, de modo que um teste simulado não seja contado como uso efetivo da nuvem.
+
+\ResultadoTestes
+
+\subsection{Avaliação de áudio}
+\ResultadoAudio
+
+\subsection{Escopo da verificação}
+O resultado de uma suíte de software não mede segurança clínica. A acurácia do classificador usa classes sintéticas, e os alertas estruturados seguem limiares demonstrativos. A integração só pode receber uma métrica multimodal de generalização se houver conjunto pareado, independente e rotulado, inexistente no material disponível.
+
+\sectionpage{Resultados de vídeo e análise dos casos}
+\subsection{Resultados históricos da frente de vídeo}
+As métricas abaixo são atribuídas ao relatório da frente de vídeo. Sua preservação documenta o trabalho da equipe; não significa novo treinamento do detector nesta consolidação.
+
+\begin{tabular}{l r r}
+\toprule
+\textbf{Classe} & \textbf{mAP50} & \textbf{mAP50--95}\\
+Geral & 0,928 & 0,636\\
+Instrumentos & 0,906 & 0,538\\
+Útero & 0,950 & 0,734\\
+\bottomrule
+\end{tabular}
+
+No teste relatado, a regra com confiança mínima de útero em 0,6 obteve precisão 1,00 e recall 0,72. São medidas do alerta visual na montagem de imagens. Não representam percentual de cirurgias corretamente avaliadas ou detecção de complicações em pacientes.
+
+\subsection{Eventos consumidos pela integração}
+\begin{tabularx}{\linewidth}{l r r r Y}
+\toprule
+\textbf{Evento} & \textbf{Início} & \textbf{Fim} & \textbf{Duração} & \textbf{Interpretação técnica}\\
+1 & 76 s & 82 s & 6 s & Instrumento presente sem área crítica detectada.\\
+2 & 84 s & 114 s & 30 s & Persistência da condição; prioridade alta.\\
+\bottomrule
+\end{tabularx}
+
+\ResultadoIntegracao
+
+\subsection{Leitura dos resultados}
+A decisão final inclui evidência e cobertura. ``Sem sinal positivo'' não equivale a ``paciente sem risco'', sobretudo com fontes ausentes ou em domínio não validado. Os casos sem qualidade suficiente seguem para revisão. Essa distinção evita ocultar uma falha como resultado negativo.
+
+\sectionpage{Reprodutibilidade, execução e organização}
+\subsection{Preparação}
+O repositório reúne os notebooks originais, o pacote de integração, scripts, testes e evidências. O dataset utiliza Git LFS; sem baixar seu conteúdo, o arquivo ZIP é apenas um ponteiro. Modelo, características e CSV regenerados devem ser preservados junto do manifesto e da versão do ambiente.
+
+\ComandosReproducao
+
+\subsection{Modo econômico}
+Os testes de software e a reprodução de resultados existentes podem ser executados sem GPU. A extração acústica e a transcrição são mais custosas. A nuvem é acionada apenas em chamadas limitadas e com cache. O processamento local de transcrição não consome saldo da API da OpenAI.
+
+\subsection{Conservação de artefatos}
+As evidências públicas incluem contagens, métricas, manifestos, resultados e auditorias sem credenciais. Áudios, vídeos, pesos e bancos de execução ficam em armazenamento apropriado ou em diretório privado ignorado pelo Git. O relatório é disponibilizado em PDF e LaTeX, com ZIP pronto para importação no Overleaf.
+
+\subsection{Recursos de execução}
+\ResultadoRecursos
+
+\sectionpage{Matriz de atendimento ao desafio}
+A matriz considera os itens das páginas 2--4 do enunciado e o esclarecimento sobre serviços alternativos. O termo ``demonstrado'' refere-se ao protótipo e ao tipo de dado informado, sem equivalência automática a validação assistencial.
+
+\small
+\begin{longtable}{p{3.6cm}p{5.4cm}p{4.1cm}}
+\toprule
+\textbf{Requisito} & \textbf{Evidência da solução} & \textbf{Limite de interpretação}\\
+\midrule\endhead
+Vídeo clínico e evento fora do padrão & YOLOv8 da equipe; JSON e relatório com dois eventos temporais. & Vídeo de avaliação montado; métricas históricas.\\
+Relatório automático & Saídas por vídeo e relatório multimodal por caso. & Evidência de software; exige revisão humana.\\
+Processamento de voz & Whisper, Librosa e Random Forest, com artefatos regenerados. & Dados sintéticos; sem validação de disartria ou fadiga.\\
+Transcrição e análise textual & Whisper para ritmo acústico; transcrição e análise textual OpenAI; fornecedor alternativo autorizado. & Diferenciar síntese, transcrição e análise semântica.\\
+Termos e sentimentos & Resposta estruturada com sentimento, menções, contexto, evidência literal e negação. & LLM pode interpretar incorretamente; não é diagnóstico.\\
+Sinais vitais & Detector de desvio robusto em histórico temporal. & Demonstração sintética e limiar estatístico.\\
+Prescrições & Comparação temporal de dose, unidade, via e intervalo. & Não avalia adequação terapêutica.\\
+Movimentação & Detector de série numérica de movimento. & Não implementa análise postural clínica.\\
+Fusão multimodal & Contrato por caso; prioridade e cobertura explícitas. & Fontes independentes, sem coorte pareada.\\
+Alertas à equipe & Caixa SQLite, painel local e confirmação de revisão. & Entrega local, sem sistema hospitalar real.\\
+Processamento temporal & Monitor JSONL incremental e reprodução; latência dos detectores, fusão e entrega local. & Não comprova captura clínica contínua.\\
+Código completo & Branch Nirton com scripts, notebooks e testes. & Requer dependências e artefatos descritos.\\
+Relatório técnico & PDF, fontes LaTeX e pacote Overleaf. & Resultados restringem-se à evidência registrada.\\
+Vídeo até 15 minutos & Roteiro e material de demonstração preparados. & Gravação e publicação: responsabilidade de Benicio.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\sectionpage{Limitações, riscos de validade e evolução}
+\subsection{Validade dos dados}
+Os áudios sintéticos de uma única voz não representam diversidade de pessoas, sotaques, microfones ou estados de saúde. A divisão por frase-base reduz semelhança textual entre partições, mas não cria independência de locutor. O classificador mede o experimento de prosódia utilizado.
+
+No vídeo, a origem detalhada dos clipes e a proximidade de quadros limitam a auditoria de independência. O vídeo montado altera o significado temporal em relação a uma cirurgia contínua. Esses fatores podem produzir estimativas mais favoráveis do que as de dados externos.
+
+\subsection{Validade das decisões}
+Sentimento textual e classe acústica não são indicadores clínicos intercambiáveis. Uma frase negativa pode descrever um evento sem relação com risco; uma negação mal interpretada pode inverter seu significado. O protótipo preserva evidências e exige revisão, mas não elimina esses erros.
+
+Os detectores estruturados usam estatística e regras ilustrativas. Variações de dose podem ser intencionais, e alterações de sinais vitais exigem contexto, unidade e protocolo assistencial. Nenhuma regra deste projeto deve alterar cuidados automaticamente.
+
+\subsection{Validade da integração}
+As fontes disponíveis não são pareadas por paciente e instante. A demonstração comprova compatibilidade de contratos, resposta a cenários e entrega local. Não mede ganho clínico da combinação multimodal. A latência da persistência também não representa o tempo total desde uma ocorrência física até sua avaliação.
+
+\subsection{Próximos passos para uso real}
+Seriam necessários dados externos com autorização e proveniência, protocolo de anotação, especialistas para definir desfechos, validação por paciente e por instituição, calibração, avaliação de falsos negativos e de fadiga de alertas, governança de acesso e integração auditável ao ambiente assistencial. Essas etapas extrapolam o experimento acadêmico entregue.
+
+\sectionpage{Conclusões e material para demonstração}
+A consolidação organiza as frentes de áudio e vídeo em uma arquitetura reproduzível, acrescenta análise textual gerenciada e demonstra como um sinal se transforma em alerta persistido e revisado. O trabalho documenta as diferenças entre executar software, reproduzir métricas e validar um sistema para uso clínico.
+
+O protocolo com famílias reservadas é necessário porque o modelo anterior foi ajustado em todo o dataset. A nova avaliação mantém conjuntos separados e identifica claramente o domínio sintético. As métricas de vídeo preservadas são atribuídas à frente responsável e não são reinterpretadas como desempenho em pacientes.
+
+\subsection{Sequência recomendada para a apresentação}
+\begin{enumerate}
+\item Apresentar o problema, o recorte e as fontes disponíveis.
+\item Mostrar um WAV, sua transcrição, características e classe/confiança.
+\item Mostrar a origem e os dois eventos do resultado de vídeo.
+\item Mostrar a chamada textual real e o registro de consumo, sem credenciais.
+\item Executar a composição do caso e explicar como uma fonte neutra não cancela alerta alto.
+\item Exibir as séries e prescrições sintéticas e os desvios identificados.
+\item Abrir o painel, conferir o alerta e confirmar sua revisão.
+\item Exibir os resultados de testes, partições e limitações.
+\end{enumerate}
+
+\subsection{Entrega audiovisual}
+A gravação e a publicação do vídeo não integram esta execução técnica. O roteiro atualizado acompanha o repositório. Antes da publicação, o responsável deve selecionar as imagens compatíveis com a orientação da equipe sobre o material de terceiros e preservar a ausência de chaves, dados pessoais e credenciais na tela.
+
+\clearpage
+\section*{Referências}
+\addcontentsline{toc}{section}{Referências}
+\begin{enumerate}[label={[\arabic*]},leftmargin=2em]
+\item FIAP. \textit{IADT - Fase 4 - Tech challenge}. Material da disciplina, páginas 2--4, 2026.
+\item FIAP. \textit{Aula 04: transcrição e processamento de áudio}; \textit{Aula 05: classificação e avaliação}; \textit{Integração e automação com a API da OpenAI}. Materiais da Fase 4, 2026.
+\item Equipe Tech Challenge. \textit{Frente de áudio - monitoramento de sinais emocionais pela voz}. \url{https://github.com/Val-Faria/TechChallengeFase4/blob/main/audio/relatorio/secao_audio.md}. Consulta: 9 nov. 2026.
+\item Equipe Tech Challenge. \textit{Frente de vídeo - análise de cirurgias ginecológicas}. \url{https://github.com/Val-Faria/TechChallengeFase4/blob/main/relatorio/secao_video.md}. Consulta: 9 nov. 2026.
+\item Machinelearning. \textit{Uterus Dataset}, versão 4. Roboflow Universe, 2024. \url{https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4}.
+\item OpenAI. \textit{Structured model outputs}. \url{https://developers.openai.com/api/docs/guides/structured-outputs}. Consulta: 9 nov. 2026.
+\item OpenAI. \textit{API pricing}. \url{https://developers.openai.com/api/docs/pricing}. Consulta: 9 nov. 2026.
+\item OpenAI. \textit{Whisper}. Código e documentação do modelo de reconhecimento de fala. \url{https://github.com/openai/whisper}.
+\item Librosa. \textit{Documentation: feature extraction and pYIN}. \url{https://librosa.org/doc/latest/}.
+\item Scikit-learn. \textit{RandomForestClassifier; GroupShuffleSplit; model persistence}. \url{https://scikit-learn.org/stable/}.
+\item Ultralytics. \textit{YOLOv8 documentation}. \url{https://docs.ultralytics.com/models/yolov8/}.
+\end{enumerate}
+
+\clearpage
+\appendix
+\section{Manifesto de evidências e critérios de auditoria}
+\ManifestoEvidencias
+
+\subsection{Critérios para revisão}
+\begin{itemize}
+\item A contagem declarada deve corresponder ao ZIP e ao CSV regenerados.
+\item Os hashes dos arquivos de partição devem demonstrar ausência de sobreposição.
+\item A verificação cega não pode ser incorporada ao treinamento do modelo entregue como avaliado.
+\item A análise textual deve ter uso retornado pela API e resultado salvo, sem chave ou cabeçalho de autenticação.
+\item A repetição de uma entrega deve preservar a identidade do alerta e a confirmação de revisão.
+\item As métricas devem indicar sua origem: reproduzida, histórica ou controlada.
+\item Nenhuma imagem privada é necessária para compilar este relatório.
+\end{itemize}
+\end{document}

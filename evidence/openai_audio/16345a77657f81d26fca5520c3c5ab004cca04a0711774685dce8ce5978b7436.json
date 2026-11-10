@@ -1,0 +1,18 @@
+{
+  "text": "Desde o começo da tarde sinto falta de ar e uma tontura que não passa. Preciso que a equipe venha me avaliar.",
+  "usage": {
+    "type": "tokens",
+    "total_tokens": 132,
+    "input_tokens": 104,
+    "input_token_details": {
+      "text_tokens": 0,
+      "audio_tokens": 104
+    },
+    "output_tokens": 28
+  },
+  "modelo": "gpt-4o-mini-transcribe",
+  "duracao_s": 10.424081632653062,
+  "latencia_s": 2.466436499991687,
+  "sha256_audio": "16d36f6d5ed84e3ab758adbcf124d94d701c6b239b82060bddb761b304b2c98c",
+  "custo_estimado_usd": 0.000521204081632653
+}

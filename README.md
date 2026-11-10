@@ -1,144 +1,118 @@
-# Tech Challenge Fase 4 — Monitoramento Multimodal em Saúde da Mulher
+# Monitoramento multimodal em saúde da mulher
 
-Extensão do assistente clínico da Fase 3 para a análise de **vídeo** e **áudio**, com geração de alertas para a equipe médica.
+**Tech Challenge · Fase 4 · FIAP · IA para Devs**
 
-O sistema analisa vídeos de procedimentos ginecológicos e gravações de consultas, identifica sinais de risco em cada um e combina os dois resultados em um alerta único.
+Protótipo acadêmico que combina voz, eventos de vídeo, texto e séries estruturadas para encaminhar sinais à revisão humana. A entrega reúne as frentes da equipe na branch **Nirton**, com código modular, testes, evidências e relatório em LaTeX.
 
-## Escopo do protótipo
+## Começar pela demonstração
 
-- Identificação de perda de visualização da área crítica em vídeos ginecológicos
-- Classificação de características acústicas em falas sintéticas
-- Síntese com Azure Speech e conectores para transcrição e análise textual
-- Detecção de anomalias com alerta multimodal
+Abra [o notebook de integração](integracao/TechChallengeFase4_integracao.ipynb) no Google Colab e execute em ordem. O modo padrão usa CPU e resultados salvos; não pede chave nem consome créditos de API.
 
-## Arquitetura
+- [Relatório em PDF](output/pdf/relatorio_tecnico_fase4.pdf).
+- [Fontes LaTeX e pacote para Overleaf](relatorio/COMO_COMPILAR.md).
+- [Resumo da execução](evidence/resumo_execucao.json).
+- [Matriz de requisitos](relatorio/matriz_requisitos.md).
+- [Roteiro da apresentação do Benicio](relatorio/roteiro_demonstracao.md).
 
-```text
-Vídeo cirúrgico ──► YOLOv8 (útero + instrumentos) ──► regras de anomalia ──┐
-                                                                           ├──► Fusão ──► Alerta (JSONL)
-Áudio da consulta ─► Whisper + librosa ─► classificador (Random Forest) ───┘
+## Fluxo
+
+```mermaid
+flowchart LR
+ A[Áudio] --> W[Whisper e características acústicas]
+ W --> C[Random Forest]
+ A --> T[Transcrição OpenAI]
+ T --> L[Análise textual com evidências]
+ V[Vídeo] --> Y[YOLOv8 e regra temporal]
+ S[Eventos de sinais vitais, movimento e prescrições] --> D[Detectores incrementais]
+ C --> F[Fusão por caso e origem]
+ L --> F
+ Y --> F
+ D --> F
+ F --> R[Relatório e caixa de revisão]
+ R --> P[Painel com confirmação de revisão]
 ```
 
-| Frente | Modelo | Dados | Status |
-|---|---|---|---|
-| Vídeo | YOLOv8 customizado | Uterus v4 (Roboflow Universe, CC BY 4.0) | Concluído (mAP50 0,928) |
-| Áudio | Whisper + Random Forest | Falas sintéticas (Azure Speech) | Implementado; avaliação registrada no notebook |
-| Integração | `combinar_audio_video` | Áudio, vídeo e texto opcional | Demonstração e 49 verificações aprovadas; Azure real pendente |
+O Whisper fornece o ritmo utilizado no treinamento do classificador. A transcrição OpenAI alimenta a análise textual separadamente. A fusão preserva a maior prioridade e não transforma falha ou baixa confiança em resultado normal.
+
+## Execuções e alcance
+
+| Frente | Evidência |
+|---|---|
+| Áudio | Características dos 1.180 WAVs; treinamento por famílias de frases isoladas e reserva cega fora do ajuste final. [Reprodução](evidence/audio_reproducao.json) |
+| Amostras novas | Seis WAVs locais, com frases novas e vozes diferentes da voz do dataset. Verificação de software sem rótulos clínicos. [Resultados](evidence/audio_externo.json) |
+| Nuvem | Transcrição real dos seis WAVs e análise textual OpenAI, com cache e consumo registrado. [ASR](evidence/audio_openai_transcricoes.json) · [Texto](evidence/openai_validacao.json) |
+| Vídeo | Decodificação de 570 quadros recebidos e reprodução de dois eventos pelas detecções salvas. Dois vídeos técnicos novos verificam a regra com detector controlado; não medem YOLO. [Resultados](evidence/video_validacao.json) |
+| Monitoramento | 32 pacotes sintéticos, referência anterior congelada, anomalias nas três fontes estruturadas e um alerta. [Resultados](integracao/evidencias/monitoramento_final/monitoramento_resumo.json) |
+| Revisão | Painel local testado em navegador, incluindo confirmação e auditoria. [Resultados](evidence/dashboard_validacao.json) |
+
+As métricas antigas de áudio (88%, 92% ou 89%) pertencem a versões ou partições distintas. A execução consolidada possui métricas separadas de validação, teste e reserva cega no relatório e no JSON de reprodução.
+
+## Executar localmente
+
+Python 3.12 foi utilizado na reprodução. A integração e o painel usam somente a biblioteca padrão; áudio e vídeo têm dependências opcionais.
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python -m pip install -e . pytest
+.venv\Scripts\python -m pytest -q
+.venv\Scripts\python scripts/run_demo.py --audio-csv audio/evidencias/resultado_audio_externo.csv --audio-filename novo-03.wav --video-json evidence/resultado_video_equipe.json --text-json evidence/texto_openai_integracao.json
+.venv\Scripts\python -m techchallenge4.dashboard --db integracao/evidencias/execucao_final/alertas.sqlite3
+```
+
+Abra o endereço local exibido. A confirmação de revisão fica registrada na caixa local; não altera tratamentos.
+
+### Monitoramento por chegada de eventos
+
+```powershell
+python scripts/run_stream.py --demo --output integracao/evidencias/monitoramento_final
+python scripts/run_stream.py --input eventos.jsonl --follow --idle-timeout 5 --max-events 1000
+```
+
+O monitor calcula desvios ao receber eventos. A demonstração usa dados sintéticos, não sensores ou pacientes. A latência registrada cobre detecção estruturada, fusão e entrega local; exclui inferência dos modelos e rede. O replay de resultados prontos é outra demonstração.
+
+### Reprodução de áudio e vídeo
+
+Instale [requirements-audio.txt](requirements-audio.txt), execute `git lfs pull` e `python scripts/audio_reproduce.py --device auto`. Os modelos ficam em `artifacts/audio/`; manifestos e métricas ficam em `audio/evidencias/` e `evidence/`. Para um WAV, consulte `python scripts/audio_infer.py --help`.
+
+A reserva cega e as seis gravações externas não entram no ajuste do modelo distribuído. Reclassificar os dados de treinamento não é avaliação independente. Para reexecutar YOLO, forneça os pesos personalizados da equipe e o vídeo; veja [video/README.md](video/README.md).
+
+### Nuvem e custo
+
+Use o Secret `OPENAI_API_KEY` no Colab ou uma variável de ambiente local. Nunca cole a chave em células ou arquivos publicados. As chamadas começam desligadas. A validação textual tem teto local de US$ 0,10; a transcrição dos seis WAVs, US$ 0,02. Há cache, reserva prévia e limite de chamadas. Esses controles não são limites de cobrança da conta.
+
+O consumo registrado é estimado por tokens/duração, sem consulta à fatura. OpenAI substitui o fornecedor Azure conforme [orientação docente](evidence/orientacao_docente.md). A transcrição Whisper permanece separada da análise textual em nuvem.
 
 ## Organização
 
-```text
-audio/
-├── datasets/      dataset_audio_emocoes_1180.zip (Git LFS)
-└── notebooks/     TechChallengeFase4_audio.ipynb
-video/
-├── TechChallengeFase4_video.ipynb
-└── alerta_video.py
-integracao/
-├── TechChallengeFase4_integracao.ipynb
-├── README.md
-└── evidencias/
-relatorio/
-├── relatorio_tecnico.md
-├── matriz_requisitos.md
-├── roteiro_demonstracao.md
-└── secao_video.md
-```
+| Pasta | Conteúdo |
+|---|---|
+| `src/techchallenge4/` | Contratos, fusão, detectores, nuvem, monitor e painel |
+| `audio/`, `video/` | Notebooks, implementação e documentação das frentes |
+| `integracao/` | Notebook de entrada e resultados verificados |
+| `evidence/` | Resultados consolidados, consumo e proveniência |
+| `scripts/`, `tests/` | Reprodução e testes sem chamadas pagas automáticas |
+| `relatorio/` | Documentação e fontes LaTeX |
+| `dados_privados/`, `artifacts/` | Mídia e modelos locais, preservados no Drive; não publicados automaticamente |
 
-## Como executar
+## Limitações e apresentação
 
-1. **Áudio:** ver a seção [Frente de áudio](#frente-de-áudio).
-2. **Vídeo:** ver [`video/README.md`](video/README.md).
-3. **Integração:** abra `integracao/TechChallengeFase4_integracao.ipynb` no Colab. A demonstração padrão usa CPU e dispensa credenciais. Veja [integracao/README.md](integracao/README.md).
-
-> O dataset de áudio está no Git LFS. Após clonar o repositório, rode `git lfs install` e `git lfs pull`. Sem isso, o ZIP baixado é só um arquivo de referência de poucos bytes.
-
-## Frente de áudio
-
-### O que faz
-
-- Gera falas sintéticas rotuladas com Azure Speech, nas classes `ansiedade_hesitacao`, `neutro` e `tristeza`
-- Expande o conjunto localmente com aumento de dados (velocidade, ruído etc.), chegando a 1.200 áudios
-- Transcreve com Whisper
-- Extrai pausas, ritmo e tom
-- Classifica as características acústicas com Random Forest
-- Gera uma saída pronta para ser combinada ao resultado do vídeo no alerta final
-
-### Como executar
-
-1. Abra `audio/notebooks/TechChallengeFase4_audio.ipynb` no Google Colab.
-2. Cadastre `SPEECH_KEY` e `SPEECH_REGION` nos Secrets do Colab.
-3. Execute as células em ordem.
-4. Se o dataset já estiver disponível, use o ZIP em `audio/datasets/` e pule a geração.
-
-### Resultado
-
-A divisão entre treino e teste é feita por gravação original (`GroupShuffleSplit`), para que as variações de uma mesma fala não apareçam nos dois conjuntos.
-
-| Classe | Precisão | Recall | F1 |
-|---|---|---|---|
-| ansiedade_hesitacao | 0,93 | 0,84 | 0,88 |
-| neutro | 0,81 | 0,91 | 0,85 |
-| tristeza | 1,00 | 1,00 | 1,00 |
-| **Acurácia** | | | **0,92** |
-
-Métricas da saída salva no notebook de áudio, em 240 exemplos de teste. A versão anterior deste README informava 0,88; a avaliação ainda precisa ser reproduzida para consolidar o resultado.
-
-O ZIP do Git LFS contém 1.180 WAVs e 1.180 linhas de metadata, enquanto o CSV compartilhado contém 1.200 predições. A diferença está registrada no [relatório técnico](relatorio/relatorio_tecnico.md).
-
-## Frente de vídeo
-
-YOLOv8 treinado para detectar útero e instrumentos cirúrgicos em laparoscopia ginecológica. O alerta dispara quando há instrumento em cena e o útero não é visto por 5 s ou mais. Detalhes em [`video/README.md`](video/README.md).
-
-| Detector (teste) | mAP50 | | Alerta (teste) | Precisão | Recall |
-|---|---|---|---|---|---|
-| Geral | 0,928 | | `conf_area` = 0,6 | 1,00 | 0,72 |
-| Útero | 0,950 | | | | |
-| Instrumentos | 0,906 | | | | |
-
-## Integração
-
-O notebook de integração aceita a classe/confiança do áudio e o JSON da frente de vídeo. A regra preserva a maior prioridade entre os sinais válidos e registra fontes ausentes, com erro ou baixa confiança.
-
-São gerados um JSON e um relatório por caso, um resumo CSV e uma fila local de revisão em JSONL. A demonstração usa quatro casos simulados. As chamadas Azure podem ser testadas separadamente antes da integração final.
-
-A preparação dos arquivos e os quatro Secrets necessários estão em [integracao/README.md](integracao/README.md). O [relatório técnico consolidado](relatorio/relatorio_tecnico.md) descreve o fluxo, os modelos e os resultados. A [matriz de requisitos](relatorio/matriz_requisitos.md) relaciona as evidências e as etapas pendentes.
-
-## Limitações
-
-- Os áudios são sintéticos, gerados para demonstrar e validar o pipeline. Não representam gravações clínicas reais e não permitem, sozinhos, validação médica.
-- O dataset de vídeo é pequeno (cerca de 570 imagens únicas) e a origem das imagens não é documentada pelo autor.
-- Os alertas são sinais de triagem para revisão da equipe médica, não diagnósticos.
-- Nenhum dado de paciente real foi usado ou enviado a serviços de terceiros.
-
-- Áudio e vídeo são de datasets independentes, sem sincronização por paciente ou procedimento.
-- As chamadas reais de Azure Speech to Text e Language ainda estão pendentes.
-- Os exemplos adicionais de sinais vitais, prescrições e movimento são sintéticos.
-- A fila de revisão é local; o processamento ocorre em lote.
-
-## Tecnologias
-
-- Azure Speech (camada F0)
-- OpenAI Whisper
-- Librosa
-- Scikit-learn
-- Ultralytics YOLOv8
-- Google Colab
-
-## Fontes
-
-- **Uterus Dataset v4** — Roboflow Universe, CC BY 4.0. https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4
-
-## Vídeo de demonstração
-
-Link: em breve.
+- As classes acústicas são emocionais em fala sintética; não validam fadiga, disartria, dificuldade respiratória ou diagnóstico psicológico em pacientes.
+- Os pesos personalizados de vídeo não estavam nos arquivos nem no Drive acessível. A inferência YOLO e a avaliação em vídeo clínico inédito não foram reproduzidas. O mAP histórico é atribuído à frente do Marcelo.
+- A montagem de vídeo já foi usada na avaliação da equipe. Recortá-la ou transformá-la não cria uma amostra independente.
+- Áudio, vídeo e séries da composição são fontes independentes, sem sincronização de um paciente.
+- Os limiares estruturados são demonstrativos, sem validação assistencial. O painel é local, sem conexão hospitalar.
+- A gravação final de até 15 minutos, publicação no YouTube/Vimeo e inclusão do link ficam com Benicio/grupo. A equipe deve conferir as imagens de terceiros escolhidas antes da publicação.
 
 ## Equipe
 
-| Nome | RM |
-|------|-----|
-| Benicio Antonio Cardoso | 371527 |
-| Marcelo Viana de Araújo | 372707 |
-| Nirton Afonso de Oliveira Filho | 370221 |
-| Valkiria Nonato de Faria | 373256 |
+| Integrante | RM | Frente |
+|---|---|---|
+| Benicio Antonio Cardoso | 371527 | Apresentação |
+| Marcelo Viana de Araújo | 372707 | Vídeo |
+| Nirton Afonso de Oliveira Filho | 370221 | Integração e relatório |
+| Valkiria Nonato de Faria | 373256 | Áudio e repositório |
+
+## Referências
+
+FIAP, *IADT - Fase 4 - Tech challenge*, enunciado fornecido pela equipe; [Uterus Dataset v4](https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4), licença declarada CC BY 4.0; [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs); [OpenAI preços](https://developers.openai.com/api/docs/pricing); [Whisper](https://github.com/openai/whisper).
 

@@ -1,0 +1,14 @@
+{
+  "servidor": "HTTP local 127.0.0.1",
+  "validacao": "Navegador de teste: abriu painel, exibiu alerta e confirmou revisão via formulário",
+  "aprovado": true,
+  "alertas": 1,
+  "revisados": 1,
+  "acoes_auditoria": [
+    "entrega_local",
+    "revisao_confirmada"
+  ],
+  "revisor": "demonstracao",
+  "dados_sinteticos": true,
+  "entrega_hospitalar": false
+}

@@ -1,28 +1,37 @@
 # Matriz de requisitos e evidências
-Referência: IADT - Fase 4 - Tech challenge.pdf, páginas 2-4. Situação em 02/11/2026.
 
-**Implementado** significa existência de código; **validado** exige evidência de execução apropriada. Simulação não comprova desempenho clínico nem uso de um serviço real.
+Referência: **IADT - Fase 4 - Tech challenge.pdf**, páginas 2-4. Consolidação: **10/11/2026**.
 
-| Requisito | Evidência existente | Integração | Situação para entrega final |
-|---|---|---|---|
-| Processar vídeos clínicos | Notebook YOLO e módulo de vídeo da equipe | Adaptação em .ipynb e consumo do JSON | Resultados documentados pela equipe; execução local com pesos pendente |
-| Detectar eventos fora do padrão | Regra Tools presente/Uterus ausente por 5 s | Preserva eventos e prioridade no resultado final | Heurística de perda de visualização; não comprova complicação |
-| Relatório automático de vídeo | Módulo do Marcelo | Relatório multimodal com eventos | Validado com entradas controladas; exemplo real do grupo pendente |
-| Processar áudio e alterações vocais | Whisper, librosa e Random Forest do grupo | Carregamento do modelo e função de inferência | Verificação parcial com WAVs; sem Whisper local e sem validação em pacientes |
-| Azure Speech to Text | Não encontrado na versão consultada; Azure usado para síntese | Adaptador de reconhecimento contínuo preparado | Chamada real pendente de recursos e Secrets |
-| Azure Text Analytics: sentimentos e termos | Não encontrado na versão consultada | Sentimento, frases-chave e seleção demonstrativa de termos | Contrato testado com cliente controlado; chamada real pendente |
-| Anomalias em sinais vitais | Dados ausentes | Detector robusto histórico + observações | Exemplo sintético; avaliação real pendente |
-| Evolução de prescrições | Dados ausentes | Comparação de registros por medicamento | Exemplo sintético; regras assistenciais não definidas |
-| Padrões de movimentação | Dados de série ausentes | Detector robusto de características numéricas de movimento | Exemplo sintético; não extrai movimento do vídeo |
-| Fusão de texto, áudio e vídeo | Integração indicada como em andamento | Fusão por caso, fontes adicionais e cobertura explícita | 49 verificações locais aprovadas; exemplo completo com Azure real pendente |
-| Alerta automático à equipe | Contrato de vídeo e CSV de áudio | JSONL de revisão e relatório por caso | Fila local demonstrada; entrega externa não implementada |
-| Tempo real e monitoramento contínuo | Não demonstrados | Processamento em lote | Pendente; não afirmar operação em tempo real |
-| Código completo em Git | Frentes de áudio, vídeo e integração | Notebook de integração em .ipynb | Preparado na branch Nirton; publicação e revisão pendentes |
-| Relatório técnico | Seção de vídeo existente | Relatório consolidado e matriz | Preparado para revisão; atualizar métricas e execuções pendentes |
-| Vídeo de até 15 min | Link ainda ausente no README | Roteiro de demonstração | Benicio/grupo deve gravar e publicar |
-| Continuidade com a Fase 3 | Código não disponível no repositório consultado | Interfaces por caso e texto | Não verificado |
+O professor Wagner Santos autorizou serviços alternativos ao Azure em esclarecimento de 09/11/2026. Essa autorização não dispensa análise de vídeo, áudio, anomalias, integração e alertas. A versão utiliza Whisper para o ritmo acústico e OpenAI para transcrição dos WAVs novos e análise textual.
 
-## Pontos de atenção da documentação anterior
-A seção de vídeo menciona quatro categorias de relatório ginecológico. Essas quatro categorias não constam do PDF de Tech Challenge fornecido nesta pasta. A matriz acima segue o documento efetivamente disponibilizado, que exige também séries vitais, prescrições e movimentação.
+**Executado** indica saída verificável nesta consolidação. **Relatado** identifica resultados anteriores da frente responsável. **Sintético/controlado** caracteriza o dado; não representa validação clínica.
 
-O README chama o agrupamento do áudio de divisão por frase original. O código usa o identificador da gravação original. Essa distinção foi explicitada no relatório consolidado e no README.
+| Requisito | Implementação e evidência | Cobertura e limites |
+|---|---|---|
+| Processar vídeos clínicos | Notebook/módulo YOLO da equipe; pacote de Marcelo decodificado, 570 quadros a 5 FPS | Artefato real da frente integrado; pesos não disponibilizados para nova inferência |
+| Detectar eventos fora do padrão | Regra instrumento presente/útero ausente; eventos 76-82 s e 84-114 s reproduzidos das detecções salvas | Heurística visual; não mede complicação cirúrgica |
+| Verificação inédita do processamento de vídeo | Clipes novos de marcadores, com oráculo controlado; `evidence/video_validacao.json` | Verifica software; não mede generalização YOLO |
+| Relatório automático | Markdown/JSON de vídeo e relatórios multimodais por caso | Saídas com evidências para revisão humana |
+| Processar áudio e alterações vocais | Whisper, Librosa e Random Forest; `evidence/audio_reproducao.json` | Prosódia sintética; sem validação de fadiga ou disartria |
+| Amostras não vistas pelo classificador | Famílias de frase-base separadas; verificação cega fora de treino/validação/teste | Isolamento do modelo regenerado; mesmo domínio e voz sintéticos |
+| Transcrição e texto em nuvem | Whisper para ritmo acústico; transcrição e análise textual OpenAI, com trechos e negação | Fornecedor alternativo autorizado; síntese Azure não é transcrição |
+| Termos críticos e sentimentos | Menção afirmada/negada/incerta, contexto, evidência literal e sentimento | Interpretação da LLM requer revisão |
+| Anomalias em sinais vitais | Mediana/MAD sobre histórico anterior e observações posteriores | Dados sintéticos e limiar estatístico |
+| Evolução de prescrições | Comparação temporal de dose, unidade, via e intervalo | Regras demonstrativas; não recomenda tratamento |
+| Movimentação | Detector de série numérica temporal | Não extrai postura clínica do vídeo |
+| Fusão multimodal | Contrato por caso, maior prioridade e fontes inconclusivas | Fontes independentes, sem pareamento clínico |
+| Alerta automático | Caixa SQLite, painel local e confirmação de revisão | Entrega local, sem sistema hospitalar real |
+| Processamento temporal | Monitor JSONL incremental e latência de detectores, fusão e entrega local | Não comprova captura clínica contínua nem latência total da inferência |
+| Código completo | Branch `Nirton`, com notebooks, pacote, scripts e testes | Artefatos privados e credenciais em armazenamento separado |
+| Relatório técnico | `relatorio/latex/`, PDF e pacote Overleaf | Compila sem mídias clínicas privadas |
+| Vídeo até 15 minutos | `relatorio/roteiro_demonstracao.md` | Gravação/publicação com Benicio |
+| Continuidade Fase 3 | Contrato permite incorporar texto e saídas de outros módulos | Código anterior indisponível; continuidade executável não demonstrada |
+
+## Limites para a apresentação
+
+- Não existe conjunto clínico pareado para calcular desempenho multimodal global.
+- O isolamento de áudio se refere ao classificador regenerado; o pré-treinamento do Whisper não é auditado.
+- O vídeo clínico fornecido já foi usado na avaliação da equipe. Os clipes inéditos são testes de software por oráculo.
+- mAP50 0,928 e precisão/recall do alerta 1,00/0,72 são resultados relatados pelo Marcelo.
+- Classes emocionais sintéticas não validam sinais médicos ou psicológicos em pessoas reais.
+- As quatro categorias específicas citadas no relatório antigo de vídeo não constam do PDF fornecido. A matriz segue o enunciado disponível.

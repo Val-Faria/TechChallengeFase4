@@ -1,0 +1,49 @@
+{
+  "modalidade": "texto_openai",
+  "status": "ok",
+  "alerta": true,
+  "nivel": "medio",
+  "motivo": "2 menção(ões) afirmada(s) atuais; 0 incerta(s).",
+  "origem": "openai_responses",
+  "simulado": false,
+  "termos_criticos": [
+    "exame",
+    "coração acelerado"
+  ],
+  "sentimento": "misto",
+  "mencoes": [
+    {
+      "termo": "exame",
+      "estado": "afirmado",
+      "contexto": "paciente_atual",
+      "evidencia": "Estou preocupada com o exame de amanhã."
+    },
+    {
+      "termo": "coração acelerado",
+      "estado": "afirmado",
+      "contexto": "paciente_atual",
+      "evidencia": "Meu coração parece acelerado e gostaria de conversar com alguém da equipe."
+    }
+  ],
+  "limitacoes": [
+    "Não há menções de negações."
+  ],
+  "ressalva": "Extração textual para revisão; sentimento não é diagnóstico ou gravidade.",
+  "modelo": "gpt-4o-mini",
+  "id_resposta": "resp_09d7660b8a49d9f2016af25a6786a887d2aa8b483a44e2dba7",
+  "sha256_transcricao": "a4028a497c89aa6394a4bade04b1b2db17aa5853e0d38e0da4ed59434b22bdae",
+  "usage": {
+    "input_tokens": 455,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 103,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 558
+  },
+  "custo_estimado_usd": 0.00013005000000000002,
+  "cache_utilizado": false
+}

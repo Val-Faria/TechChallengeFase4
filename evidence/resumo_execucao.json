@@ -1,0 +1,31 @@
+{
+  "data_entrega": "2026-11-10",
+  "branch": "Nirton",
+  "cloud": {
+    "model": "gpt-4o-mini (texto) e gpt-4o-mini-transcribe (áudio)",
+    "calls": 18,
+    "estimated_cost_usd": 0.005980495011337869,
+    "status": "16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha"
+  },
+  "tests": {
+    "name": "pytest Python3.12",
+    "passed": 48,
+    "failed": 0,
+    "subtests_passed": 26
+  },
+  "resources": {
+    "gpu_used": true,
+    "session_closed": true,
+    "colab_used": false,
+    "description": "GPU local NVIDIA RTX2060. Processamento principal encerrado; nenhuma sessão Colab foi iniciada."
+  },
+  "integration": {
+    "description": "Áudio novo03 com modelo regenerado, transcrição real OpenAI do mesmo WAV, análise textual com citações literais, eventos recebidos de vídeo independente e três fontes estruturadas sintéticas. Maior prioridade preservada; relatório e caixa local com confirmação."
+  },
+  "video": {
+    "yolo_reexecutado": false,
+    "pesos_disponiveis": false,
+    "video_clinico_inedito_avaliado": false
+  },
+  "gravacao_benicio": "Responsabilidade do grupo; fora da execução desta entrega."
+}

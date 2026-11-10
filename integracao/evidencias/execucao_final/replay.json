@@ -1,0 +1,74 @@
+{
+  "eventos": [
+    {
+      "offset_origem_s": 0.0,
+      "id_resultado": "0eb467d8f624aef343c7",
+      "latencia_entrega_local_ms": 4.670599999371916,
+      "escopo_latencia": "persistencia_local_sem_inferencia",
+      "modo": "replay_acelerado",
+      "entrega": {
+        "destino": "caixa_local_equipe_medica",
+        "status": "persistido",
+        "recebido_em_utc": "2026-11-10T13:42:22.364541+00:00",
+        "confirmacao": "gravacao_transacional_sqlite",
+        "entrega_hospitalar": false
+      }
+    },
+    {
+      "offset_origem_s": 0.1,
+      "id_resultado": "047816134fe76e411787",
+      "latencia_entrega_local_ms": 0.0027999631129205227,
+      "escopo_latencia": "persistencia_local_sem_inferencia",
+      "modo": "replay_acelerado",
+      "entrega": {
+        "destino": "caixa_local_equipe_medica",
+        "status": "sem_revisao_solicitada"
+      }
+    },
+    {
+      "offset_origem_s": 0.2,
+      "id_resultado": "45dde39c47f95770ad66",
+      "latencia_entrega_local_ms": 3.8295999984256923,
+      "escopo_latencia": "persistencia_local_sem_inferencia",
+      "modo": "replay_acelerado",
+      "entrega": {
+        "destino": "caixa_local_equipe_medica",
+        "status": "persistido",
+        "recebido_em_utc": "2026-11-10T13:42:22.368557+00:00",
+        "confirmacao": "gravacao_transacional_sqlite",
+        "entrega_hospitalar": false
+      }
+    },
+    {
+      "offset_origem_s": 0.30000000000000004,
+      "id_resultado": "067efd05a50b2bfa70a8",
+      "latencia_entrega_local_ms": 3.8190000341273844,
+      "escopo_latencia": "persistencia_local_sem_inferencia",
+      "modo": "replay_acelerado",
+      "entrega": {
+        "destino": "caixa_local_equipe_medica",
+        "status": "persistido",
+        "recebido_em_utc": "2026-11-10T13:42:22.373081+00:00",
+        "confirmacao": "gravacao_transacional_sqlite",
+        "entrega_hospitalar": false
+      }
+    },
+    {
+      "offset_origem_s": 0.4,
+      "id_resultado": "325b35d380abf61b9358",
+      "latencia_entrega_local_ms": 4.6999999904073775,
+      "escopo_latencia": "persistencia_local_sem_inferencia",
+      "modo": "replay_acelerado",
+      "entrega": {
+        "destino": "caixa_local_equipe_medica",
+        "status": "persistido",
+        "recebido_em_utc": "2026-11-10T13:42:22.376079+00:00",
+        "confirmacao": "gravacao_transacional_sqlite",
+        "entrega_hospitalar": false
+      }
+    }
+  ],
+  "idempotencia_confirmada": true,
+  "alertas_na_caixa": 4,
+  "ressalva": "Replay de resultados; não mede inferência nem sistema hospitalar."
+}

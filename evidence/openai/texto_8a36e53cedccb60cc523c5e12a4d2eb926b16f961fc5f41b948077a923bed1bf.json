@@ -1,0 +1,40 @@
+{
+  "modalidade": "texto_openai",
+  "status": "ok",
+  "alerta": false,
+  "nivel": "nenhum",
+  "motivo": "0 menção(ões) afirmada(s) atuais; 0 incerta(s).",
+  "origem": "openai_responses",
+  "simulado": false,
+  "termos_criticos": [],
+  "sentimento": "neutro",
+  "mencoes": [
+    {
+      "termo": "sangramento",
+      "estado": "negado",
+      "contexto": "paciente_atual",
+      "evidencia": "A profissional perguntou sobre sangramento, mas respondi que não tive sangramento."
+    }
+  ],
+  "limitacoes": [
+    "Incerteza sobre outros sintomas."
+  ],
+  "ressalva": "Extração textual para revisão; sentimento não é diagnóstico ou gravidade.",
+  "modelo": "gpt-4o-mini",
+  "id_resposta": "resp_0fb7342b5fa4a279016af25a6ef98887d2aa50f092fb3258a0",
+  "sha256_transcricao": "03ed8eff5df80e78dfb65941ec594e2125bc557da328a1acc15eac85e835f7ae",
+  "usage": {
+    "input_tokens": 436,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 68,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 504
+  },
+  "custo_estimado_usd": 0.00010619999999999999,
+  "cache_utilizado": false
+}

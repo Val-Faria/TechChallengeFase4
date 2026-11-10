@@ -1,0 +1,17 @@
+{
+  "fonte_drive": "https://drive.google.com/drive/folders/1CepZNFDXamN3hVWopqd7xWCnD5OiOLJ8",
+  "linhas_csv": 1180,
+  "nomes_ausentes_no_dataset": [],
+  "modelo_recebido": "modelo_audio_1180.joblib",
+  "ressalva": "Modelo da autora treinado com todo dataset. Não usar para medir reserva cega do novo protocolo.",
+  "arquivos": {
+    "modelo_audio_1180.joblib": {
+      "bytes": 3771428,
+      "sha256": "616bd4475b661f903ae4a5fe743c4b45cc77ddb574f1c3b0d01bc425e040cd62"
+    },
+    "resultado_audio_1180.csv": {
+      "bytes": 51718,
+      "sha256": "c5b8c2f3631265d2e4f76a94fa42efcc70ca935c29c272de5cce116a1f06e85e"
+    }
+  }
+}

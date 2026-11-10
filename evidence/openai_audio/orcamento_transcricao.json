@@ -1,0 +1,53 @@
+{
+  "limite_usd": 0.02,
+  "chamadas": [
+    {
+      "id": "novo-01",
+      "modelo": "gpt-4o-mini-transcribe",
+      "sha256_audio": "7e67160d4fc4f7ceb95440ff177ee987ce13c881576c74624f66495056fafbea",
+      "duracao_s": 9.742675736961452,
+      "custo_contabilizado_usd": 0.0004871337868480726,
+      "estado": "concluido_estimativa_por_duracao"
+    },
+    {
+      "id": "novo-02",
+      "modelo": "gpt-4o-mini-transcribe",
+      "sha256_audio": "97acb73205e779deb05f7c29a53a17ab562ccd9589ebf8919d2296e97bb4348b",
+      "duracao_s": 9.127845804988661,
+      "custo_contabilizado_usd": 0.00045639229024943307,
+      "estado": "concluido_estimativa_por_duracao"
+    },
+    {
+      "id": "novo-03",
+      "modelo": "gpt-4o-mini-transcribe",
+      "sha256_audio": "16d36f6d5ed84e3ab758adbcf124d94d701c6b239b82060bddb761b304b2c98c",
+      "duracao_s": 10.424081632653062,
+      "custo_contabilizado_usd": 0.000521204081632653,
+      "estado": "concluido_estimativa_por_duracao"
+    },
+    {
+      "id": "novo-04",
+      "modelo": "gpt-4o-mini-transcribe",
+      "sha256_audio": "0bc1e863ef3f2a239902939f1063cd37151e78cbb63ca940c5c55843e7e29a0d",
+      "duracao_s": 12.24984126984127,
+      "custo_contabilizado_usd": 0.0006124920634920635,
+      "estado": "concluido_estimativa_por_duracao"
+    },
+    {
+      "id": "novo-05",
+      "modelo": "gpt-4o-mini-transcribe",
+      "sha256_audio": "80c99e6f53dc4d561564f3846349106f49ac62dda36d61d682dcdca859e75e19",
+      "duracao_s": 10.069251700680272,
+      "custo_contabilizado_usd": 0.0005034625850340136,
+      "estado": "concluido_estimativa_por_duracao"
+    },
+    {
+      "id": "novo-06",
+      "modelo": "gpt-4o-mini-transcribe",
+      "sha256_audio": "ee7f4082321c5f1823567023fe5494853b4493f2b6e77e328f5483fbdba18f7a",
+      "duracao_s": 11.110204081632654,
+      "custo_contabilizado_usd": 0.0005555102040816327,
+      "estado": "concluido_estimativa_por_duracao"
+    }
+  ]
+}

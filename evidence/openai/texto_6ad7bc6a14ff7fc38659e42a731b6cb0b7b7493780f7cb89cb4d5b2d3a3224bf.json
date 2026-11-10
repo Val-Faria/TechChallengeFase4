@@ -1,0 +1,46 @@
+{
+  "modalidade": "texto_openai",
+  "status": "ok",
+  "alerta": false,
+  "nivel": "nenhum",
+  "motivo": "0 menção(ões) afirmada(s) atuais; 0 incerta(s).",
+  "origem": "openai_responses",
+  "simulado": false,
+  "termos_criticos": [],
+  "sentimento": "misto",
+  "mencoes": [
+    {
+      "termo": "sangramento",
+      "estado": "afirmado",
+      "contexto": "terceiro",
+      "evidencia": "Minha irmã teve sangramento na semana passada."
+    },
+    {
+      "termo": "sintomas",
+      "estado": "negado",
+      "contexto": "paciente_atual",
+      "evidencia": "Eu estou bem e não tenho sintomas."
+    }
+  ],
+  "limitacoes": [
+    "Informações limitadas ao relato de um terceiro."
+  ],
+  "ressalva": "Extração textual para revisão; sentimento não é diagnóstico ou gravidade.",
+  "modelo": "gpt-4o-mini",
+  "id_resposta": "resp_00ced52c2cee9faa016af2597ef80487d2a2b1cbe5c433cb4e",
+  "sha256_transcricao": "e974af563f8e0b32667625e6c505e3f0d22e3b11a196efd16a65ffc76456a5b1",
+  "usage": {
+    "input_tokens": 432,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 96,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 528
+  },
+  "custo_estimado_usd": 0.0001224,
+  "cache_utilizado": false
+}

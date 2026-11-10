@@ -1,0 +1,54 @@
+{
+  "modalidade": "texto_openai",
+  "status": "ok",
+  "alerta": true,
+  "nivel": "medio",
+  "motivo": "3 menção(ões) afirmada(s) atuais; 0 incerta(s).",
+  "origem": "openai_responses",
+  "simulado": false,
+  "termos_criticos": [
+    "saudade da minha família",
+    "desanimada",
+    "apoio"
+  ],
+  "sentimento": "negativo",
+  "mencoes": [
+    {
+      "termo": "saudade da minha família",
+      "estado": "afirmado",
+      "contexto": "paciente_atual",
+      "evidencia": "Sinto saudade da minha família e tenho ficado desanimada durante a internação."
+    },
+    {
+      "termo": "desanimada",
+      "estado": "afirmado",
+      "contexto": "paciente_atual",
+      "evidencia": "Sinto saudade da minha família e tenho ficado desanimada durante a internação."
+    },
+    {
+      "termo": "apoio",
+      "estado": "afirmado",
+      "contexto": "paciente_atual",
+      "evidencia": "Gostaria de receber apoio."
+    }
+  ],
+  "limitacoes": [],
+  "ressalva": "Extração textual para revisão; sentimento não é diagnóstico ou gravidade.",
+  "modelo": "gpt-4o-mini",
+  "id_resposta": "resp_0d9a2dadfe24a68c016af25a6bbcac87d290b845a0d662c131",
+  "sha256_transcricao": "fe5643454d958bbafbc28e9c2664eea8afa0736addb2254c7ebe890ef0b64ac6",
+  "usage": {
+    "input_tokens": 451,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 142,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 593
+  },
+  "custo_estimado_usd": 0.00015285,
+  "cache_utilizado": false
+}

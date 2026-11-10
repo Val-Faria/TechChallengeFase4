@@ -1,0 +1,18 @@
+name: Validação do protótipo
+on: [push, pull_request]
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e . pytest
+      - run: pytest -q
+      - run: python scripts/run_demo.py --output /tmp/tc4-demo

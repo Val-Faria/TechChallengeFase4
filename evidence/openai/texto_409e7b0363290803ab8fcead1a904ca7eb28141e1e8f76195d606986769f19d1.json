@@ -1,0 +1,47 @@
+{
+  "modalidade": "texto_openai",
+  "status": "ok",
+  "alerta": true,
+  "nivel": "medio",
+  "motivo": "2 menção(ões) afirmada(s) atuais; 0 incerta(s).",
+  "origem": "openai_responses",
+  "simulado": false,
+  "termos_criticos": [
+    "descansar melhor",
+    "dor diminuiu"
+  ],
+  "sentimento": "positivo",
+  "mencoes": [
+    {
+      "termo": "descansar melhor",
+      "estado": "afirmado",
+      "contexto": "paciente_atual",
+      "evidencia": "Estou conseguindo descansar melhor."
+    },
+    {
+      "termo": "dor diminuiu",
+      "estado": "afirmado",
+      "contexto": "paciente_atual",
+      "evidencia": "A dor diminuiu depois do atendimento e quero continuar seguindo as orientações recebidas."
+    }
+  ],
+  "limitacoes": [],
+  "ressalva": "Extração textual para revisão; sentimento não é diagnóstico ou gravidade.",
+  "modelo": "gpt-4o-mini",
+  "id_resposta": "resp_03f30e83b218da2d016af25a70c03487d28dcf221bf23b9b90",
+  "sha256_transcricao": "82cc1bf18b657b6e15f4f4941d415a7d36150b14b626b94fdd1d419b785577a6",
+  "usage": {
+    "input_tokens": 444,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 93,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 537
+  },
+  "custo_estimado_usd": 0.0001224,
+  "cache_utilizado": false
+}

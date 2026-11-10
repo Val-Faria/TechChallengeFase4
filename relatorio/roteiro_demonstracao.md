@@ -1,30 +1,45 @@
-# Roteiro sugerido para o vídeo do grupo
-Duração planejada: 13 minutos e 30 segundos, com margem até o limite de 15 minutos.
+# Roteiro para Benicio - demonstração final
 
-| Tempo | Conteúdo | Evidência a mostrar |
+Duração planejada: **13 minutos e 30 segundos**, com margem até 15 minutos. Publicar no YouTube ou Vimeo, público ou não listado conforme as condições do material utilizado.
+
+| Tempo | Conteúdo | Evidência |
 |---|---|---|
-| 00:00-01:00 | Problema, equipe e recorte | Objetivo e diagrama do fluxo |
-| 01:00-03:30 | Frente de áudio | Dataset confirmado, transcrição, características e classe/confiança |
-| 03:30-06:00 | Frente de vídeo | Detector, evento temporal e JSON gerado pelo Marcelo |
-| 06:00-08:00 | Azure | Execução real de Speech to Text e Language, após configurar os recursos |
-| 08:00-10:30 | Integração de Afonso | Pareamento explícito, resultado único, prioridade e relatório |
-| 10:30-12:00 | Anomalias estruturadas | Exemplos de séries, prescrições e cobertura de fontes |
-| 12:00-13:30 | Resultados, limitações e resposta | Fila local de revisão, métricas confirmadas e pendências remanescentes |
+| 00:00-01:00 | Problema, equipe e recorte | Diagrama do fluxo e sinais de triagem |
+| 01:00-03:30 | Áudio | 1.180 WAVs, amostra reservada, transcrição, características, classe/confiança e partições |
+| 03:30-05:30 | Vídeo | Eventos 76-82 s e 84-114 s; diferenciar métricas históricas das verificações novas |
+| 05:30-07:00 | Texto em nuvem | Resposta real da OpenAI, evidências, negação e consumo, sem credenciais |
+| 07:00-09:30 | Integração | Caso combinado, prioridade preservada, cobertura, JSON e relatório |
+| 09:30-11:30 | Anomalias e resposta | Séries/prescrições sintéticas, reprodução temporal, painel e confirmação de revisão |
+| 11:30-13:30 | Resultados e limites | Testes, avaliação cega, métricas atribuídas e reprodutibilidade |
 
-## Demonstração da integração
-1. Abrir o notebook de integração no Colab.
-2. Explicar que a função recebe classe/confiança do áudio e alerta/eventos do vídeo.
-3. Mostrar demo-03: um áudio neutro não cancela um alerta alto de vídeo.
-4. Mostrar demo-04: uma fonte ausente pede revisão e não é tratada como resultado normal.
-5. Mostrar o JSON e o relatório automático, com os tempos dos eventos.
-6. Mostrar o modo CSV + JSON com os arquivos da equipe, se o pareamento já estiver confirmado.
-7. Mostrar o arquivo da fila de revisão. Explicar que se trata do registro local para uma futura interface, sem alegar envio a um sistema hospitalar.
+## Preparação
 
-## Preparação antes de gravar
-- Confirmar a versão de áudio e a métrica final com Valkiria.
-- Receber pesos/vídeo/JSON do exemplo com Marcelo.
-- Executar as chamadas Azure reais. Se não forem executadas, declarar a pendência.
-- Identificar no vídeo todos os exemplos sintéticos e as fontes independentes.
-- Evitar apresentar o exemplo de cirurgia e o áudio sintético como dados do mesmo paciente.
-- Não exibir Secrets, chaves ou valores de credenciais.
-- Atualizar o relatório e o link do vídeo somente com evidências efetivamente produzidas.
+1. Abrir a branch `Nirton` e conferir o README de execução.
+2. Disponibilizar os artefatos regenerados de áudio e o pacote privado de Marcelo.
+3. Usar evidências reais já salvas para evitar gastar créditos ou tempo de GPU durante a gravação.
+4. Executar a demonstração e abrir o painel antes da captura.
+5. Deixar o PDF aberto na arquitetura e nos resultados.
+6. Fechar `.env`, Secrets, abas de chaves e telas com credenciais.
+7. Selecionar com Marcelo imagens compatíveis com a orientação do grupo sobre o material de terceiros.
+
+## Demonstração prática
+
+1. Mostrar classe/confiança de um WAV reservado e explicar o isolamento do novo classificador.
+2. Mostrar transcrição e resultado textual real.
+3. Mostrar o JSON de vídeo da equipe e os tempos dos eventos.
+4. Executar `scripts/run_demo.py` conforme o README.
+5. Localizar a origem de cada modalidade no resultado.
+6. Mostrar que áudio neutro não cancela alerta alto e que fonte ausente não vira normalidade.
+7. Abrir o painel, conferir o alerta e confirmar sua revisão.
+8. Mostrar a auditoria e explicar o que a latência mede.
+
+## Formulações corretas
+
+- “O protótipo gera sinais para revisão humana, não diagnósticos.”
+- “As falas são sintéticas. A verificação cega foi reservada para o novo classificador, sem representar validação em pacientes.”
+- “O professor autorizou outros fornecedores. Utilizamos Whisper e análise textual OpenAI.”
+- “O vídeo recebido pertence à avaliação original; os clipes inéditos são verificações controladas de software.”
+- “A reprodução é temporal e a latência apresentada mede a persistência local do alerta.”
+- “O painel demonstra entrega e revisão no protótipo, sem conexão hospitalar.”
+
+Após publicar, inserir o link no README e conferir duração e revisão do código. Não publicar credenciais, bancos ou mídias privadas junto do código.
