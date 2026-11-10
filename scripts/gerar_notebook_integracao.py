@@ -30,7 +30,7 @@ USAR_DRIVE = False
 EXECUTAR_NUVEM = False
 REPRODUZIR_TREINAMENTO_AUDIO = False
 
-if Path.cwd().name == "TechChallengeFase4" and Path("src/techchallenge4").exists():
+if Path("src/techchallenge4").exists():
     REPO = Path.cwd()
 elif (Path.cwd() / "TechChallengeFase4/src/techchallenge4").exists():
     REPO = Path.cwd() / "TechChallengeFase4"
@@ -40,7 +40,10 @@ else:
         subprocess.run(["git", "clone", "--branch", "Nirton", "--single-branch",
                         "https://github.com/Val-Faria/TechChallengeFase4.git", str(REPO)], check=True)
 sys.path.insert(0, str(REPO / "src"))
-print("Código:", subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip())
+if (REPO / ".git").exists():
+    print("Código:", subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip())
+else:
+    print("Código exportado sem metadados Git; conferir os hashes em evidence/auditoria_projeto.json.")
 SAIDA = REPO / "integracao/saidas/execucao_colab"
 if USAR_DRIVE:
     from google.colab import drive

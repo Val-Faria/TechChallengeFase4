@@ -1,0 +1,31 @@
+{
+  "data": "2026-11-10",
+  "enunciado": {
+    "sha256": "5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1",
+    "arquivo_anexado_identico_ao_original": true,
+    "paginas": 5
+  },
+  "ambiente_minimo": {
+    "python": "3.12",
+    "dependencias_de_teste": "pytest e dependencias basicas instaladas do cache",
+    "testes_aprovados": 59,
+    "subtestes_aprovados": 26,
+    "notebook_zip_sem_git_executado": true,
+    "gpu": false,
+    "credenciais": false
+  },
+  "pacote_overleaf_fontes_identicas": true,
+  "links_locais_quebrados": [],
+  "chamadas_api_adicionais": 0,
+  "ci_revisao_anterior": {
+    "commit": "063f1822543dac35042595ee9f6dab21cd34cfc3",
+    "resultado": "success",
+    "url": "https://github.com/Val-Faria/TechChallengeFase4/actions/runs/42839282042"
+  },
+  "pendencias_funcionais_preservadas": [
+    "pesos e inferencia YOLO reproduzivel",
+    "demonstracao de alteracoes vocais medicas",
+    "comprovar inferencia multimodal continua se apresentada como tempo real",
+    "gravacao e publicacao pelo grupo"
+  ]
+}

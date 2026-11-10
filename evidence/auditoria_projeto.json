@@ -8,7 +8,7 @@
     },
     {
       "arquivo": "integracao/TechChallengeFase4_integracao.ipynb",
-      "sha256": "944179a7bb43cbf509941a4a7e21a388dc5a266ac676d8777f161abf25a3293a",
+      "sha256": "7db386370dea121f154158035eabf62be53be8556370f3af74f041dcdf9dabb6",
       "celulas_codigo": 7
     },
     {
@@ -43,7 +43,7 @@
     },
     {
       "arquivo": "scripts/gerar_notebook_integracao.py",
-      "sha256": "057d05923caa1f97d09e7067dce6ef080b72e35c3b0a94aff160ae535f0ba880",
+      "sha256": "ac74fcf6734f48953d26d5d27760aab6ddf42e472a8580c081f19facb59f0d9b",
       "celulas_codigo": 0
     },
     {

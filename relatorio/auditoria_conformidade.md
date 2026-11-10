@@ -61,3 +61,7 @@ Dados clínicos reais, ensaio hospitalar, homologação médica e envio de mensa
 **Tempo real e demonstração — integração/grupo:** apresentar o modo incremental com seus limites. Se o grupo pretende declarar todo o fluxo de áudio/vídeo em tempo real, ainda precisa executar essa aquisição/inferência contínua e medir o tempo total. A evidência atual sustenta processamento incremental das séries estruturadas e integração de resultados multimodais previamente calculados.
 
 **Entrega — grupo:** reunir a versão correta da branch, os artefatos necessários, o relatório atualizado e o link final da apresentação. Não apresentar fonte ausente ou baixa confiança como cobertura completa.
+
+## Última checagem da distribuição
+
+O PDF anexado em Downloads foi comparado com o original do projeto: os dois têm cinco páginas e SHA-256 `5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1`. Uma cópia exportada sem metadados Git foi verificada em outro ambiente Python 3.12, contendo apenas pytest e suas dependências básicas. Os 59 testes e 26 subtestes passaram. O notebook padrão executou nessa cópia sem GPU, credenciais ou dependências de aprendizado de máquina. Foi corrigida a leitura incondicional da revisão Git no notebook exportado. As fontes do ZIP Overleaf são idênticas às usadas na compilação, e não foram encontrados links locais quebrados. Registro: `evidence/ultima_checagem.json`. As pendências funcionais acima continuam abertas; estes testes de distribuição não as substituem.
