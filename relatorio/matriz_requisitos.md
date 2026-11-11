@@ -1,41 +1,22 @@
-# Matriz de requisitos e evidências
+# Matriz de requisitos e evidências — 11/11/2026
 
-Referência: **IADT - Fase 4 - Tech challenge.pdf**, páginas 2-4. Consolidação: **10/11/2026**.
+Referência: PDF original da Fase 4, páginas 2–4; substituição de Azure autorizada pelo professor. A matriz descreve o protótipo e seus tipos de dados, sem transformar aprovação de testes em validação clínica.
 
-O professor Wagner Santos autorizou serviços alternativos ao Azure em esclarecimento de 09/11/2026. Essa autorização não dispensa análise de vídeo, áudio, anomalias, integração e alertas. A versão utiliza Whisper para o ritmo acústico e OpenAI para transcrição dos WAVs novos e análise textual.
-
-**Executado** indica saída verificável nesta consolidação. **Relatado** identifica resultados anteriores da frente responsável. **Sintético/controlado** caracteriza o dado; não representa validação clínica.
-
-| Requisito | Implementação e evidência | Cobertura e limites |
+| Solicitação | Implementação/evidência | Limite |
 |---|---|---|
-| Processar vídeos clínicos | Notebook/módulo YOLO da equipe; pacote de Marcelo decodificado, 570 quadros a 5 FPS | YOLO integrado por resultado; fluxo óptico complementar executado nos quadros sem peso privado |
-| Detectar eventos fora do padrão | Regra instrumento presente/útero ausente; eventos 76-82 s e 84-114 s reproduzidos das detecções salvas | Heurística anatômica histórica; novo detector mede aumento persistente de movimento, sem diagnosticar complicação |
-| Verificação inédita do processamento de vídeo | Dois novos clipes geométricos com fluxo óptico real; `evidence/midias_complementares.json` | Verifica inferência de movimento em cenários controlados; não mede generalização YOLO ou clínica |
-| Relatório automático | Markdown/JSON de vídeo e relatórios multimodais por caso | Saídas com evidências para revisão humana |
-| Processar áudio e alterações vocais | Whisper, Librosa e Random Forest; `evidence/audio_reproducao.json` | Comparação intra-voz de pausas e trechos vocais acrescentada; controles físicos, sem rótulo médico |
-| Amostras não vistas pelo classificador | Famílias de frase-base separadas; verificação cega fora de treino/validação/teste | Isolamento do modelo regenerado; mesmo domínio e voz sintéticos |
-| Transcrição e texto em nuvem | Whisper para ritmo acústico; transcrição e análise textual OpenAI, com trechos e negação | Fornecedor alternativo autorizado; síntese Azure não é transcrição |
-| Termos críticos e sentimentos | Menção afirmada/negada/incerta, contexto, evidência literal e sentimento | Interpretação da LLM requer revisão |
-| Anomalias em sinais vitais | Mediana/MAD sobre histórico anterior e observações posteriores | Dados sintéticos e limiar estatístico |
-| Evolução de prescrições | Comparação temporal de dose, unidade, via e intervalo | Regras demonstrativas; não recomenda tratamento |
-| Movimentação | Detector de série numérica temporal | Não extrai postura clínica do vídeo |
-| Fusão multimodal | Contrato por caso, maior prioridade e fontes inconclusivas | Fontes independentes, sem pareamento clínico |
-| Alerta automático | Caixa SQLite, painel local e confirmação de revisão | Entrega local, sem sistema hospitalar real |
-| Processamento temporal | Monitor JSONL incremental e latência de detectores, fusão e entrega local | Inferência acústica/visual incremental medida sobre arquivos no ritmo original; não mede ASR, nuvem ou captura clínica ao vivo |
-| Código completo | Branch `Nirton`, com notebooks, pacote, scripts e testes | Artefatos privados e credenciais em armazenamento separado |
-| Relatório técnico | `relatorio/latex/`, PDF e pacote Overleaf | Compila sem mídias clínicas privadas |
-| Vídeo até 15 minutos | `relatorio/roteiro_demonstracao.md` | Gravação/publicação com Benicio |
+| Vídeo clínico, eventos e relatório | Novo YOLOv8s, `video_reproducao.json`, `video_inferencia_nova.json`, saídas anotadas | Montagens; 0/2 eventos recuperados na reserva; sem cirurgia contínua externa |
+| Áudio e alterações vocais | Whisper, características, Random Forest e referência intra-voz | Síntese e controles físicos; não determina causa médica |
+| Transcrição e análise textual | Chamadas reais OpenAI, termos, sentimento, contexto e negação | Fornecedor alternativo autorizado; interpretação requer revisão |
+| Sinais vitais | Mediana/MAD com batimentos, pressão e oxigenação | Histórico e desvios sintéticos; limiar não médico |
+| Prescrições | Mudanças em dose, unidade, via e intervalo | Não recomenda tratamento |
+| Movimentação | Série temporal e fluxo óptico complementar | Sem reconhecimento de postura clínica |
+| Fusão e alerta | Contrato por caso, maior prioridade e fontes inconclusivas | Fontes sem pareamento de paciente |
+| Encaminhamento e resposta | SQLite, painel HTTP, confirmação e auditoria | Demonstração local; revisão simulada identificada |
+| Monitoramento temporal | JSONL e inferência local de mídias no ritmo original | Não mede nuvem ou captura clínica ao vivo |
+| Código completo | Branch Nirton, scripts compartilhados, modelos/manifestos e testes | Artefatos privados restaurados conforme `DATASETS_E_MODELOS.md` |
+| Relatório técnico | PDF, LaTeX no padrão anexado e Overleaf | Resultados históricos/novos/controlados separados |
+| Apresentação até 15 minutos | Roteiro e materiais preservados | Benicio grava/publica e o grupo insere o link |
 
+A reserva de áudio não participa do ajuste emocional. A reserva de vídeo separa o prefixo inteiro disponível; sua origem clínica não é confirmada por paciente. Montagens e derivações não criam automaticamente independência clínica. As quatro categorias mencionadas no relatório histórico de vídeo não são obrigações do PDF fornecido.
 
-## Limites para a apresentação
-
-- Não existe conjunto clínico pareado para calcular desempenho multimodal global.
-- O isolamento de áudio se refere ao classificador regenerado; o pré-treinamento do Whisper não é auditado.
-- O vídeo clínico fornecido já foi usado na avaliação da equipe. Os clipes novos usam fluxo óptico real; a validação anterior por marcadores permanece identificada como teste por oráculo.
-- mAP50 0,928 e precisão/recall do alerta 1,00/0,72 são resultados relatados pelo Marcelo.
-- Classes emocionais sintéticas não validam sinais médicos ou psicológicos em pessoas reais.
-- As quatro categorias específicas citadas no relatório antigo de vídeo não constam do PDF fornecido. A matriz segue o enunciado disponível.
-
-## Atualização após execução complementar
-
-Comparação acústica intra-voz e inferência contínua de mídia foram implementadas e exercitadas. O detector de movimento é reproduzível sem peso privado e tem escopo distinto da análise anatômica original. Oito controles de voz e dois clipes geométricos novos passaram; 68 testes e 26 subtestes estão aprovados. A gravação segue com Benicio. Não se apresentam controles sintéticos como validação de doença, nem se declara reproduzido o YOLO ausente. [Parecer detalhado](auditoria_conformidade.md).
+O peso original do Marcelo não foi recuperado; isso não bloqueia a nova inferência, feita com outro modelo e protocolo próprios. Não há dados suficientes para afirmar detecção clínica confiável de fadiga/disartria/dificuldade respiratória. [Auditoria detalhada](auditoria_conformidade.md).

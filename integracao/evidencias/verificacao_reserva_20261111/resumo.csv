@@ -1,0 +1,6 @@
+id_caso,nivel,alerta,status,simulado,requer_revisao
+demonstracao-integrada,medio,True,incompleto,True,True
+controle-sem-sinal,nenhum,False,completo,True,False
+controle-preserva-video,alto,True,completo,True,True
+controle-fonte-ausente,nenhum,False,incompleto,True,True
+controle-baixa-confianca,nenhum,False,incompleto,True,True

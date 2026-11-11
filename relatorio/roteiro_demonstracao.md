@@ -6,7 +6,7 @@ Duração planejada: **13 minutos e 30 segundos**, com margem até 15 minutos. P
 |---|---|---|
 | 00:00-01:00 | Problema, equipe e recorte | Diagrama do fluxo e sinais de triagem |
 | 01:00-03:30 | Áudio | 1.180 WAVs, amostra reservada, transcrição, características, classe/confiança e partições |
-| 03:30-05:30 | Vídeo | Eventos 76-82 s e 84-114 s; diferenciar métricas históricas das verificações novas |
+| 03:30-05:30 | Vídeo | Mostrar o novo YOLO e a montagem reservada; separar resultados novos dos eventos históricos 76-82/84-114 s |
 | 05:30-07:00 | Texto em nuvem | Resposta real da OpenAI, evidências, negação e consumo, sem credenciais |
 | 07:00-09:30 | Integração | Caso combinado, prioridade preservada, cobertura, JSON e relatório |
 | 09:30-11:30 | Anomalias e resposta | Séries/prescrições sintéticas, reprodução temporal, painel e confirmação de revisão |
@@ -26,7 +26,7 @@ Duração planejada: **13 minutos e 30 segundos**, com margem até 15 minutos. P
 
 1. Mostrar classe/confiança de um WAV reservado e explicar o isolamento do novo classificador.
 2. Mostrar transcrição e resultado textual real.
-3. Mostrar o JSON de vídeo da equipe e os tempos dos eventos.
+3. Mostrar o novo peso/manifesto, a reserva por clipe e a inferência registrada; usar os vídeos anotados do pacote privado conforme as condições das imagens.
 4. Executar `scripts/run_demo.py` conforme o README.
 5. Localizar a origem de cada modalidade no resultado.
 6. Mostrar que áudio neutro não cancela alerta alto e que fonte ausente não vira normalidade.
@@ -48,3 +48,11 @@ Após publicar, inserir o link no README e conferir duração e revisão do cód
 ## Trecho prático acrescentado
 
 Reserve cerca de um minuto das partes de áudio/vídeo para o comando de [MIDIAS.md](../integracao/MIDIAS.md). Mostre o controle estável, o vídeo geométrico alterado, as janelas de voz e o banco gerado. O exemplo usa PCM e pixels, não decisões prontas. Explique que os critérios observacionais não identificam a causa médica nem reconhecem anatomia. No original da equipe, diferencie resultados YOLO recebidos da nova inferência de movimento. Não diga que o peso anatômico foi recuperado.
+
+
+## Material final de vídeo
+
+O notebook de vídeo apresenta o novo treino e a inferência em reserva; não é mais necessário depender apenas do JSON histórico. Use `evidence/resultado_video_teste.json` na composição final. Explique que o modelo novo tem protocolo e métricas próprios e que dois segundos por quadro são uma montagem, não a duração original de um evento cirúrgico. O relatório segue o padrão do Overleaf da Fase 2 fornecido pelo grupo; inserir somente o link novo da apresentação da Fase 4.
+
+
+Na montagem reservada, mostrar também a falha: zero dos dois eventos de referência foi recuperado. Não escolher outro limiar após ver essa reserva. O exemplo positivo usa o teste de desenvolvimento e não deve ser apresentado como reserva inédita. Para confirmar revisão durante a gravação, executar a composição com um novo diretório de saída (`--output integracao/saidas/apresentacao`) e apontar o painel para o banco dessa pasta; a caixa da evidência final já contém uma confirmação automática de teste.

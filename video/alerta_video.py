@@ -66,13 +66,15 @@ def nivel_do_alerta(eventos, min_perda_s=5):
 
 def analisar_video(video, pesos, saida=None, conf=0.4, conf_area=0.6,
                    amostra_fps=5, min_perda_s=5, tolerancia_s=1,
-                   salvar_video=True, modelo=None):
+                   salvar_video=True, modelo=None, imgsz=416):
     import cv2
     for nome, v in (("conf", conf), ("conf_area", conf_area)):
         numero_finito(v, nome, 0, 1)
     numero_finito(amostra_fps, "amostra_fps", 1e-9)
     numero_finito(min_perda_s, "min_perda_s", 1e-9)
     numero_finito(tolerancia_s, "tolerancia_s", 0)
+    if type(imgsz) is not int or imgsz < 32 or imgsz % 32:
+        raise ValueError("imgsz deve ser inteiro positivo múltiplo de 32.")
     pasta = Path(saida or "saida_video")
     pasta.mkdir(parents=True, exist_ok=True)
     if not Path(video).is_file() or (modelo is None and (pesos is None or not Path(pesos).is_file())):
@@ -99,7 +101,7 @@ def analisar_video(video, pesos, saida=None, conf=0.4, conf_area=0.6,
             if not ok:
                 break
             if n % passo == 0:
-                r = modelo.predict(frame, conf=min(conf, conf_area), verbose=False)[0]
+                r = modelo.predict(frame, conf=min(conf, conf_area), imgsz=imgsz, verbose=False)[0]
                 dets = list(zip(r.boxes.cls.tolist(), r.boxes.conf.tolist()))
                 instr = [p for k, p in dets if int(k) == ids["Tools"] and p >= conf]
                 utero = any(int(k) == ids["Uterus"] and p >= conf_area for k, p in dets)
@@ -126,7 +128,7 @@ def analisar_video(video, pesos, saida=None, conf=0.4, conf_area=0.6,
             ok, quadro = cap.read()
             if ok:
                 destino = pasta / f"{Path(video).stem}_evento{i}.jpg"
-                if cv2.imwrite(str(destino), modelo.predict(quadro, conf=conf, verbose=False)[0].plot()):
+                if cv2.imwrite(str(destino), modelo.predict(quadro, conf=conf, imgsz=imgsz, verbose=False)[0].plot()):
                     evento["quadro"] = str(destino)
         res = {"alerta": bool(eventos), "nivel": nivel_do_alerta(eventos, min_perda_s),
                "motivo": f"{len(eventos)} trecho(s) com instrumento sem útero visível",
@@ -137,7 +139,7 @@ def analisar_video(video, pesos, saida=None, conf=0.4, conf_area=0.6,
                    "prop_quadros_com_instrumento": sum(q[1] for q in quadros)/len(quadros),
                    "prop_instrumento_sem_utero": sum(q[1] and not q[2] for q in quadros)/len(quadros)},
                "parametros": {"conf": conf, "conf_area": conf_area, "min_perda_s": min_perda_s,
-                              "tolerancia_s": tolerancia_s},
+                              "tolerancia_s": tolerancia_s, "imgsz": imgsz},
                "video": str(video), "video_anotado": str(anotado) if salvar_video else None,
                "aviso": AVISO}
     finally:

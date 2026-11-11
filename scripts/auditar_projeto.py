@@ -39,8 +39,8 @@ def main():
         inventory.append({'arquivo':name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
                           'celulas_codigo':code_cells})
     requirements = [
-        {'requisito':'Vídeo clínico e eventos','status':'implementado_com_escopo_distinto_por_detector',
-         'observacao':'YOLO anatômico preservado sem peso; fluxo óptico reexecutável sem pesos privados, com controles novos e processamento da montagem recebida. Não equivale a reproduzir o YOLO.'},
+        {'requisito':'Vídeo clínico e eventos','status':'nova_reproducao_com_reserva_de_clipe',
+         'observacao':'Novo YOLOv8s a partir do ZIP fornecido; anotacoes normalizadas e prefixo inteiro reservado. Resultados historicos continuam separados. Montagens nao validam cirurgia continua externa.'},
         {'requisito':'Alterações vocais indicativas de condições médicas','status':'demonstracao_acustica_controlada',
          'observacao':'Referência intra-voz anterior, pausas e duração dos trechos vocais. Controles físicos executados. Sem rótulos médicos, sensibilidade clínica ou atribuição causal.'},
         {'requisito':'Transcrição, termos críticos e sentimentos em nuvem','status':'atendido_no_prototipo',
@@ -51,7 +51,7 @@ def main():
          'observacao':'Eventos estruturados e inferência acústica/visual incremental sobre arquivos, medida no ritmo original; a latência de nuvem/captura ao vivo não está incluída.'},
         {'requisito':'Código e relatório','status':'atendido_com_limitacoes_explicitas'},
         {'requisito':'Vídeo de até15min noYouTube/Vimeo','status':'pendente_grupo'}]
-    result = {'data':'2026-11-10','codigo':inventory,'arquivos_python':sum(x['arquivo'].endswith('.py') for x in inventory),
+    result = {'data':'2026-11-11','codigo':inventory,'arquivos_python':sum(x['arquivo'].endswith('.py') for x in inventory),
         'notebooks':sum(x['arquivo'].endswith('.ipynb') for x in inventory),'erros_sintaxe':errors,
         'requisitos':requirements,'conformidade_integral':False,
         'ressalva':'Dados clínicos reais, validação hospitalar e envio por e-mail não são tratados como exigências adicionais ao PDF.'}

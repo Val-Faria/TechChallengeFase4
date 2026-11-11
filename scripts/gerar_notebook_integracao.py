@@ -54,7 +54,7 @@ md('''## 1. Verificar as evidências executadas
 
 Estas evidências foram salvas na entrega. Sua leitura não envia novos pedidos à OpenAI nem executa os modelos. Consulte `evidence/` para distinguir a reprodução feita nesta entrega das métricas históricas do grupo.
 ''')
-code('''for nome in ["audio_reproducao.json", "audio_externo.json", "video_validacao.json", "openai_validacao.json", "resumo_execucao.json"]:
+code('''for nome in ["audio_reproducao.json", "audio_externo.json", "video_dataset_auditoria.json", "video_reproducao.json", "video_inferencia_nova.json", "openai_validacao.json", "resumo_execucao.json"]:
     arquivo = REPO / "evidence" / nome
     print(nome, "disponível" if arquivo.exists() else "não disponível nesta versão")
 if (REPO / "evidence/resumo_execucao.json").exists():
@@ -64,12 +64,12 @@ md('''## 2. Executar a integração
 
 O JSON de vídeo abaixo contém somente eventos e metadados, sem imagens de terceiros. O CSV precisa ser escolhido explicitamente: não misture a versão antiga com a regenerada.
 
-O exemplo pode conter um áudio sintético novo, vídeo de uma montagem já avaliada e séries sintéticas. Sua associação é didática, sem pareamento clínico.
+O exemplo pode conter um áudio sintético novo, vídeo de teste de desenvolvimento do novo YOLO; a reserva é reportada separadamente e séries sintéticas. Sua associação é didática, sem pareamento clínico.
 ''')
 code('''from techchallenge4.demo import run_demo
 
 CSV_AUDIO = REPO / "audio/evidencias/resultado_audio_externo.csv"
-JSON_VIDEO = REPO / "evidence/resultado_video_equipe.json"
+JSON_VIDEO = REPO / "evidence/resultado_video_teste.json"
 TEXTO = REPO / "evidence/texto_openai_integracao.json"
 if not TEXTO.exists():
     TEXTO = REPO / "evidence/texto_openai_demo.json"
@@ -136,7 +136,7 @@ display(HTML((FLUXO / "painel.html").read_text(encoding="utf-8")))
 ''')
 md('''## 5.1. Inferência acústica/visual acrescentada
 
-O guia `integracao/MIDIAS.md` apresenta a execução sobre WAV e vídeo, com referência de voz anterior e fluxo óptico real. Os oito controles acústicos e dois clipes geométricos constam em `evidence/midias_complementares.json`. A reprodução no ritmo original mede inferência local e entrega; não inclui ASR/nuvem. As mídias e caixas estão no backup privado do Drive. Não são rótulos clínicos nem reprodução YOLO.
+O guia `integracao/MIDIAS.md` apresenta a execução sobre WAV e vídeo, com referência de voz anterior e fluxo óptico real. Os oito controles acústicos e dois clipes geométricos constam em `evidence/midias_complementares.json`. A reprodução no ritmo original mede inferência local e entrega; não inclui ASR/nuvem. As mídias e caixas estão no backup privado do Drive. A inferência YOLO nova tem evidência própria; os controles físicos não são rótulos clínicos.
 ''')
 md('''## 6. Salvar e encerrar
 

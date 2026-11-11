@@ -1,69 +1,53 @@
-# Auditoria de conformidade — Fase 4
+# Auditoria da entrega técnica — Fase 4
 
-Data: 10/11/2026. Referência primária: PDF original `IADT - Fase 4 - Tech challenge.pdf`, páginas 2–4, relido nesta auditoria.
+Data: 11/11/2026. Referência: enunciado original, páginas 2–4; SHA-256 `5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1`.
 
-## Parecer atualizado após execução das pendências
+## Estado da entrega
 
-Foram acrescentados e executados os módulos que podiam ser construídos com os materiais disponíveis: comparação acústica intra-voz, detecção de mudanças visuais sem pesos privados e inferência incremental sobre amostras/quadros. As novas evidências permitem demonstrar essas funções, com controles físicos e limites explícitos. Não equivalem a validação clínica nem à reprodução do detector anatômico cujo peso não foi recebido.
+A entrega contém código, modelos/manifestos, demonstrações, testes, evidências e relatório no padrão LaTeX fornecido pela equipe. O ZIP Uterus foi recebido, auditado e usado em **novo treino YOLOv8s**. Assim, a inferência anatômica deixou de depender somente dos resultados históricos. O peso original do Marcelo não foi recuperado; não se afirma reprodução exata daquele experimento.
 
-| Solicitação | Estado verificável |
-|---|---|
-| Vídeo e eventos | YOLO histórico preservado; novo fluxo óptico executado diretamente em dois vídeos geométricos inéditos e na montagem recebida. Sem aumento persistente na montagem pela nova regra. |
-| Alterações vocais | Referência congelada por voz; oito cenários controlados com pausas, volume e silêncio. Detecta mudança física; não identifica causa médica. |
-| Transcrição, termos e sentimentos em nuvem | Chamadas reais OpenAI preservadas; alternativa ao Azure autorizada pelo professor. |
-| Sinais vitais, prescrições e movimento | Cenários sintéticos executados, incluindo pressão arterial. |
-| Fusão, alertas e resposta | Caixa SQLite e painel; inferência acústica/visual incremental executada no ritmo original. ASR/nuvem e captura ao vivo não fazem parte dessa medida. |
-| Código, relatório e fontes | Branch Nirton, documentação, testes, PDF e Overleaf atualizados. |
-| Apresentação até 15 minutos | Benicio grava e publica; inserir o link final. |
+O trabalho continua sendo um protótipo com limitações medidas. A aprovação dos testes não significa detecção clínica confiável. A apresentação e o link YouTube/Vimeo permanecem com Benicio, conforme divisão do grupo.
 
-Não se deve afirmar que o sistema detecta clinicamente fadiga, disartria ou dificuldade respiratória com sensibilidade conhecida. Os exemplos médicos do PDF motivam a triagem; não são rótulos dos controles. Também não se deve apresentar o fluxo óptico como identificação de útero/instrumentos. Dados clínicos reais, ensaio hospitalar e envio por e-mail não foram acrescentados como obrigações do enunciado.
+| Requisito | Evidência executada | Limite declarado |
+|---|---|---|
+| Vídeo clínico, eventos e relatório | YOLOv8s novo; dataset auditado, montagens de teste/reserva, saída anotada, JSON e relatório | Quadros e montagens; falhas na reserva; sem cirurgia contínua externa |
+| Voz e alterações vocais | Whisper, características, Random Forest e comparação de pausas/trechos com referência anterior | Corpus e controles sintéticos; sem confirmação de causa médica |
+| Transcrição, termos e sentimentos em nuvem | Chamadas OpenAI reais, citações literais, negação/contexto e consumo | Alternativa ao Azure autorizada; revisão humana necessária |
+| Sinais vitais | Histórico anterior e desvios de batimentos, pressão sistólica/diastólica e oxigenação | Valores sintéticos; limiar estatístico demonstrativo |
+| Prescrições e movimentação | Comparações temporais e sinais por campo | Não recomenda tratamento ou postura clínica |
+| Alertas e resposta | Fusão, SQLite, painel e confirmação auditável | Entrega local, sem sistema hospitalar |
+| Processamento temporal | JSONL e inferência acústica/visual em arquivos no ritmo original | Espera da janela distinta da computação; nuvem/captura ao vivo fora da medida |
+| Código e relatório | Branch Nirton, modelos, scripts, notebooks, PDF e Overleaf | Artefatos clínicos/YOLO no pacote privado; caminhos documentados |
+| Apresentação até 15 minutos | Roteiro e material de demonstração | Benicio grava/publica e o grupo insere o link |
 
-## Complementação executada
+## Nova reprodução e reserva
 
-- Seis novas sínteses, com duas referências e uma prova reservada por voz; sem hashes compartilhados com o corpus ou as provas anteriores.
-- Oito controles acústicos: originais e ganho reduzido sem sinal, pausas inseridas com sinal, silêncio inconclusivo. Regras fixas, sem baixar o limiar emocional.
-- Dois vídeos geométricos inéditos processados por fluxo óptico real: controle sem evento; movimento aumentado com dois intervalos. Sem oráculo ou resultados de detecção injetados.
-- Montagem recebida reprocessada: 570 quadros; nenhum aumento persistente atingiu a regra. Não se interpreta isso como ausência de anomalia clínica.
-- Fluxo de mídia no ritmo original, com 89 pares de quadros, três janelas de voz e alertas persistidos durante a inferência. A espera da janela de cinco segundos é distinta da latência computacional.
-- Evidência em `evidence/midias_complementares.json`; guia em `integracao/MIDIAS.md`. Nenhuma nova chamada paga, GPU ou sessão Colab.
+- ZIP recebido: 40.622.141 bytes, CRC válido, SHA-256 `d2345667a5efa840b7f1f3ff33af52ebf25d8ccf0f7c3c985afdeba6d7e04bf8`.
+- A página anuncia 1.368 imagens; o arquivo contém 1.367. Três entradas YAML idênticas foram conferidas; 418 polígonos usados foram convertidos em caixas envolventes.
+- `UterusClip_mov`: 776 treino, 74 validação e 37 teste. `2024-09-26-20-27-33_mp4`: totalmente fora do desenvolvimento; 60 quadros na reserva, 420 aumentos não utilizados.
+- Novo modelo: YOLOv8s, resolução 416, batch 8, 80 épocas máximas, semente 42 e paciência 20, GPU RTX 2060 local. Seleção do checkpoint pela validação, com peso congelado antes da reserva.
+- mAP50: validação **0,941**, teste **0,980**, reserva **0,613**. Protocolos diferentes dos números históricos do Marcelo.
+- Regra temporal: teste com 2 verdadeiros positivos, 0 falsos positivos e 1 evento não detectado; reserva com 0 previsões e 2 eventos não detectados. Recall da reserva **0**, precisão indefinida. Os limiares não foram alterados para melhorar a reserva.
+- Referência temporal: caixas anotadas + montagem de dois segundos por quadro; não anotações clínicas de complicações. Prefixo de arquivo não comprova paciente/procedimento independente.
 
-## Correções realizadas nesta auditoria
+Os resultados fracos da reserva são uma limitação do sistema e estão preservados, não convertidos em sucesso. O exemplo integrado positivo usa o teste; a reserva permanece uma verificação separada. Evidências: `video_dataset_auditoria.json`, `video_reproducao.json`, `video_inferencia_nova.json` e os dois JSONs sanitizados.
 
-1. CSV com vários áudios agora exige escolha explícita; não seleciona o primeiro arquivo silenciosamente.
-2. Uma medida sem dispersão no histórico não esconde os desvios detectáveis nas demais. O resultado preserva o alerta e indica cobertura parcial.
-3. Pressão arterial sistólica e diastólica acrescentadas às demonstrações em lote e incremental.
-4. Fontes antigas expiram após prazo operacional configurável (`--max-source-age`, padrão 60 segundos). Fonte expirada é inconclusiva; não é tratada como observação normal.
-5. Referência sintética mantém sua origem mesmo quando um pacote posterior não traz a marca de simulação.
-6. Confirmações simultâneas de revisão são serializadas, produzindo uma única ação de auditoria.
-7. Exportação usa arquivos temporários exclusivos, evitando colisões entre escritores concorrentes.
-8. Contratos rejeitam fontes sem motivo, indicadores de simulação inválidos e campos reservados nas séries.
-9. Cache textual confere identidade de texto/modelo e recalcula a decisão a partir das menções validadas; não reutiliza um campo de alerta alterado no cache.
-10. WAVs extraídos são conferidos contra os bytes do ZIP. Nomes duplicados no arquivo são rejeitados.
-11. O modelo é conferido por hash antes de ser carregado na avaliação externa; o script passa a regenerar também o CSV usado pela integração.
-12. O modo `--audit-only` do áudio e as execuções de medição não sobrescrevem o manifesto oficial das partições.
-13. A verificação de distribuição também compila todos os arquivos Python e todas as células Python dos notebooks, inclusive células iniciadas por instalação IPython.
+## Áudio e interpretação médica
 
-14. Exportações CSV/JSON e notebooks preservam seus bytes no Git; isso evita que conversões de fim de linha invalidem os hashes registrados em outro sistema operacional.
+O modelo emocional permanece congelado, ajustado somente em treino. As seis falas externas ficaram abaixo de 0,70; não se reduziu o limiar após vê-las. A comparação acústica adicional utiliza referências anteriores da mesma voz e oito cenários físicos. Os controles detectam pausas inseridas, não confundem redução de volume com sinal e tratam silêncio como inconclusivo.
 
-## Verificações
+Essas verificações não medem sensibilidade para fadiga, disartria ou dificuldade respiratória em pacientes. A extração de uma menção textual também não comprova detectar um sintoma pela acústica. Os sinais observacionais solicitam revisão, sem diagnóstico. O PDF não foi interpretado como exigindo ensaio hospitalar, homologação médica ou envio por e-mail.
 
-- Inventário e análise sintática: **28 arquivos Python e 3 notebooks**, sem erros; inventário com hashes em `evidence/auditoria_projeto.json`.
-- Suíte: **68 testes e 26 subtestes aprovados**; evidência em `evidence/testes_auditoria.xml`.
-- Análise estática: verificações de sintaxe, nomes indefinidos e erros de controle passaram no Ruff.
-- Demonstrações reexecutadas: cinco casos em lote e 32 eventos incrementais, com um alerta estruturado.
-- Instalação editável do pacote e comandos de entrada por `python -m` verificados.
-- Auditoria do ZIP oficial executada sem retreinar e sem chamadas pagas.
-- As métricas acústicas anteriores continuam válidas para o modelo e as partições registrados. Não houve ajuste do modelo, dos limiares ou do conjunto cego para melhorar resultados nesta revisão.
-- **Nenhuma chamada adicional à OpenAI e nenhuma nova sessão de GPU** nesta auditoria.
+## Correções e verificações de software
 
-## Limites e dependências externas que permanecem
+A suíte tem **77 testes e 26 subtestes aprovados**. Inclui contratos, prioridade, fontes inconclusivas, pressão arterial, validade temporal, referências congeladas, seleção explícita de áudio, revisão concorrente, cache e integridade de arquivos.
 
-**Detector anatômico original:** somente o arquivo `best_uterus_tools_v4.pt` da equipe permite repetir especificamente a inferência YOLO publicada por Marcelo. O peso não foi localizado. O detector complementar é uma alternativa funcional com outro escopo, não uma recuperação daquele modelo.
+Foi corrigido um bloqueio intermitente do Windows ao substituir snapshots concorrentes: destinos são serializados no processo, e erros transitórios específicos recebem repetição limitada. Erros permanentes continuam visíveis e o snapshot anterior é preservado. Há testes próprios para os dois comportamentos.
 
-**Avaliação clínica e mídia independente:** os novos clipes são geométricos; a montagem cirúrgica recebida já foi usada. Não há nova avaliação em cirurgia/fisioterapia clínica independente, nem rótulos médicos para as vozes de controle. A exigência adicional do integrante sobre mídias clínicas inéditas permanece limitada pela disponibilidade dos materiais. Recortar a montagem ou transformar o mesmo áudio não torna suas fontes independentes.
+O notebook de vídeo usa os scripts compartilhados e lê evidências por padrão. As dependências pesadas, treino e GPU são opcionais. A revisão de distribuição verifica sintaxe de todos os códigos/notebooks e ausência de credenciais. A exportação sem Git e o ambiente Python mínimo são conferidos na checagem final.
 
-**Apresentação:** Benicio grava/publica e o grupo inclui o link. A entrega deve mostrar o que cada detector efetivamente mede. Não se declara atendimento integral com validação médica ou reprodução YOLO inexistentes.
+## Relatório e preservação
 
-## Distribuição e regressões
+O relatório segue o padrão anexado da Fase 2: fonte 12, A4, margens de 2,5 cm, espaçamento 1,5, capa simples com autores/RMs, links azuis e sumário antes do resumo. Os dados, figuras, resultados e links pertencem à Fase 4. O link audiovisual anterior não foi reutilizado.
 
-O PDF anexado em Downloads foi comparado ao original: ambos têm cinco páginas e SHA-256 `5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1`. A revisão anterior verificou uma exportação sem Git em Python limpo e corrigiu a inicialização do notebook. A complementação mantém o pacote básico sem dependências de mídia obrigatórias; NumPy/OpenCV são opcionais. A suíte atual tem 68 testes e 26 subtestes aprovados, incluindo qualidade de voz, referência congelada, persistência, lacunas e câmera instável. Consulte os registros de distribuição e execução em `evidence/`.
+O PDF é compilado das mesmas fontes incluídas no Overleaf. O backup do Drive preserva ZIP original, pesos, vídeos e relatórios privados, código, evidências e manifestos. Nenhuma credencial integra os pacotes. Nesta etapa não houve novas chamadas pagas nem sessão Colab; os processos locais de GPU foram encerrados após treino/inferência.

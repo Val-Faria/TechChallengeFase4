@@ -2,6 +2,7 @@
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 from datetime import datetime, timedelta
+from pathlib import Path
 import json
 import pytest
 from techchallenge4.core import detectar_series, combinar_audio_video, validar_fonte
@@ -52,6 +53,37 @@ def test_exportacoes_concorrentes_nao_compartilham_temporario(tmp_path):
     with ThreadPoolExecutor(max_workers=8) as pool:
         list(pool.map(lambda i:atomic_write(p,json.dumps({'i':i,'texto':'á'*1000})),range(30)))
     assert len(json.loads(p.read_text(encoding='utf-8'))['texto']) == 1000
+    assert not list(tmp_path.glob('*.tmp'))
+
+
+def test_bloqueio_transitorio_windows_nao_perde_exportacao(tmp_path, monkeypatch):
+    original = Path.replace
+    attempts = []
+    def replace(path, target):
+        attempts.append(target)
+        if len(attempts) < 3:
+            error = PermissionError("sharing violation")
+            error.winerror = 32
+            raise error
+        return original(path, target)
+    monkeypatch.setattr(Path, 'replace', replace)
+    target = tmp_path/'snapshot.json'
+    atomic_write(target, '{"ok":true}')
+    assert len(attempts) == 3 and json.loads(target.read_text())['ok']
+    assert not list(tmp_path.glob('*.tmp'))
+
+
+def test_erro_permanente_nao_e_ocultado_nem_apaga_snapshot(tmp_path, monkeypatch):
+    target = tmp_path/'snapshot.json'
+    target.write_text('anterior')
+    calls = []
+    def denied(path, destination):
+        calls.append(destination)
+        raise PermissionError('permissao permanente')
+    monkeypatch.setattr(Path, 'replace', denied)
+    with pytest.raises(PermissionError):
+        atomic_write(target, 'novo')
+    assert len(calls) == 1 and target.read_text() == 'anterior'
     assert not list(tmp_path.glob('*.tmp'))
 
 

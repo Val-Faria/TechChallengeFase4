@@ -5,7 +5,11 @@ import io
 import json
 import os
 import tempfile
+import threading
+import time
 from pathlib import Path
+
+_REPLACE_LOCKS = tuple(threading.Lock() for _ in range(64))
 
 
 def atomic_write(path, text):
@@ -16,7 +20,19 @@ def atomic_write(path, text):
     try:
         with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:
             stream.write(text)
-        temporary.replace(path)
+        # Windows can briefly reject replacement while another rename, indexer
+        # or scanner holds the target. Serialize same-process replacements and
+        # retry only its documented transient sharing/access errors, bounded.
+        lock_key = os.path.normcase(str(path.resolve()))
+        with _REPLACE_LOCKS[hash(lock_key) % len(_REPLACE_LOCKS)]:
+            for attempt in range(10):
+                try:
+                    temporary.replace(path)
+                    break
+                except PermissionError as error:
+                    if getattr(error, "winerror", None) not in {5, 32, 33} or attempt == 9:
+                        raise
+                    time.sleep(min(.005*2**attempt, .16))
     finally:
         temporary.unlink(missing_ok=True)
 

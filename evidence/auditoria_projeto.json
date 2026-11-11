@@ -1,5 +1,5 @@
 {
-  "data": "2026-11-10",
+  "data": "2026-11-11",
   "codigo": [
     {
       "arquivo": "audio/notebooks/TechChallengeFase4_audio.ipynb",
@@ -8,12 +8,17 @@
     },
     {
       "arquivo": "integracao/TechChallengeFase4_integracao.ipynb",
-      "sha256": "d03fae69c50f57e764ceacf57c073e332f2086258c1a481e8b34669aca9d4c72",
+      "sha256": "a4b95e36acd1061f00d41974c534f1fefd2310d975fc515f83a387a5a724c6e3",
       "celulas_codigo": 7
     },
     {
+      "arquivo": "relatorio/gerar_figuras.py",
+      "sha256": "b7638f2d38e113a38f832c720a5e7a5f8904f34db506ab5158f0d0bc99071fc6",
+      "celulas_codigo": 0
+    },
+    {
       "arquivo": "relatorio/gerar_relatorio.py",
-      "sha256": "6eafdf25b2c6f4e19f2108d0c58e7f62797c3dca2a77203350f822f35d5a8479",
+      "sha256": "f9d8769e30a61ff601e4722b23799c69cfce224acd4fcd2007b252d8193dc9da",
       "celulas_codigo": 0
     },
     {
@@ -38,12 +43,17 @@
     },
     {
       "arquivo": "scripts/auditar_projeto.py",
-      "sha256": "97c575bb911afc5b1b8e105b3b3e763b19f6f4884569c3d9a48c10a48435acf4",
+      "sha256": "f15628dcd29a66d15a4c3350c180bf0db7173bfb76327c7eb45a246296990d50",
       "celulas_codigo": 0
     },
     {
       "arquivo": "scripts/gerar_notebook_integracao.py",
-      "sha256": "bf3b482c0b56d5903c01223c7b9412b2b9321a6bc4afdf5adab964a96cec55d7",
+      "sha256": "3bdc5dc9fec3c5b3b1f1800d2b800c09fa60ceb5ddea95f2bc5b2a0cadd89be0",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/gerar_notebook_video.py",
+      "sha256": "bcb02e23ad0aa9a489cc2b3c8d49f8385c1b27d262f86554744de632a6016899",
       "celulas_codigo": 0
     },
     {
@@ -84,6 +94,16 @@
     {
       "arquivo": "scripts/verificar_entrega.py",
       "sha256": "1ca03ee70108b036f6016dd0681a110b702ecafb8c3f2c6c9d5ca7dba62932bb",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_infer_reserva.py",
+      "sha256": "152b95a0e1ee96cd25a0516f83675566640d6c93ebd9e8d273a0579507381e10",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_reproduce.py",
+      "sha256": "bdd736bdd488ed70b0f9c526e9880d8aa4d2498a781c16f45dcdb67a01707d50",
       "celulas_codigo": 0
     },
     {
@@ -138,12 +158,12 @@
     },
     {
       "arquivo": "src/techchallenge4/reports.py",
-      "sha256": "e2a889927173b4c4dc5fc9839c30af419939005616afe04dac7b58033bf0c319",
+      "sha256": "eb689ee72b341ca4803910fbaacdcc4656a748deeaee154e81a53c5e950c5778",
       "celulas_codigo": 0
     },
     {
       "arquivo": "tests/test_auditoria.py",
-      "sha256": "ea4e10242512e04cd1569d4e55abaeb0af667427fe287f9f42b4dff17bfad534",
+      "sha256": "8ce93ed0781643cced3238bd47609a3c14f8730dc9675ea012e3998de188d5ed",
       "celulas_codigo": 0
     },
     {
@@ -172,24 +192,29 @@
       "celulas_codigo": 0
     },
     {
+      "arquivo": "tests/test_video_dataset.py",
+      "sha256": "a645adee456f74dc5402f0311abaf5de11b45c8dae41e54c90e2f2bdc497273a",
+      "celulas_codigo": 0
+    },
+    {
       "arquivo": "video/TechChallengeFase4_video.ipynb",
-      "sha256": "7580dcc91ee6bb808b00c2c9451e8ca7e9923bf2b3b168b152b7a153d8d990a7",
-      "celulas_codigo": 6
+      "sha256": "2f77559bf6a3f5b6834b07284cd4ce44e51b48711a24da5a9c4f2aeaed202c2a",
+      "celulas_codigo": 5
     },
     {
       "arquivo": "video/alerta_video.py",
-      "sha256": "7c6b73f03cd0e44fb6d9a4343f2183cb6581a8430821a77eccb4ab09b32903a7",
+      "sha256": "c31a9765099493329ad80987754031e39f62803f7924e76f13e57ea232f3632d",
       "celulas_codigo": 0
     }
   ],
-  "arquivos_python": 33,
+  "arquivos_python": 38,
   "notebooks": 3,
   "erros_sintaxe": [],
   "requisitos": [
     {
       "requisito": "Vídeo clínico e eventos",
-      "status": "implementado_com_escopo_distinto_por_detector",
-      "observacao": "YOLO anatômico preservado sem peso; fluxo óptico reexecutável sem pesos privados, com controles novos e processamento da montagem recebida. Não equivale a reproduzir o YOLO."
+      "status": "nova_reproducao_com_reserva_de_clipe",
+      "observacao": "Novo YOLOv8s a partir do ZIP fornecido; anotacoes normalizadas e prefixo inteiro reservado. Resultados historicos continuam separados. Montagens nao validam cirurgia continua externa."
     },
     {
       "requisito": "Alterações vocais indicativas de condições médicas",

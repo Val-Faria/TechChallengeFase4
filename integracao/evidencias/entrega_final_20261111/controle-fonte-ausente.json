@@ -1,0 +1,49 @@
+{
+  "schema_version": "2.0",
+  "id_caso": "controle-fonte-ausente",
+  "id_resultado": "067efd05a50b2bfa70a8",
+  "gerado_em_utc": "2026-11-11T03:50:47.354055+00:00",
+  "alerta": false,
+  "nivel": "nenhum",
+  "requer_revisao": true,
+  "status": "incompleto",
+  "simulado": true,
+  "pareamento": "associacao_manual_por_caso",
+  "fontes_esperadas": [
+    "audio",
+    "video"
+  ],
+  "fontes_inconclusivas": [
+    "audio"
+  ],
+  "motivos": [],
+  "fontes": [
+    {
+      "modalidade": "audio",
+      "status": "indisponivel",
+      "alerta": null,
+      "nivel": "nenhum",
+      "motivo": "Áudio não fornecido.",
+      "simulado": true
+    },
+    {
+      "modalidade": "video",
+      "status": "ok",
+      "alerta": false,
+      "nivel": "nenhum",
+      "motivo": "Resultado de vídeo recebido.",
+      "eventos": [],
+      "estatisticas": {},
+      "origem": "analisar_video",
+      "simulado": true
+    }
+  ],
+  "entrega": {
+    "destino": "caixa_local_equipe_medica",
+    "status": "persistido",
+    "recebido_em_utc": "2026-11-11T03:50:47.383509+00:00",
+    "confirmacao": "gravacao_transacional_sqlite",
+    "entrega_hospitalar": false
+  },
+  "aviso": "Protótipo acadêmico para revisão humana. Não constitui diagnóstico."
+}

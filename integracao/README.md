@@ -4,7 +4,7 @@ O notebook `TechChallengeFase4_integracao.ipynb` é a entrada para o Colab. Ele 
 
 1. Execute as células em ordem, com nuvem e treinamento desligados.
 2. Confira as evidências salvas em `evidence/`.
-3. Execute a composição com `resultado_audio_externo.csv`, `resultado_video_equipe.json` e `texto_openai_integracao.json`.
+3. Execute a composição com `resultado_audio_externo.csv`, `resultado_video_teste.json` e `texto_openai_integracao.json`.
 4. Abra o painel. O HTML exportado é estático; para registrar revisão, execute o servidor local descrito no README principal.
 5. Salve o ZIP gerado. Para gravar no Drive, ative `USAR_DRIVE` antes de executar.
 

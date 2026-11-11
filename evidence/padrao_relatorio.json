@@ -1,0 +1,13 @@
+{
+  "origem": "Modelo LaTeX da Fase 2 enviado pelo integrante; utilizado somente como padrão de apresentação",
+  "sha256_modelo_fornecido": "7c4ca8827a4998ac8cc7134e48ea1aed9146a6d14550bbb88574b849646fc873",
+  "documentclass": "article",
+  "fonte_pt": 12,
+  "papel": "a4paper",
+  "margens_cm": 2.5,
+  "espacamento": 1.5,
+  "capa": "maketitle; ordem e RMs conforme modelo",
+  "links": "azuis",
+  "sumario": "antes do resumo",
+  "conteudo": "Fase 4; sem reutilização de resultados ou link de vídeo da Fase 2"
+}

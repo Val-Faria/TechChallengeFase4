@@ -1,8 +1,9 @@
 {
-  "pages": 25,
-  "sha256": "56421424081f19bd5a84dcb2838b34cb23012ef3ceae2b41768b2478ef411e25",
+  "pages": 30,
+  "sha256": "6f125fd3cf4549559b8ed5b9a984933fb896f47b1f02ed9703ea714d0d3528d4",
   "compiled_from": "relatorio/latex/main.tex",
-  "visual_review": "Contato completo e paginas finais inspecionados; sem cortes ou sobreposicao",
+  "visual_review": "Contato completo, capa, métricas novas e última página inspecionados; sem cortes ou sobreposição",
   "overfull_boxes": 0,
-  "date": "2026-11-10"
+  "date": "2026-11-11",
+  "padrao": "modelo LaTeX anexado da Fase 2, adaptado para a Fase 4"
 }

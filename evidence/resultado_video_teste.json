@@ -1,0 +1,43 @@
+{
+  "alerta": true,
+  "nivel": "alto",
+  "motivo": "2 trecho(s) com instrumento sem útero visível",
+  "eventos": [
+    {
+      "descricao": "Instrumento em cena sem visualização do útero",
+      "inicio_s": 10.0,
+      "fim_s": 16.0,
+      "duracao_s": 6.0,
+      "confianca": 0.867
+    },
+    {
+      "descricao": "Instrumento em cena sem visualização do útero",
+      "inicio_s": 36.0,
+      "fim_s": 74.0,
+      "duracao_s": 38.0,
+      "confianca": 0.839
+    }
+  ],
+  "estatisticas": {
+    "duracao_video_s": 74.0,
+    "quadros_analisados": 370,
+    "amostra_fps_efetivo": 5.0,
+    "prop_quadros_com_utero": 0.2945945945945946,
+    "prop_quadros_com_instrumento": 0.9459459459459459,
+    "prop_instrumento_sem_utero": 0.7054054054054054
+  },
+  "parametros": {
+    "conf": 0.4,
+    "conf_area": 0.6,
+    "min_perda_s": 5,
+    "tolerancia_s": 1,
+    "imgsz": 416
+  },
+  "aviso": "Sinal de triagem para revisão da equipe médica. Não constitui diagnóstico.",
+  "origem": "YOLOv8s novo; peso congelado; teste de desenvolvimento; inferência reexecutada",
+  "natureza": "Montagem de teste de desenvolvimento; não cirurgia contínua externa.",
+  "particao": "test",
+  "simulado": true,
+  "modelo_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "sha256_video": "6152bb8e7e5e71866aec40cf7c33655e576fa8e823b3cc2479018f0ce23bfd96"
+}

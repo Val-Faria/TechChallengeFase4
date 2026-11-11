@@ -55,8 +55,8 @@ Python 3.12 foi utilizado na reprodução. A integração e o painel usam soment
 python -m venv .venv
 .venv\Scripts\python -m pip install -e . pytest
 .venv\Scripts\python -m pytest -q
-.venv\Scripts\python scripts/run_demo.py --audio-csv audio/evidencias/resultado_audio_externo.csv --audio-filename novo-03.wav --video-json evidence/resultado_video_equipe.json --text-json evidence/texto_openai_integracao.json
-.venv\Scripts\python -m techchallenge4.dashboard --db integracao/evidencias/execucao_final/alertas.sqlite3
+.venv\Scripts\python scripts/run_demo.py --output integracao/evidencias/entrega_final_20261111 --audio-csv audio/evidencias/resultado_audio_externo.csv --audio-filename novo-03.wav --video-json evidence/resultado_video_teste.json --text-json evidence/texto_openai_integracao.json
+.venv\Scripts\python -m techchallenge4.dashboard --db integracao/evidencias/entrega_final_20261111/alertas.sqlite3
 ```
 
 Abra o endereço local exibido. A confirmação de revisão fica registrada na caixa local; não altera tratamentos.
@@ -74,7 +74,7 @@ O monitor calcula desvios ao receber eventos. A demonstração usa dados sintét
 
 Instale [requirements-audio.txt](requirements-audio.txt), execute `git lfs pull` e `python scripts/audio_reproduce.py --device auto`. Os modelos ficam em `artifacts/audio/`; manifestos e métricas ficam em `audio/evidencias/` e `evidence/`. Para um WAV, consulte `python scripts/audio_infer.py --help`.
 
-A reserva cega e as seis gravações externas não entram no ajuste do modelo distribuído. Reclassificar os dados de treinamento não é avaliação independente. Para reexecutar YOLO, forneça os pesos personalizados da equipe e o vídeo; veja [video/README.md](video/README.md).
+A reserva cega e as seis gravações externas não entram no ajuste do modelo distribuído. Reclassificar os dados de treinamento não é avaliação independente. Para a nova inferência YOLO, extrair o peso congelado do pacote privado ou reproduzir o treino com o ZIP recebido; veja [DATASETS_E_MODELOS.md](DATASETS_E_MODELOS.md).
 
 ### Nuvem e custo
 
@@ -97,7 +97,7 @@ O consumo registrado é estimado por tokens/duração, sem consulta à fatura. O
 ## Limitações e apresentação
 
 - As classes acústicas são emocionais em fala sintética; não validam fadiga, disartria, dificuldade respiratória ou diagnóstico psicológico em pacientes.
-- Os pesos personalizados de vídeo não estavam nos arquivos nem no Drive acessível. A inferência YOLO e a avaliação em vídeo clínico inédito não foram reproduzidas. O mAP histórico é atribuído à frente do Marcelo.
+- O peso original do Marcelo não foi recuperado. A entrega inclui um **novo YOLOv8s**, com contornos convertidos em caixas e um prefixo inteiro reservado. As métricas novas estão separadas das históricas em `evidence/video_reproducao.json`.
 - A montagem de vídeo já foi usada na avaliação da equipe. Recortá-la ou transformá-la não cria uma amostra independente.
 - Áudio, vídeo e séries da composição são fontes independentes, sem sincronização de um paciente.
 - Os limiares estruturados são demonstrativos, sem validação assistencial. O painel é local, sem conexão hospitalar.
@@ -119,7 +119,7 @@ FIAP, *IADT - Fase 4 - Tech challenge*, enunciado fornecido pela equipe; [Uterus
 
 ## Auditoria final de conformidade
 
-Consulte [o parecer detalhado](relatorio/auditoria_conformidade.md) antes de gravar. A suíte após a revisão tem **68 testes e 26 subtestes aprovados**. Foram incluídas pressão sistólica/diastólica e validade temporal das fontes. O prazo de 60 segundos é uma configuração operacional da demonstração, não um limite médico. Foram acrescentados análise acústica com referência anterior e fluxo óptico incremental sobre mídias. Os controles físicos foram executados; não se atribui diagnóstico às alterações. A inferência anatômica YOLO continua dependente do peso não recebido.
+Consulte [o parecer detalhado](relatorio/auditoria_conformidade.md) antes de gravar. A suíte após a revisão tem **77 testes e 26 subtestes aprovados**. Foram incluídas pressão sistólica/diastólica e validade temporal das fontes. O prazo de 60 segundos é uma configuração operacional da demonstração, não um limite médico. Foram acrescentados análise acústica com referência anterior e fluxo óptico incremental sobre mídias. Os controles físicos foram executados; não se atribui diagnóstico às alterações. O novo detector anatômico tem treino e inferência próprios; as mídias de reserva são montagens, sem validação de cirurgia contínua externa.
 
 
 ## Complementação executável de voz e movimento
@@ -127,3 +127,20 @@ Consulte [o parecer detalhado](relatorio/auditoria_conformidade.md) antes de gra
 [Guia de mídias](integracao/MIDIAS.md): comparação intra-voz de pausas/trechos vocais e fluxo óptico com referência anterior. Os detectores recebem PCM e pixels, sem pesos privados ou respostas injetadas. Oito controles de áudio e dois vídeos geométricos novos foram executados. A montagem da equipe também foi processada; esse detector de movimento não reproduz os achados anatômicos do YOLO.
 
 A reprodução no ritmo original mede extração acústica, inferência visual, fusão e persistência. A espera da janela é de cinco segundos; ASR, nuvem e captura ao vivo ficam fora dessa medição. [Evidência completa](evidence/midias_complementares.json). Sem chamadas pagas adicionais.
+
+
+## Entrega final e padrão do relatório
+
+- [Dados, pesos e procedimento de reprodução](DATASETS_E_MODELOS.md).
+- Novo YOLO: `scripts/video_reproduce.py` e `scripts/video_infer_reserva.py`.
+- Entrada de vídeo: `video/TechChallengeFase4_video.ipynb`, com evidências por padrão, sem uso de GPU ou API.
+- Modelo emocional congelado incluído em `artifacts/audio/`, com hash e ambiente.
+- Relatório no padrão LaTeX fornecido: fonte 12, margens de 2,5 cm, espaçamento 1,5, capa simples com os RMs e links azuis. PDF e Overleaf usam as mesmas fontes/figuras.
+- ZIP Uterus v4 recebido e auditado. A exportação oficial exige login; ele está preservado no backup privado da equipe.
+
+A gravação/publicação segue com Benicio. Depois inserir o link em `\linkdovideo` no LaTeX e neste README. Nenhum resultado de controle ou montagem deve ser apresentado como diagnóstico ou desempenho hospitalar.
+
+
+## Resultado da nova reserva de vídeo
+
+O novo YOLO obteve mAP50 **0,980** no teste de desenvolvimento e **0,613** no outro prefixo reservado. A regra temporal detectou 2 de 3 eventos de referência no teste e 0 de 2 na reserva. A referência deriva das caixas e do tempo construído da montagem, não de complicações médicas. Os limiares não foram alterados após esses resultados. O exemplo positivo usa `resultado_video_teste.json`; a verificação independente do desenvolvimento usa `resultado_video_novo.json` e é preservada separadamente. Ver [relatório](output/pdf/relatorio_tecnico_fase4.pdf) e [evidência](evidence/video_inferencia_nova.json).

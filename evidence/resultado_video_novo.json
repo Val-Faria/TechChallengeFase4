@@ -1,0 +1,28 @@
+{
+  "alerta": false,
+  "nivel": "nenhum",
+  "motivo": "0 trecho(s) com instrumento sem útero visível",
+  "eventos": [],
+  "estatisticas": {
+    "duracao_video_s": 120.0,
+    "quadros_analisados": 600,
+    "amostra_fps_efetivo": 5.0,
+    "prop_quadros_com_utero": 0.7733333333333333,
+    "prop_quadros_com_instrumento": 0.815,
+    "prop_instrumento_sem_utero": 0.195
+  },
+  "parametros": {
+    "conf": 0.4,
+    "conf_area": 0.6,
+    "min_perda_s": 5,
+    "tolerancia_s": 1,
+    "imgsz": 416
+  },
+  "aviso": "Sinal de triagem para revisão da equipe médica. Não constitui diagnóstico.",
+  "origem": "YOLOv8s novo; peso congelado; clipe reservado; inferência reexecutada",
+  "natureza": "Montagem de clipe reservado; não cirurgia contínua externa.",
+  "particao": "blind_holdout",
+  "simulado": true,
+  "modelo_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "sha256_video": "dbc9ebc9868d7b399f602b0a78b9ffe980e6d582fa4d460724b7296fbeb026ae"
+}

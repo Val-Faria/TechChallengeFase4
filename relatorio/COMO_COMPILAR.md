@@ -34,3 +34,10 @@ Para usar uma instalação LaTeX tradicional, abra `relatorio/latex/` e execute 
 Execute primeiro os scripts de reprodução. Depois execute novamente `gerar_relatorio.py`. O gerador usa `evidence/audio_reproducao.json`, `evidence/resumo_execucao.json` e os resultados de `integracao/evidencias/execucao_final/` quando presentes.
 
 Não inclua arquivos `.env`, bancos de alertas, áudios, vídeos privados, chaves ou cabeçalhos de autenticação no projeto Overleaf. O pacote produzido pelo gerador utiliza uma lista explícita de formatos e diretórios de documentação.
+
+
+## Padrão visual desta versão
+
+O relatório segue o modelo LaTeX da Fase 2 fornecido pela equipe: `article`, A4, fonte 12, margens de 2,5 cm, espaçamento 1,5, capa com `maketitle`, autores/RMs na mesma ordem, links azuis e sumário antes do resumo. O sumário e o manifesto usam espaçamento compacto para legibilidade. A fonte de apresentação está registrada por hash em `evidence/padrao_relatorio.json`; resultados e links da Fase 2 não foram reutilizados como dados da Fase 4.
+
+`\linkdovideo` fica na fonte principal. Alterar somente essa definição quando Benicio publicar a apresentação, sem reutilizar o link da fase anterior. As figuras são geradas por `python relatorio/gerar_figuras.py` a partir das evidências, sem imagens clínicas privadas.

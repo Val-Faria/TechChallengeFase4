@@ -73,7 +73,7 @@ def make_audio(audio):
         rows.append((label, str(support), percent(m["accuracy"]), number(macro) if macro is not None else "--"))
         cm = m.get("confusion_matrix", raw.get("confusion_matrix"))
         labels = m.get("labels", raw.get("labels", ["ansiedade", "neutro", "tristeza"]))
-        if key == "blind_holdout" and cm:
+        if key == "blind_holdout" and cm and not (TEX/"figures/audio_matriz_cega.png").is_file():
             matrix = [r"\subsubsection*{Matriz de confusão da verificação cega}", r"\begin{center}\small\begin{tabular}{lrrr}\toprule", r"Real / prevista & Ansiedade & Neutro & Tristeza\\\midrule"]
             for idx, row in enumerate(cm):
                 lab = ["Ansiedade/hesitação", "Neutro", "Tristeza"][idx] if len(cm) == 3 else str(labels[idx])
@@ -123,7 +123,7 @@ def make_tests(summary):
 
 
 def make_replay(replay, audit):
-    lines = [r"Os registros completos da reprodução e da entrega estão em \path{integracao/evidencias/execucao_final/replay.json} e \path{integracao/evidencias/execucao_final/entrega_auditoria.json}."]
+    lines = [r"Os registros completos da reprodução e da entrega estão em \path{integracao/evidencias/entrega_final_20261111/replay.json} e \path{integracao/evidencias/entrega_final_20261111/entrega_auditoria.json}."]
     if replay:
         for key in ("events_processed", "processed_events", "event_count", "alerts_delivered", "duration_s", "latency_ms", "p95_latency_ms"):
             value = replay.get(key)
@@ -146,13 +146,16 @@ def make_replay(replay, audit):
 
 
 def make_manifest():
-    choices = ["evidence/audio_reproducao.json", "audio/evidencias/particoes_audio.csv",
+    choices = ["evidence/video_dataset_auditoria.json", "evidence/video_reproducao.json",
+               "evidence/video_inferencia_nova.json", "artifacts/video/manifesto_video.json",
+               "evidence/midias_complementares.json", "evidence/padrao_relatorio.json",
+               "evidence/audio_reproducao.json", "audio/evidencias/particoes_audio.csv",
                "audio/evidencias/predicoes_avaliacao.csv", "artifacts/audio/manifesto_audio.json",
                "evidence/resumo_execucao.json", "evidence/audio_externo_transcricoes.json",
                "evidence/asr_comparacao.json", "evidence/audio_externo.json", "evidence/audio_recebido_drive.json", "evidence/openai_validacao.json", "evidence/video_validacao.json", "evidence/dashboard_validacao.json",
-               "integracao/evidencias/monitoramento_final/monitoramento_resumo.json", "integracao/evidencias/execucao_final/replay.json",
-               "integracao/evidencias/execucao_final/entrega_auditoria.json",
-               "integracao/evidencias/execucao_final/anomalias_estruturadas.json"]
+               "integracao/evidencias/monitoramento_final/monitoramento_resumo.json", "integracao/evidencias/entrega_final_20261111/replay.json",
+               "integracao/evidencias/entrega_final_20261111/entrega_auditoria.json",
+               "integracao/evidencias/entrega_final_20261111/anomalias_estruturadas.json"]
     lines = [r"\small\begin{longtable}{p{8.7cm}p{4.4cm}}\toprule", r"Artefato & SHA-256 (prefixo)\\\midrule\endhead"]
     for name in choices:
         p = ROOT / name
@@ -185,11 +188,50 @@ def make_media():
     return "\n\n".join(lines)
 
 
+def make_video_new():
+    result = read_json("evidence/video_reproducao.json")
+    if "blind_holdout" not in result.get("evaluation", {}):
+        return "A nova execução deve estar concluída e registrada antes da emissão da versão final."
+    train = result["training"]
+    config = train["config"]
+    counts = result["dataset"]["counts_clean"]
+    lines = ["A nova execução utilizou YOLOv8s, resolução de 416 por 416 pixels, batch "
+             +esc(config["batch"])+", até "+esc(config["epochs"])+" épocas e paciência 20. "
+             +"Foram concluídas "+esc(train["epochs_completed"])+" épocas, em "
+             +number(train["elapsed_s"]/60, 2)+" minutos de treinamento na GPU "
+             +esc(train["gpu"])+". A seleção usa somente a validação do primeiro prefixo de clipe.",
+             r"\begin{center}\small\begin{tabular}{lrrr}\toprule Conjunto & Imagens & mAP50 & mAP50--95\\\midrule"]
+    for key, label, partition in [("val","Validação","valid"),("test","Teste","test"),("blind_holdout","Reserva de clipe","blind_holdout")]:
+        m = result["evaluation"][key]
+        lines.append(" & ".join([label,str(counts[partition]),number(m["map50"]),number(m["map50_95"])])+r"\\")
+    lines += [r"\bottomrule\end{tabular}\end{center}",
+              r"As métricas acima pertencem à nova execução e não são diretamente comparáveis ao mAP50 histórico: partições, preparação de anotações, batch e ambiente são diferentes. A queda de mAP50 do teste (mesmo prefixo do treino) para a reserva mostra que o valor alto no desenvolvimento não se mantém na outra origem disponível. Isso é compatível com diferenças de domínio e similaridade temporal, sem identificar uma causa única. A reserva não participou do treino, da escolha de limiares ou do checkpoint. O resultado entre prefixos não é validação em pacientes independentes.",
+              r"Precisão e recall presentes no JSON são resumos de objetos da avaliação padrão Ultralytics. Não são os índices da regra temporal com limiares 0,4/0,6, cuja referência e resultados são registrados separadamente.",
+              r"\begin{figure}[H]\centering\includegraphics[width=0.92\textwidth]{figures/video_treino.png}\caption{Evolução da validação no novo treino YOLOv8s; a reserva de clipe não participa da curva.}\end{figure}",
+              "O peso congelado possui SHA-256 iniciado por \\texttt{"+result["model"]["sha256"][:16]+"}. Evidências em \\path{evidence/video_reproducao.json} e \\path{evidence/video_dataset_auditoria.json}."]
+    inference = read_json("evidence/video_inferencia_nova.json")
+    if inference:
+        demo = inference["blind_montage"]
+        lines.append("A montagem reservada foi construída após congelar o modelo, com "+esc(demo["source_images"])
+            +" quadros-fonte não usados no desenvolvimento e duração de "+number(demo["duration_s"],1)
+            +" segundos. A inferência gerou "+esc(demo["predicted_events"])+" evento(s). "
+            +"A referência temporal deriva das caixas anotadas e da própria regra de montagem; não é anotação clínica de complicações. "
+            +"A integração usa o teste para o exemplo positivo e mantém a reserva como verificação separada, sem ocultar seus eventos não detectados.")
+        lines += [r"\begin{center}\small\begin{tabular}{lrrrr}\toprule Montagem & Referência & Sinalizados & Corretos & Não detectados\\\midrule"]
+        for item in inference["montages"]:
+            metric=item["event_metrics"]
+            label="Reserva" if item["partition"]=="blind_holdout" else "Teste"
+            lines.append(" & ".join([label,str(len(item["expected_events"])),str(item["predicted_events"]),str(metric["tp"]),str(metric["fn"])])+r"\\")
+        lines += [r"\bottomrule\end{tabular}\end{center}",
+                  r"Os eventos são pareados uma única vez com IoU temporal de pelo menos 0,5. No teste, dois de três eventos foram recuperados (precisão 1,00 e recall 0,667). Na reserva, os dois eventos de referência não foram detectados: recall 0 e precisão não definida, pois não houve previsão positiva. A avaliação evidencia uma limitação de generalização da regra com o novo detector. Os limiares não foram ajustados depois de observar essa reserva."]
+    return "\n\n".join(lines)
+
+
 def build_macros():
     audio = read_json("evidence/audio_reproducao.json")
     summary = read_json("evidence/resumo_execucao.json")
-    replay = read_json("integracao/evidencias/execucao_final/replay.json")
-    audit = read_json("integracao/evidencias/execucao_final/entrega_auditoria.json")
+    replay = read_json("integracao/evidencias/entrega_final_20261111/replay.json")
+    audit = read_json("integracao/evidencias/entrega_final_20261111/entrega_auditoria.json")
     resources = summary.get("resources", {})
     if resources:
         resource_text = esc(resources.get("description", "Execução conforme manifesto de recursos."))
@@ -211,7 +253,7 @@ def build_macros():
 \item Compilar o relatório com \code{python relatorio/gerar_relatorio.py --compile --package} ou importar o ZIP no Overleaf.
 \end{enumerate}"""
     macros = {
-        "DataRelatorio": "10 de novembro de 2026",
+        "DataRelatorio": "11 de novembro de 2026",
         "ResultadoAudio": make_audio(audio),
         "ResultadoNuvem": make_cloud(summary),
         "ResultadoTestes": make_tests(summary),
@@ -219,6 +261,7 @@ def build_macros():
         "ResultadoIntegracao": integration_text,
         "ResultadoRecursos": resource_text,
         "ResultadoMidias": make_media(),
+        "ResultadoVideoNovo": make_video_new(),
         "ComandosReproducao": commands,
         "ManifestoEvidencias": make_manifest(),
     }

@@ -1,0 +1,122 @@
+{
+  "generated_at": "2026-11-11T03:42:59.308664+00:00",
+  "dataset": {
+    "source": "https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4",
+    "zip_sha256": "d2345667a5efa840b7f1f3ff33af52ebf25d8ccf0f7c3c985afdeba6d7e04bf8",
+    "zip_bytes": 40622141,
+    "counts_original": {
+      "test": 57,
+      "train": 1196,
+      "valid": 114
+    },
+    "counts_by_clip": {
+      "2024-09-26-20-27-33_mp4": {
+        "test": 20,
+        "train": 420,
+        "valid": 40
+      },
+      "UterusClip_mov": {
+        "test": 37,
+        "train": 776,
+        "valid": 74
+      }
+    },
+    "counts_clean": {
+      "blind_holdout": 60,
+      "test": 37,
+      "valid": 74,
+      "train": 776
+    },
+    "identical_duplicate_paths": [
+      "data.yaml",
+      "data.yaml"
+    ],
+    "rejected": [],
+    "cross_partition_frames_purged": [],
+    "polygons_converted_to_boxes": 418,
+    "blind_source_clip": "2024-09-26-20-27-33_mp4",
+    "protocol": "Clip timestamp entirely withheld. Its 420 augmented training variants are unused; only original valid/test frames form blind verification. Other clip retains supplied train/valid/test, with duplicate-frame/content purging.",
+    "limitations": "Clip identity inferred from filename, not patient identity. Development validation/test can contain neighboring frames of the same clip. Blind montage is not an independent continuous surgery."
+  },
+  "training": {
+    "config": {
+      "model": "yolov8s.pt",
+      "epochs": 80,
+      "batch": 8,
+      "imgsz": 416,
+      "patience": 20,
+      "seed": 42,
+      "device": 0,
+      "workers": 2,
+      "deterministic": true
+    },
+    "elapsed_s": 1627.0232307999977,
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "epochs_completed": 80
+  },
+  "versions": {
+    "ultralytics": "8.4.208",
+    "torch": "2.11.0+cu128",
+    "torchvision": "0.26.0+cu128",
+    "numpy": "2.5.4"
+  },
+  "model": {
+    "path": "artifacts/video/best_uterus_tools_nirton_v4.pt",
+    "sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+    "trained_partitions": [
+      "train"
+    ],
+    "selected_by": "validation_only",
+    "original_team_weights": false
+  },
+  "evaluation": {
+    "val": {
+      "map50": 0.9410188385197613,
+      "map50_95": 0.6195130570133833,
+      "precision": 0.9559332509170648,
+      "recall": 0.849308300395257,
+      "per_class_map50": {
+        "Tools": 0.9394240406758863,
+        "Uterus": 0.9426136363636364
+      },
+      "speed_ms": {
+        "preprocess": 1.0648243242522348,
+        "inference": 11.909083784966906,
+        "loss": 0.003586485478523615,
+        "postprocess": 3.453356756614773
+      }
+    },
+    "test": {
+      "map50": 0.9796278409090908,
+      "map50_95": 0.6154418447362058,
+      "precision": 0.9767026969799422,
+      "recall": 0.9646628330104191,
+      "per_class_map50": {
+        "Tools": 0.9642556818181818,
+        "Uterus": 0.995
+      },
+      "speed_ms": {
+        "preprocess": 1.5008108111450802,
+        "inference": 15.423818919304255,
+        "loss": 0.008889190802300299,
+        "postprocess": 3.839470268340429
+      }
+    },
+    "blind_holdout": {
+      "map50": 0.6125622140709327,
+      "map50_95": 0.2988185045514681,
+      "precision": 0.6385403735233206,
+      "recall": 0.6942307692307692,
+      "per_class_map50": {
+        "Tools": 0.4610049465001965,
+        "Uterus": 0.7641194816416689
+      },
+      "speed_ms": {
+        "preprocess": 1.0840700007975101,
+        "inference": 12.791400002121614,
+        "loss": 0.0036516682788108787,
+        "postprocess": 3.2912883344882475
+      }
+    }
+  }
+}

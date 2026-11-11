@@ -1,0 +1,12 @@
+{
+  "scope": "GET/POST HTTP local; confirmação de revisão simulada, não profissional médico real",
+  "get_http": 200,
+  "post_redirect_get_http": 200,
+  "nivel_integrado": "alto",
+  "eventos_video_novo": 2,
+  "fonte_video_montagem_marcada": true,
+  "revisor": "demonstracao_automatica",
+  "auditoria_persistida": true,
+  "servidor_encerrado": true,
+  "api_paga": false
+}

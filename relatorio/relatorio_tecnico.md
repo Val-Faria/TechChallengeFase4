@@ -1,89 +1,43 @@
-# Relatório técnico consolidado - Fase 4
+# Relatório técnico — Fase 4
 
-**Monitoramento multimodal em saúde da mulher**
-Pós Tech FIAP - Inteligência Artificial para Devs
-Consolidação: **10/11/2026** | Branch: **Nirton**
-
-| Integrante | RM | Frente |
-|---|---|---|
-| Benicio Antonio Cardoso | 371527 | Gravação e edição do vídeo |
-| Marcelo Viana de Araújo | 372707 | YOLOv8 e análise de vídeo |
-| Nirton Afonso de Oliveira Filho | 370221 | Integração, testes e relatório |
-| Valkiria Nonato de Faria | 373256 | Dataset e classificação de áudio |
-
-## Documento principal
-
-O relatório completo é gerado em **LaTeX**, com PDF e pacote importável no Overleaf:
-
-- `output/pdf/relatorio_tecnico_fase4.pdf`: documento final.
-- `relatorio/latex/main.tex`: fonte principal.
-- `relatorio/latex/dados_gerados.tex`: tabelas extraídas das evidências.
-- `relatorio/overleaf_fase4.zip`: projeto pronto para upload.
-- `relatorio/COMO_COMPILAR.md`: instruções de reprodução.
-
-O PDF é compilado das mesmas fontes do ZIP, sem depender de imagens privadas de cirurgia ou de credenciais.
+O documento principal está em `output/pdf/relatorio_tecnico_fase4.pdf`; fontes em `relatorio/latex/` e projeto importável em `relatorio/overleaf_fase4.zip`. A formatação segue o modelo da Fase 2 anexado pelo integrante: fonte 12, A4, margens de 2,5 cm, espaçamento 1,5, capa por maketitle, autores/RMs e links azuis. Não foram reutilizados dados ou link audiovisual da fase anterior.
 
 ## Fluxo
 
-**WAV → Whisper + Librosa → Random Forest; transcrição → OpenAI; vídeo/JSON → eventos YOLO; séries/prescrições → detectores → fusão → JSON/relatório + caixa de alertas e painel.**
+Voz → características/Whisper → Random Forest e comparação intra-voz; transcrição → OpenAI; vídeo → YOLOv8s e regra temporal; séries/prescrições → detectores; fontes normalizadas → fusão → relatório e caixa SQLite → painel e revisão auditável.
 
-A fusão preserva a maior prioridade entre sinais válidos. As confianças de modelos diferentes não são somadas nem promediadas. Fonte ausente ou inconclusiva permanece visível.
+O professor autorizou substituir Azure. Foram preservadas 18 chamadas reais OpenAI, com estimativa conservadora acumulada de US$ 0,005980495. Não houve novas chamadas pagas nesta etapa.
 
-O professor autorizou serviços alternativos ao Azure em 09/11/2026. Whisper fornece a representação de ritmo acústico; a OpenAI transcreve os WAVs novos e realiza a análise textual. Azure Speech permanece registrado na síntese do dataset, sem ser apresentado como transcrição executada.
+## Áudio
 
-## Dados e avaliação
+O corpus contém 1.180 WAVs sintéticos. O classificador congelado foi ajustado apenas em 712 exemplos de treino; validação 172, teste 176 e reserva cega 120. Acurácias: 93,60%, 86,36% e 88,33%, respectivamente. Famílias de frases, gravações e hashes permanecem separados. O modelo recebido da autora, ajustado em todo o corpus, é histórico e não substitui essa avaliação.
 
-- **Áudio:** 1.180 WAVs (380 ansiedade/hesitação, 400 neutros, 400 tristeza); quatro versões por gravação. O modelo regenerado utiliza partições por família de frase-base e verificação cega separada de treino, validação e teste.
-- **Vídeo:** pacote de Marcelo com vídeo anotado, JSON, imagens e relatório. Eventos 76-82 s e 84-114 s. Artefato decodificado com 570 quadros, 5 FPS e 114 s.
-- **Séries e prescrições:** cenários sintéticos para verificar detectores e fluxo temporal, sem dados de pacientes.
-- **Pareamento:** áudio e vídeo não correspondem à mesma pessoa ou instante; a associação é demonstrativa.
+As seis falas externas somam 109 palavras; WER Whisper tiny 11,93% e OpenAI 0% nessa pequena amostra sintética. Todas as previsões emocionais externas ficaram abaixo de 0,70. Não se reduziu o limiar. Oito controles físicos verificam a comparação de pausas e trechos vocais; não medem sensibilidade para doença ou fadiga clínica.
 
-As métricas novas de áudio estão em `evidence/audio_reproducao.json`. O número histórico **89% em 236 exemplos** é atribuído ao relatório anterior da Val e não substitui a nova avaliação. Os valores antigos de 88% e 92% não são desempenho final consolidado.
+## Novo YOLO e dataset
 
-As métricas de vídeo **mAP50 0,928**, precisão **1,00** e recall **0,72** são atribuídas ao Marcelo. Sem pesos, não houve nova inferência YOLO. Clipes inéditos com marcadores coloridos verificam software por oráculo, sem medir generalização anatômica.
+O ZIP Uterus v4 recebido passou na integridade e contém 1.367 imagens, uma a menos que a página anuncia. O preparador normaliza 418 polígonos em caixas e separa um prefixo inteiro. A nova divisão usa 776/74/37 imagens em treino/validação/teste, mais 60 quadros reservados e 420 aumentos do prefixo reservado não utilizados.
 
-## Evidências
+| Avaliação | mAP50 | mAP50–95 |
+|---|---|---|
+| Validação | 0.941 | 0.620 |
+| Teste do mesmo prefixo | 0.980 | 0.615 |
+| Reserva de outro prefixo | 0.613 | 0.299 |
 
-| Caminho | Conteúdo |
-|---|---|
-| `evidence/audio_reproducao.json` | Auditoria, versões, partições e métricas |
-| `audio/evidencias/particoes_audio.csv` | Arquivo/gravação/família e partição |
-| `audio/evidencias/predicoes_avaliacao.csv` | Predições dos conjuntos reservados |
-| `artifacts/audio/manifesto_audio.json` | Identidade dos artefatos regenerados |
-| `evidence/video_validacao.json` | Decodificação, eventos e clipes controlados |
-| `evidence/resumo_execucao.json` | Testes, nuvem e recursos |
-| `integracao/evidencias/execucao_final/` | Resultados por caso, anomalias, reprodução e entrega |
+A regra temporal recuperou 2/3 eventos no teste e 0/2 na reserva. São eventos construídos a partir de caixas anotadas e dois segundos por quadro; não complicações clínicas confirmadas. Os limiares 0,4/0,6 não foram ajustados após a reserva. O mAP50 histórico 0,928 e o recall de alerta 0,72 do Marcelo permanecem atribuídos a outro experimento, não diretamente comparável.
 
-## Entrega e tempo de resposta
+A inferência nova foi executada sobre as montagens e produz vídeos anotados, JSON, relatório e imagens de eventos no pacote privado. O exemplo positivo da integração usa o teste; a reserva, incluindo suas falhas, é apresentada separadamente. Nenhum desses arquivos é uma cirurgia contínua externa inédita.
 
-O painel local mostra a caixa persistida em SQLite e permite confirmar revisão. A auditoria diferencia entrega, repetição e confirmação. A latência do reprodutor mede persistência; a do monitor incremental inclui detectores estatísticos, fusão e entrega local. Ambas excluem captura, inferência dos modelos e atendimento hospitalar. A nova execução de mídia, registrada separadamente, inclui características acústicas, fluxo óptico, fusão e persistência, além da espera da janela; não inclui ASR ou nuvem.
+## Anomalias e alertas
 
-## Limitações
+A demonstração cobre batimentos, pressão sistólica/diastólica, oxigenação, movimentação e prescrições com dados sintéticos. O monitor usa referência anterior congelada, validade das fontes e prioridade preservada. A composição não representa o mesmo paciente.
 
-1. Voz sintética única não valida fadiga, disartria ou dificuldade respiratória.
-2. O isolamento cego se refere ao classificador regenerado; não audita pré-treinamento do Whisper.
-3. Proveniência de vídeo e proximidade de quadros limitam a independência das métricas históricas.
-4. Avaliação clínica independente YOLO não foi possível sem pesos e vídeo externo anotado.
-5. Não existe conjunto pareado para métrica multimodal global.
-6. Detectores estruturados usam limiares demonstrativos, sem recomendação de tratamento.
-7. A entrega local não comprova conexão hospitalar.
-8. O código da Fase 3 não foi disponibilizado; continuidade executável não é afirmada.
+A execução final produz cinco casos e quatro tarefas de revisão. O painel HTTP e a confirmação por `demonstracao_automatica` foram verificados; a ação está na auditoria SQLite. É um teste operacional, não revisão por médico real.
 
-A cobertura está em `matriz_requisitos.md`. O roteiro de Benicio está em `roteiro_demonstracao.md`; gravação e publicação permanecem sob responsabilidade dele.
+Há três medidas distintas: replay de resultados; monitor de eventos estruturados; e inferência acústica/fluxo óptico em arquivos no ritmo original. Esta última inclui processamento local e persistência, além da espera de cinco segundos da janela de voz. Não inclui ASR, nuvem ou câmera/microfone clínicos ao vivo.
 
-## Resultados finais desta consolidação
+## Verificação e preservação
 
-- **Áudio:** validação 93,60% (172 WAVs); teste 86,36% (176); verificação cega 88,33% (120). F1 macro: 0,933 / 0,862 / 0,883. Nenhuma sobreposição por família, gravação original ou SHA-256. Modelo ajustado somente com 712 WAVs de treino.
-- **Áudios novos:** seis WAVs em duas novas vozes, fora do corpus. Todas as saídas acústicas têm confiança entre 0,50 e 0,60 e são inconclusivas pelo limiar 0,70; não há acurácia emocional externa.
-- **ASR:** nos mesmos seis WAVs, Whisper tiny errou 13 de 109 palavras (WER 11,93%) e a API não errou palavras (0%). Amostra pequena e sintética, sem conclusão clínica ou superioridade geral.
-- **Software:** 68 testes pytest e 26 subtestes aprovados, zero falhas.
-- **Nuvem:** 18 chamadas, estimativa conservadora total US$ 0,005980495; inclui duas respostas rejeitadas e uma reserva conservadora. Não representa leitura da fatura.
-- **Drive:** modelo e CSV corrigidos recebidos; 1.180 linhas e zero nomes ausentes. Modelo da autora treinado em todo corpus, separado do modelo da avaliação cega.
-- **Integração:** alerta alto preservado, cobertura incompleta pela baixa confiança acústica; entrega e revisão local confirmadas.
-- **Recursos:** GPU local RTX 2060 utilizada e processamento encerrado. Nenhuma sessão Colab iniciada.
+A suíte final tem 77 testes e 26 subtestes aprovados. Foi corrigida uma condição transitória de substituição de arquivos concorrentes no Windows, mantendo erros permanentes visíveis. Código, notebooks, hashes e distribuição são auditados. O PDF e o Overleaf compartilham fontes e figuras.
 
-## Parecer após complementação
-
-Foram implementadas comparação acústica intra-voz e inferência contínua de áudio/vídeo em arquivos. Oito controles de áudio e dois clipes visuais novos tiveram os resultados esperados. Referências e provas foram separadas; não houve retreinamento do classificador emocional ou novas chamadas pagas. O fluxo óptico dispensa pesos privados, mas detecta movimento inespecífico e não reproduz a análise anatômica YOLO. A montagem cirúrgica foi processada e não atingiu a nova regra de aumento persistente.
-
-A gravação continua com Benicio. O peso ausente ainda impede reproduzir especificamente o detector anatômico original. A avaliação de voz é uma prova controlada de alterações físicas, sem sensibilidade clínica; os vídeos geométricos inéditos não são vídeos clínicos independentes. Esses limites devem ser apresentados, sem transformar testes de software em resultados médicos. Consulte [a auditoria atualizada](auditoria_conformidade.md) e [o guia de reprodução](../integracao/MIDIAS.md).
+O modelo emocional está no Git. O novo YOLO, as mídias, o dataset e os bancos ficam no backup privado do Drive, com manifestos. A gravação/publicação é de Benicio; inserir o link da Fase 4 na capa e no README. Os limites de síntese, origem e generalização fazem parte dos resultados e não são apresentados como comprovação clínica.

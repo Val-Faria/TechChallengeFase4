@@ -19,6 +19,7 @@ output/private/
 *.key
 *.pem
 *.joblib
+!artifacts/audio/modelo_audio_1180.joblib
 *.wav
 .venv/
 audio/datasets/extracted/
