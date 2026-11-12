@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "id": "controle-externo-filtrado",
+      "alerta": false,
+      "nivel": "nenhum",
+      "requer_revisao": true,
+      "status": "incompleto"
+    },
+    {
+      "id": "controle-externo-reserva-temporal",
+      "alerta": true,
+      "nivel": "alto",
+      "requer_revisao": true,
+      "status": "incompleto"
+    }
+  ],
+  "queued": 2,
+  "paid_api_calls": 0,
+  "neutral_audio_is_software_control": true,
+  "clinical_pairing": false
+}

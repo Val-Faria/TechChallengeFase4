@@ -15,6 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TEX = ROOT / "relatorio" / "latex"
+FINAL_RUN = "integracao/evidencias/revisao_final_20261111"
 
 
 def esc(value):
@@ -123,7 +124,7 @@ def make_tests(summary):
 
 
 def make_replay(replay, audit):
-    lines = [r"Os registros completos da reprodução e da entrega estão em \path{integracao/evidencias/entrega_final_20261111/replay.json} e \path{integracao/evidencias/entrega_final_20261111/entrega_auditoria.json}."]
+    lines = [r"Os registros completos da reprodução e da entrega estão em \path{" + FINAL_RUN + r"/replay.json} e \path{" + FINAL_RUN + r"/entrega_auditoria.json}."]
     if replay:
         for key in ("events_processed", "processed_events", "event_count", "alerts_delivered", "duration_s", "latency_ms", "p95_latency_ms"):
             value = replay.get(key)
@@ -147,16 +148,18 @@ def make_replay(replay, audit):
 
 def make_manifest():
     choices = ["evidence/video_dataset_auditoria.json", "evidence/video_reproducao.json",
+               "evidence/video_calibracao.json", "evidence/video_diagnostico.json",
+               "artifacts/video/referencia_visual.json", "evidence/video_cobertura_externa.json",
+               "evidence/video_cobertura_protocolo.json", "evidence/video_integracao_revisao.json",
                "evidence/video_inferencia_nova.json", "artifacts/video/manifesto_video.json",
                "evidence/midias_complementares.json", "evidence/padrao_relatorio.json",
                "evidence/audio_reproducao.json", "audio/evidencias/particoes_audio.csv",
                "audio/evidencias/predicoes_avaliacao.csv", "artifacts/audio/manifesto_audio.json",
                "evidence/resumo_execucao.json", "evidence/audio_externo_transcricoes.json",
                "evidence/asr_comparacao.json", "evidence/audio_externo.json", "evidence/audio_recebido_drive.json", "evidence/openai_validacao.json", "evidence/video_validacao.json", "evidence/dashboard_validacao.json",
-               "integracao/evidencias/monitoramento_final/monitoramento_resumo.json", "integracao/evidencias/entrega_final_20261111/replay.json",
-               "integracao/evidencias/entrega_final_20261111/entrega_auditoria.json",
-               "integracao/evidencias/entrega_final_20261111/anomalias_estruturadas.json"]
-    lines = [r"\small\begin{longtable}{p{8.7cm}p{4.4cm}}\toprule", r"Artefato & SHA-256 (prefixo)\\\midrule\endhead"]
+               "integracao/evidencias/monitoramento_final/monitoramento_resumo.json", FINAL_RUN + "/replay.json",
+               FINAL_RUN + "/entrega_auditoria.json", FINAL_RUN + "/anomalias_estruturadas.json"]
+    lines = [r"\footnotesize\begin{longtable}{p{8.7cm}p{4.4cm}}\toprule", r"Artefato & SHA-256 (prefixo)\\\midrule\endhead"]
     for name in choices:
         p = ROOT / name
         if p.is_file():
@@ -217,21 +220,48 @@ def make_video_new():
             +" segundos. A inferência gerou "+esc(demo["predicted_events"])+" evento(s). "
             +"A referência temporal deriva das caixas anotadas e da própria regra de montagem; não é anotação clínica de complicações. "
             +"A integração usa o teste para o exemplo positivo e mantém a reserva como verificação separada, sem ocultar seus eventos não detectados.")
-        lines += [r"\begin{center}\small\begin{tabular}{lrrrr}\toprule Montagem & Referência & Sinalizados & Corretos & Não detectados\\\midrule"]
+        lines += [r"\begin{center}\small\begin{tabular}{lrrrr}\toprule Montagem & Referência & Sinalizados & Pareados & Sem pareamento\\\midrule"]
         for item in inference["montages"]:
             metric=item["event_metrics"]
             label="Reserva" if item["partition"]=="blind_holdout" else "Teste"
             lines.append(" & ".join([label,str(len(item["expected_events"])),str(item["predicted_events"]),str(metric["tp"]),str(metric["fn"])])+r"\\")
         lines += [r"\bottomrule\end{tabular}\end{center}",
-                  r"Os eventos são pareados uma única vez com IoU temporal de pelo menos 0,5. No teste, dois de três eventos foram recuperados (precisão 1,00 e recall 0,667). Na reserva, os dois eventos de referência não foram detectados: recall 0 e precisão não definida, pois não houve previsão positiva. A avaliação evidencia uma limitação de generalização da regra com o novo detector. Os limiares não foram ajustados depois de observar essa reserva."]
+                  r"Os intervalos são pareados uma única vez com IoU temporal de pelo menos 0,5. No teste, dois de três intervalos derivados das caixas foram recuperados (precisão 1,00 e recall 0,667). Na reserva, os dois intervalos não foram recuperados: recall 0 e precisão não definida. São índices de concordância com uma referência construída, não sensibilidade clínica. Não foi confirmada a exaustividade das anotações; ausência de caixa não comprova ausência anatômica. A divergência exige revisar tanto rótulos quanto detecções. Os limiares operacionais continuam 0,4/0,6."]
+    return "\n\n".join(lines)
+
+
+def make_video_review():
+    calibration = read_json("evidence/video_calibracao.json")
+    appearance = read_json("evidence/video_referencia_visual.json")
+    external = read_json("evidence/video_cobertura_externa.json")
+    if not calibration or not external:
+        return "Consulte as evidências de revisão do vídeo no repositório."
+    lines = [r"A revisão separou três questões: concordância com caixas anotadas, detecção temporal e interpretação clínica. Nos oito quadros-fonte que compõem os dois intervalos esperados da reserva, o modelo identifica instrumento e também útero sem caixa correspondente. Isso bloqueia o alerta, mas não comprova isoladamente erro anatômico do modelo: pode haver detecção espúria ou marcação incompleta. As anotações e o peso foram preservados.",
+             r"Uma busca declarada de 30 pares de confiança utilizou exclusivamente as 74 imagens de validação. O alvo é a condição por quadro anotado (instrumento com útero não anotado), e o desempate favorece a configuração original. A duração de cinco segundos e a tolerância de um segundo não são ajustadas pela montagem.",
+             r"\begin{center}\small\begin{tabular}{lrr}\toprule Conjunto & Original (0,4/0,6) & Candidato (0,4/0,4)\\\midrule"]
+    for key, label in [("valid", "Validação"), ("test", "Teste"), ("blind_holdout", "Reserva já observada")]:
+        metrics = calibration["frame_metrics"][key]
+        lines.append(label + " & " + number(metrics["baseline"]["macro_f1"]) + " & " + number(metrics["calibrated"]["macro_f1"]) + r"\\")
+    lines += [r"\bottomrule\end{tabular}\end{center}",
+              r"A tabela apresenta macro-F1 por quadro, não por evento. O candidato melhora a validação, mas piora na reserva conhecida; não foi promovido. Não se aumentou o limiar apenas para produzir os dois alertas desejados. Após observar a reserva, essa investigação é posterior à avaliação original e não constitui nova verificação cega.",
+              r"Foi acrescentada uma verificação de compatibilidade visual por mediana e MAD de duas características globais: proporção de tons quentes e diferença média vermelho--azul. A referência utiliza somente 776 imagens de treino. O menor limite na grade 4/6/8/10 que retém ao menos 95\% da validação é escolhido sem imagens externas. O limite selecionado foi " + number(appearance["threshold"], 0) + r", retendo 74/74 na validação, 37/37 no teste e 60/60 na reserva. Cores não reconhecem anatomia; o filtro pode rejeitar cenas válidas ou reter cenas inadequadas.",
+              r"Quadros incompatíveis interrompem imediatamente a regra temporal; não são preenchidos como observações normais e não são unidos pela tolerância. A integração conserva cobertura parcial, parâmetros e limitações. Um vídeo sem evento, mas com cobertura parcial, continua na caixa de revisão. Um alerta positivo mantém sua prioridade mesmo com cobertura parcial.",
+              r"A fonte adicional é o vídeo didático editado \textit{Total Laparoscopic Hysterectomy}, TVASurg, Universidade de Toronto. A mídia não foi usada no ajuste do YOLO nem na escolha de limiares. No intervalo 150--240 segundos, a primeira execução gerou um falso alerta técnico sobre uma ilustração; ele permanece registrado. Após a proteção visual, esse alerta não reapareceu. A correção foi motivada por essa falha externa e não é apresentada como resultado cego.",
+              r"\begin{center}\small\begin{tabular}{lrrr}\toprule Trecho da fonte & Quadros & Fora da referência & Sinais\\\midrule"]
+    for case in external["cases"]:
+        a, b = case["interval_source_s"]
+        lines.append(f"{a:.0f}--{b:.0f} s & {case['stats']['quadros_analisados']} & {case['stats']['quadros_fora_referencia_visual']} & {case['event_count']}" + r"\\")
+    lines += [r"\bottomrule\end{tabular}\end{center}",
+              r"O segundo intervalo (240--330 segundos) foi fixado antes de sua primeira inferência com a referência congelada. É uma reserva temporal do mesmo vídeo/paciente, sem independência clínica. O sinal obtido solicita revisão e não comprova desvio cirúrgico. Não há rótulos médicos para calcular acurácia nessa fonte. O pré-treino do modelo base não foi integralmente auditado.",
+              r"As imagens externas continuam privadas, com atribuição e orientação para não republicação sem autorização. O relatório e o Git contêm apenas resultados sanitizados, hashes e a origem. A revisão não retreinou o YOLO nem fez chamadas pagas à API."]
     return "\n\n".join(lines)
 
 
 def build_macros():
     audio = read_json("evidence/audio_reproducao.json")
     summary = read_json("evidence/resumo_execucao.json")
-    replay = read_json("integracao/evidencias/entrega_final_20261111/replay.json")
-    audit = read_json("integracao/evidencias/entrega_final_20261111/entrega_auditoria.json")
+    replay = read_json(FINAL_RUN + "/replay.json")
+    audit = read_json(FINAL_RUN + "/entrega_auditoria.json")
     resources = summary.get("resources", {})
     if resources:
         resource_text = esc(resources.get("description", "Execução conforme manifesto de recursos."))
@@ -262,6 +292,7 @@ def build_macros():
         "ResultadoRecursos": resource_text,
         "ResultadoMidias": make_media(),
         "ResultadoVideoNovo": make_video_new(),
+        "ResultadoVideoRevisao": make_video_review(),
         "ComandosReproducao": commands,
         "ManifestoEvidencias": make_manifest(),
     }

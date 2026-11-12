@@ -16,9 +16,9 @@ def cell(kind,text):
 
 cell("markdown",'''# Fase 4 — vídeo: novo YOLOv8s e reserva de clipe
 
-Entrada da **branch Nirton**, usando os scripts compartilhados. O modelo novo não é o peso original do Marcelo. Há 776 imagens de treino, 74 de validação, 37 de teste e 60 quadros de um prefixo inteiro reservado. Os 418 polígonos usados são convertidos em caixas, sem inventar estruturas.
+Entrada da **branch Nirton**, usando os scripts compartilhados. O modelo novo não é o peso original do Marcelo. Há 776 imagens de treino, 74 de validação, 37 de teste e 60 quadros de um prefixo inteiro originalmente reservado. Os 418 polígonos usados são convertidos em caixas, sem inventar estruturas.
 
-O modo padrão lê evidências reais, sem GPU, credenciais, API ou novos treinos. A reserva não é usada para escolher checkpoint ou limiar. Montagens de quadros não representam cirurgias contínuas externas. Consulte `DATASETS_E_MODELOS.md`.
+O modo padrão lê evidências reais, sem GPU, credenciais, API ou novos treinos. A reserva original já foi observada: sua análise posterior não é uma nova avaliação cega. Limiares continuam 0,4/0,6. Montagens de quadros não representam cirurgias contínuas externas. Consulte `DATASETS_E_MODELOS.md`.
 ''')
 cell("code",'''from pathlib import Path
 import json, sys, subprocess
@@ -56,14 +56,33 @@ cell("code",'''for nome in ["video_dataset_auditoria.json", "video_reproducao.js
     else:
         print("Montagens:", [(m["partition"], m["predicted_events"], m["duration_s"]) for m in dados["montages"]])
 ''')
-cell("markdown",'''## 2. Resultado reservado usado na integração
+cell("markdown",'''## 2. Resultado reservado, separado do exemplo integrado positivo
 
-O JSON sanitizado não contém imagens privadas. A marca de simulação identifica a construção temporal da montagem; as detecções são inferências reais do novo YOLO. A referência temporal usa caixas anotadas, não rótulos de complicação médica.
+O JSON sanitizado não contém imagens privadas. A marca de simulação identifica a construção temporal da montagem; as detecções são inferências reais do novo YOLO. A referência temporal usa caixas anotadas, não rótulos de complicação médica. A ausência de caixa não comprova ausência do órgão. A composição positiva usa `resultado_video_teste.json` e conserva cobertura parcial.
 ''')
 cell("code",'''resultado_video = json.loads((REPO / "evidence/resultado_video_novo.json").read_text(encoding="utf-8"))
 from techchallenge4.core import normalizar_video
 fonte = normalizar_video(resultado_video, origem="YOLO_novo_clipe_reservado")
 print(json.dumps(fonte, ensure_ascii=False, indent=2))
+''')
+cell("markdown",'''## 2.1. Diagnóstico, calibração e nova verificação externa
+
+A busca em 74 imagens de validação encontrou um limite alternativo que melhorou a concordância local, mas piorou na reserva conhecida. O candidato não foi promovido. A referência visual é calculada somente no treino; seu limite é escolhido para reter ao menos 95% da validação. Cenas incompatíveis interrompem a regra e solicitam revisão.
+
+Uma fonte didática externa TVASurg foi processada sem entrar no ajuste. O falso alerta inicial em ilustração é preservado. Há uma segunda janela temporal definida antes de processá-la com o filtro; ela pertence ao mesmo vídeo/paciente e não representa validação clínica independente. As mídias continuam privadas e não devem ser publicadas sem autorização.
+''')
+cell("code",'''calibracao = json.loads((REPO / "evidence/video_calibracao.json").read_text(encoding="utf-8"))
+print("Candidato experimental:", calibracao["selection"]["selected"])
+print("Promovido:", calibracao["candidate_promoted"])
+externo = json.loads((REPO / "evidence/video_cobertura_externa.json").read_text(encoding="utf-8"))
+print("Fonte externa; resultados qualitativos:", externo["cases"])
+resultado_sem_evento = json.loads((REPO / "evidence/resultado_video_externo_filtrado.json").read_text(encoding="utf-8"))
+from techchallenge4.core import combinar_audio_video
+controle = combinar_audio_video(("neutro", .95), resultado_sem_evento,
+                               id_caso="controle-cobertura-video", simulado=True)
+print("Sem evento positivo:", controle["alerta"], "Revisão:", controle["requer_revisao"],
+      "Cobertura:", controle["status"])
+assert controle["requer_revisao"] and "video" in controle["fontes_inconclusivas"]
 ''')
 cell("markdown",'''## 3. Repetir inferência — opcional
 

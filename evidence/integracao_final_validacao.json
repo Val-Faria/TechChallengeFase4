@@ -1,12 +1,11 @@
 {
-  "scope": "GET/POST HTTP local; confirmação de revisão simulada, não profissional médico real",
   "get_http": 200,
   "post_redirect_get_http": 200,
-  "nivel_integrado": "alto",
-  "eventos_video_novo": 2,
-  "fonte_video_montagem_marcada": true,
-  "revisor": "demonstracao_automatica",
-  "auditoria_persistida": true,
-  "servidor_encerrado": true,
-  "api_paga": false
+  "partial_coverage_visible": true,
+  "limits_visible": true,
+  "review_audited": true,
+  "reviewer": "demonstracao_automatica",
+  "scope": "Controle de software local, sem revisão médica real.",
+  "paid_api_calls": 0,
+  "server_closed": true
 }

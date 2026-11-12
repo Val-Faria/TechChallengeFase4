@@ -86,7 +86,7 @@
         "iou_min": 0.5,
         "scope": "eventos derivados de caixas em montagem; não complicações clínicas"
       },
-      "processing_wall_s": 14.680206299992278,
+      "processing_wall_s": 12.37856269999611,
       "construction": "Dois segundos por quadro de fonte; não cirurgia contínua.",
       "source_clips": [
         "UterusClip_mov"
@@ -185,13 +185,16 @@
         "iou_min": 0.5,
         "scope": "eventos derivados de caixas em montagem; não complicações clínicas"
       },
-      "processing_wall_s": 13.992432200000621,
+      "processing_wall_s": 12.262170300004072,
       "construction": "Dois segundos por quadro de fonte; não cirurgia contínua.",
       "source_clips": [
         "2024-09-26-20-27-33_mp4"
       ]
     }
   ],
+  "visual_reference_sha256": "e06eec5f5fca1f1bfe77d8ace0f4db9d4a568fc7b226c74cf93f25279162376f",
+  "evaluation_phase": "Reexecução após diagnóstico; referência visual de treino/validação. A reserva original já foi observada.",
+  "annotation_absence_confirmed_anatomical_absence": false,
   "blind_montage": {
     "partition": "blind_holdout",
     "source_images": 60,
@@ -285,7 +288,7 @@
       "iou_min": 0.5,
       "scope": "eventos derivados de caixas em montagem; não complicações clínicas"
     },
-    "processing_wall_s": 13.992432200000621,
+    "processing_wall_s": 12.262170300004072,
     "construction": "Dois segundos por quadro de fonte; não cirurgia contínua.",
     "source_clips": [
       "2024-09-26-20-27-33_mp4"

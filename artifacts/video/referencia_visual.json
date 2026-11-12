@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "model_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "dataset_zip_sha256": "d2345667a5efa840b7f1f3ff33af52ebf25d8ccf0f7c3c985afdeba6d7e04bf8",
+  "fit_partition": "train",
+  "fit_images": 776,
+  "threshold_partition": "valid",
+  "threshold_images": 74,
+  "reference": {
+    "warm_fraction": {
+      "median": 0.895263671875,
+      "scale": 0.0564662109375,
+      "raw_mad_scale": 0.0564662109375
+    },
+    "red_blue_difference": {
+      "median": 0.20243183210784316,
+      "scale": 0.04711976131663599,
+      "raw_mad_scale": 0.04711976131663599
+    }
+  },
+  "threshold": 4.0,
+  "selection_policy": "Menor limite na grade 4/6/8/10 que retém ao menos 95% da validação.",
+  "purpose": "Abstenção por aparência fora da referência; não reconhece se uma cena é clínica e não mede qualidade anatômica.",
+  "post_hoc_external_failure_observed": true
+}

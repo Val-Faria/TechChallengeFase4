@@ -40,7 +40,7 @@ def main():
                           'celulas_codigo':code_cells})
     requirements = [
         {'requisito':'Vídeo clínico e eventos','status':'nova_reproducao_com_reserva_de_clipe',
-         'observacao':'Novo YOLOv8s a partir do ZIP fornecido; anotacoes normalizadas e prefixo inteiro reservado. Resultados historicos continuam separados. Montagens nao validam cirurgia continua externa.'},
+         'observacao':'Novo YOLOv8s, calibração só na validação e candidato não promovido. Cobertura visual ajustada em treino/validação; falso alerta externo sobre ilustração preservado e removido pela proteção. Nova janela temporal da mesma fonte, sem rótulos clínicos. Ausência de caixa não comprova ausência anatômica; divergência 0/2 mantida.'},
         {'requisito':'Alterações vocais indicativas de condições médicas','status':'demonstracao_acustica_controlada',
          'observacao':'Referência intra-voz anterior, pausas e duração dos trechos vocais. Controles físicos executados. Sem rótulos médicos, sensibilidade clínica ou atribuição causal.'},
         {'requisito':'Transcrição, termos críticos e sentimentos em nuvem','status':'atendido_no_prototipo',

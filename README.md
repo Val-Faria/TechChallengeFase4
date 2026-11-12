@@ -41,7 +41,7 @@ O Whisper fornece o ritmo utilizado no treinamento do classificador. A transcri�
 | Áudio | Características dos 1.180 WAVs; treinamento por famílias de frases isoladas e reserva cega fora do ajuste final. [Reprodução](evidence/audio_reproducao.json) |
 | Amostras novas | Seis WAVs locais, com frases novas e vozes diferentes da voz do dataset. Verificação de software sem rótulos clínicos. [Resultados](evidence/audio_externo.json) |
 | Nuvem | Transcrição real dos seis WAVs e análise textual OpenAI, com cache e consumo registrado. [ASR](evidence/audio_openai_transcricoes.json) · [Texto](evidence/openai_validacao.json) |
-| Vídeo | Decodificação de 570 quadros recebidos e reprodução de dois eventos pelas detecções salvas. Dois vídeos técnicos novos verificam a regra com detector controlado; não medem YOLO. [Resultados](evidence/video_validacao.json) |
+| Vídeo | Novo YOLO, reserva por prefixo, diagnóstico de anotações, calibração e compatibilidade visual. Fonte didática externa: dois trechos de 90 segundos, sem ajuste no detector. [Revisão](relatorio/revisao_video.md) |
 | Monitoramento | 32 pacotes sintéticos, referência anterior congelada, anomalias nas três fontes estruturadas e um alerta. [Resultados](integracao/evidencias/monitoramento_final/monitoramento_resumo.json) |
 | Revisão | Painel local testado em navegador, incluindo confirmação e auditoria. [Resultados](evidence/dashboard_validacao.json) |
 
@@ -55,8 +55,8 @@ Python 3.12 foi utilizado na reprodução. A integração e o painel usam soment
 python -m venv .venv
 .venv\Scripts\python -m pip install -e . pytest
 .venv\Scripts\python -m pytest -q
-.venv\Scripts\python scripts/run_demo.py --output integracao/evidencias/entrega_final_20261111 --audio-csv audio/evidencias/resultado_audio_externo.csv --audio-filename novo-03.wav --video-json evidence/resultado_video_teste.json --text-json evidence/texto_openai_integracao.json
-.venv\Scripts\python -m techchallenge4.dashboard --db integracao/evidencias/entrega_final_20261111/alertas.sqlite3
+.venv\Scripts\python scripts/run_demo.py --output integracao/evidencias/revisao_final_20261111 --audio-csv audio/evidencias/resultado_audio_externo.csv --audio-filename novo-03.wav --video-json evidence/resultado_video_teste.json --text-json evidence/texto_openai_integracao.json
+.venv\Scripts\python -m techchallenge4.dashboard --db integracao/evidencias/revisao_final_20261111/alertas.sqlite3
 ```
 
 Abra o endereço local exibido. A confirmação de revisão fica registrada na caixa local; não altera tratamentos.
@@ -119,7 +119,7 @@ FIAP, *IADT - Fase 4 - Tech challenge*, enunciado fornecido pela equipe; [Uterus
 
 ## Auditoria final de conformidade
 
-Consulte [o parecer detalhado](relatorio/auditoria_conformidade.md) antes de gravar. A suíte após a revisão tem **77 testes e 26 subtestes aprovados**. Foram incluídas pressão sistólica/diastólica e validade temporal das fontes. O prazo de 60 segundos é uma configuração operacional da demonstração, não um limite médico. Foram acrescentados análise acústica com referência anterior e fluxo óptico incremental sobre mídias. Os controles físicos foram executados; não se atribui diagnóstico às alterações. O novo detector anatômico tem treino e inferência próprios; as mídias de reserva são montagens, sem validação de cirurgia contínua externa.
+Consulte [o parecer detalhado](relatorio/auditoria_conformidade.md) antes de gravar. A suíte após a revisão tem **104 testes e 26 subtestes aprovados**. Foram incluídas pressão sistólica/diastólica e validade temporal das fontes. O prazo de 60 segundos é uma configuração operacional da demonstração, não um limite médico. Foram acrescentados análise acústica com referência anterior e fluxo óptico incremental sobre mídias. Os controles físicos foram executados; não se atribui diagnóstico às alterações. O novo detector anatômico tem treino e inferência próprios; as mídias de reserva do dataset são montagens. A fonte externa complementar é didática e editada, sem rótulos para calcular acurácia clínica.
 
 
 ## Complementação executável de voz e movimento
@@ -143,4 +143,6 @@ A gravação/publicação segue com Benicio. Depois inserir o link em `\linkdovi
 
 ## Resultado da nova reserva de vídeo
 
-O novo YOLO obteve mAP50 **0,980** no teste de desenvolvimento e **0,613** no outro prefixo reservado. A regra temporal detectou 2 de 3 eventos de referência no teste e 0 de 2 na reserva. A referência deriva das caixas e do tempo construído da montagem, não de complicações médicas. Os limiares não foram alterados após esses resultados. O exemplo positivo usa `resultado_video_teste.json`; a verificação independente do desenvolvimento usa `resultado_video_novo.json` e é preservada separadamente. Ver [relatório](output/pdf/relatorio_tecnico_fase4.pdf) e [evidência](evidence/video_inferencia_nova.json).
+O novo YOLO obteve mAP50 **0,980** no teste de desenvolvimento e **0,613** no outro prefixo reservado. A regra temporal recuperou 2 de 3 intervalos derivados das caixas no teste e 0 de 2 na reserva. Ausência de caixa não confirma ausência do órgão; esses números não são sensibilidade clínica. A reserva já foi observada, e sua revisão posterior não é nova avaliação cega. Os limites operacionais continuam 0,4/0,6. O candidato obtido na validação ficou experimental porque piorou na reserva conhecida. O exemplo positivo usa `resultado_video_teste.json`; `resultado_video_novo.json` preserva a outra origem separadamente.
+
+A proteção de aparência removeu um falso alerta sobre ilustração na fonte externa, mantendo cobertura parcial e pedido de revisão. Não resolve a divergência anatômica dos dois intervalos do dataset. Os resultados, protocolos, limites e a orientação de não republicar a mídia externa estão em [Revisão do vídeo](relatorio/revisao_video.md). O [alinhamento docente](relatorio/alinhamento_docente.md) relaciona a solução ao PDF e às aulas fornecidas, sem acrescentar ferramentas como exigências extras.

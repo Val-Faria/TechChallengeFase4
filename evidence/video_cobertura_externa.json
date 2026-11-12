@@ -1,0 +1,51 @@
+{
+  "protocol_sha256": "cced71fcb2f219560888ed89bcb4225fa513872597fb0b4452b44f9e9e1fa05e",
+  "reference_sha256": "e06eec5f5fca1f1bfe77d8ace0f4db9d4a568fc7b226c74cf93f25279162376f",
+  "original_false_alert_preserved": "evidence/resultado_video_externo.json",
+  "original_false_alert_context": "Revisão visual identifica uma ilustração com campos cirúrgicos, não um instrumento endoscópico, no alerta inicial.",
+  "reference_fit_external_frames": false,
+  "cases": [
+    {
+      "case": "filtrado",
+      "interval_source_s": [
+        150.0,
+        240.0
+      ],
+      "event_count": 0,
+      "stats": {
+        "duracao_video_s": 90.0,
+        "quadros_analisados": 450,
+        "amostra_fps_efetivo": 5.0,
+        "quadros_fora_referencia_visual": 73,
+        "quadros_yolo_processados": 377,
+        "prop_quadros_com_utero": 0.0022222222222222222,
+        "prop_quadros_com_instrumento": 0.04,
+        "prop_instrumento_sem_utero": 0.04
+      },
+      "clinical_metrics": null
+    },
+    {
+      "case": "reserva_temporal",
+      "interval_source_s": [
+        240.0,
+        330.0
+      ],
+      "event_count": 1,
+      "stats": {
+        "duracao_video_s": 90.0,
+        "quadros_analisados": 450,
+        "amostra_fps_efetivo": 5.0,
+        "quadros_fora_referencia_visual": 33,
+        "quadros_yolo_processados": 417,
+        "prop_quadros_com_utero": 0.08666666666666667,
+        "prop_quadros_com_instrumento": 0.3022222222222222,
+        "prop_instrumento_sem_utero": 0.29555555555555557
+      },
+      "clinical_metrics": null
+    }
+  ],
+  "paid_api_calls": 0,
+  "clinical_accuracy_claimed": false,
+  "media_redistributed_publicly": false,
+  "model_weights_unchanged": true
+}

@@ -8,35 +8,49 @@
   "ambiente_minimo": {
     "python": "3.12",
     "dependencias_de_teste": "pytest e dependencias basicas instaladas do cache",
-    "testes_aprovados": 77,
+    "testes_aprovados": 104,
     "subtestes_aprovados": 26,
     "notebook_zip_sem_git_executado": true,
     "gpu": false,
     "credenciais": false,
     "notebooks_exportados_executados": {
       "integracao/TechChallengeFase4_integracao.ipynb": 7,
-      "video/TechChallengeFase4_video.ipynb": 5
+      "video/TechChallengeFase4_video.ipynb": 6
     }
   },
   "pacote_overleaf_fontes_identicas": true,
   "links_locais_quebrados": [],
   "chamadas_api_adicionais": 0,
   "ci_revisao_anterior": {
-    "commit": "a906866591efd19ed655896831a3fc6a81164db1",
+    "commit": "7c22fbc549b244040072120395d4fcbac2b5c4fe",
     "resultado": "success",
-    "url": "https://github.com/Val-Faria/TechChallengeFase4/actions/runs/42848342804"
+    "url": "https://github.com/Val-Faria/TechChallengeFase4/actions/runs/42957135210"
   },
   "pendencias_funcionais_preservadas": [
-    "apresentação do grupo: gravação/publicação e link",
-    "limitações de desempenho na reserva e de atribuição clínica documentadas"
+    "Gravação, publicação e link da apresentação do grupo.",
+    "Adjudicação independente das marcações/ausência anatômica; desempenho clínico não comprovado."
   ],
   "complementacao_executada": {
     "audio": "comparacao intra-voz; oito controles fisicos aprovados",
-    "video": "novo YOLOv8s, normalização de anotações e reserva por prefixo; inferência real em duas montagens",
+    "video": "Diagnóstico das marcações, calibração isolada, compatibilidade visual e dois intervalos externos; sem retreino. Divergência 0/2 preservada sem reinterpretação clínica.",
     "continuidade": "PCM e quadros analisados no ritmo original; inferencia e entrega local",
     "chamadas_api_adicionais": 0
   },
   "padrao_relatorio": "modelo LaTeX fornecido: fonte 12, A4, margem 2.5 cm, espaçamento 1.5",
-  "hashes_codigo_notebooks_conferidos_na_exportacao": 41,
-  "pacote_modelo_audio_hash_conferido": true
+  "hashes_codigo_notebooks_conferidos_na_exportacao": 50,
+  "pacote_modelo_audio_hash_conferido": true,
+  "revisao_video": {
+    "calibracao": "validação somente; candidato não promovido",
+    "referencia_visual": "treino, limiar de retenção na validação",
+    "falso_alerta_externo_ilustracao_removido": true,
+    "divergencia_anatomica_reserva_resolvida": false,
+    "rotulos_originais_preservados": true,
+    "fonte_externa": "TVASurg, vídeo didático editado",
+    "reserva_temporal_s": [
+      240,
+      330
+    ],
+    "rotulos_clinicos_externos": false,
+    "cobertura_parcial_preservada": true
+  }
 }

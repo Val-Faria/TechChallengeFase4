@@ -44,3 +44,11 @@ Os números históricos da equipe e as novas métricas têm protocolos diferente
 ## Backup e credenciais
 
 O diretório `ENTREGA_FINAL_FASE4`, na pasta principal sincronizada com o Drive, contém relatório, Overleaf, código, artefatos privados e manifestos. Extrair os artefatos privados na raiz do repositório preserva os caminhos necessários. A chave OpenAI fica fora de todos os pacotes; `OPENAI_API_KEY` é opcional para novas chamadas, nunca para a demonstração com cache.
+
+## Revisão de cobertura e fonte complementar
+
+`artifacts/video/referencia_visual.json` registra mediana/MAD calculadas somente em treino e limite de retenção escolhido na validação. O arquivo contém hash do peso e do dataset. `calibracao_alertas.json` é um candidato experimental **não promovido**; a inferência mantém 0,4/0,6. A referência visual não corrige nem inventa rótulos anatômicos.
+
+[Procedimento e resultados](relatorio/revisao_video.md). A fonte adicional é o [TVASurg da Universidade de Toronto](https://pie.med.utoronto.ca/TVASurg/project/gyn-tlh/). `python scripts/video_verificar_externo.py --baixar` obtém o vídeo oficial público (152.904.066 bytes, limitado a 200 MB); `python scripts/video_verificar_cobertura.py` reproduz a proteção e a reserva temporal declarada. Não há ajuste do YOLO nessas mídias, nem anotações médicas que permitam calcular acurácia clínica. Todos os intervalos já executados estão identificados; reexecutá-los não cria uma reserva nova.
+
+O vídeo externo fica em `dados_privados/video_externo_tvasurg/`, fora do Git e do PDF. A fonte declara direitos reservados: não publicar imagens na apresentação sem autorização; usar os resultados sanitizados e a página oficial. O backup privado da equipe preserva os arquivos para reprodução, com os hashes e a atribuição. Nenhuma chave acompanha os pacotes.

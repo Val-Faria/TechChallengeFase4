@@ -253,6 +253,8 @@ O detector YOLOv8s da equipe foi ajustado a partir de pesos COCO para duas class
 \subsection{Construção do evento}
 A regra identifica a presença de instrumento com confiança mínima de 0,4 e ausência de útero detectado com confiança mínima de 0,6. A condição precisa persistir por pelo menos 5 segundos, tolerando interrupções curtas de até 1 segundo. O limiar específico da área crítica procura reduzir falsos positivos de útero que poderiam ocultar eventos.
 
+A ausência de detecção não comprova ausência do órgão. A regra descreve a saída do modelo e pede revisão; não confirma uma falha no procedimento. A proteção visual acrescentada nesta revisão interrompe a regra em quadros incompatíveis com a referência, preservando a cobertura parcial.
+
 \noindent\begin{tabularx}{\linewidth}{l Y}
 \toprule
 \textbf{Prioridade} & \textbf{Regra operacional da frente de vídeo}\\
@@ -280,6 +282,9 @@ A proveniência por clipe e a possível proximidade de quadros entre conjuntos l
 O peso original da equipe não foi recuperado. O ZIP fornecido permitiu treinar um novo YOLOv8s, com a mesma tarefa de instrumentos e útero, mas com protocolo de reserva explícito e resultados próprios. A escolha do checkpoint usa somente a validação; a reserva é avaliada com o modelo congelado.
 
 \ResultadoVideoNovo
+
+\subsection{Diagnóstico das divergências e proteção de cobertura}
+\ResultadoVideoRevisao
 
 \sectionpage{Análise textual gerenciada e controle de custos}
 A transcrição alimenta a API da OpenAI para extrair sentimento, menções relevantes, contexto e trechos literais de evidência. O resultado segue um esquema estruturado. A análise deve preservar negação e incerteza, vincular cada menção a um trecho da transcrição e evitar inferir informações ausentes.
@@ -498,6 +503,8 @@ Os áudios sintéticos de uma única voz não representam diversidade de pessoas
 
 No vídeo, a origem detalhada dos clipes e a proximidade de quadros limitam a auditoria de independência. O vídeo montado altera o significado temporal em relação a uma cirurgia contínua. Esses fatores podem produzir estimativas mais favoráveis do que as de dados externos.
 
+A verificação complementar usa uma fonte didática externa editada, sem anotações independentes de eventos clínicos. Ela identifica um falso alerta em ilustração e verifica a proteção de cobertura; não resolve a divergência anatômica dos dois intervalos da montagem reservada nem comprova desempenho clínico. Uma nova anotação independente deve distinguir ausência confirmada, presença e visibilidade inconclusiva antes de novo treinamento ou medição de sensibilidade.
+
 \subsection{Validade das decisões}
 Sentimento textual e classe acústica não são indicadores clínicos intercambiáveis. Uma frase negativa pode descrever um evento sem relação com risco; uma negação mal interpretada pode inverter seu significado. O protótipo preserva evidências e exige revisão, mas não elimina esses erros.
 
@@ -531,12 +538,14 @@ A gravação e a publicação do vídeo não integram esta execução técnica. 
 
 \clearpage
 \section{Referências}
+\begingroup\singlespacing\small
 \begin{enumerate}[label={[\arabic*]},leftmargin=2em]
 \item FIAP. \textit{IADT - Fase 4 - Tech challenge}. Material da disciplina, páginas 2--4, 2026.
 \item FIAP. \textit{Aula 04: transcrição e processamento de áudio}; \textit{Aula 05: classificação e avaliação}; \textit{Integração e automação com a API da OpenAI}. Materiais da Fase 4, 2026.
 \item Equipe Tech Challenge. \textit{Frente de áudio - monitoramento de sinais emocionais pela voz}. \url{https://github.com/Val-Faria/TechChallengeFase4/blob/main/audio/relatorio/secao_audio.md}. Consulta: 9 nov. 2026.
 \item Equipe Tech Challenge. \textit{Frente de vídeo - análise de cirurgias ginecológicas}. \url{https://github.com/Val-Faria/TechChallengeFase4/blob/main/relatorio/secao_video.md}. Consulta: 9 nov. 2026.
 \item Machinelearning. \textit{Uterus Dataset}, versão 4. Roboflow Universe, 2024. \url{https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4}.
+\item TVASurg, Universidade de Toronto. \textit{Total Laparoscopic Hysterectomy}. Fonte de verificação qualitativa, acesso em novembro de 2026. \url{https://pie.med.utoronto.ca/TVASurg/project/gyn-tlh/}.
 \item OpenAI. \textit{Structured model outputs}. \url{https://developers.openai.com/api/docs/guides/structured-outputs}. Consulta: 9 nov. 2026.
 \item OpenAI. \textit{API pricing}. \url{https://developers.openai.com/api/docs/pricing}. Consulta: 9 nov. 2026.
 \item OpenAI. \textit{Whisper}. Código e documentação do modelo de reconhecimento de fala. \url{https://github.com/openai/whisper}.
@@ -546,7 +555,7 @@ A gravação e a publicação do vídeo não integram esta execução técnica. 
 \item Rashid, M. et al. \textit{Respiratory Distress Detection from Telephone Speech using Acoustic and Prosodic Features}. 2020. \url{https://arxiv.org/abs/2011.09270}. A referência fundamenta a investigação de características; seus resultados não são transferidos ao protótipo.
 \item OpenCV. \textit{Optical Flow}. \url{https://docs.opencv.org/4.x/d4/dee/tutorial_optical_flow.html}. Implementação de fluxo óptico denso de Farnebäck.
 \end{enumerate}
-
+\endgroup
 \clearpage
 \appendix
 \section{Manifesto de evidências e critérios de auditoria}
@@ -554,7 +563,7 @@ A gravação e a publicação do vídeo não integram esta execução técnica. 
 
 \begingroup\singlespacing\small
 \subsection{Critérios para revisão}
-\begin{itemize}
+\begin{itemize}[nosep,topsep=2pt]
 \item A contagem declarada deve corresponder ao ZIP e ao CSV regenerados.
 \item Os hashes dos arquivos de partição devem demonstrar ausência de sobreposição.
 \item A verificação cega não pode ser incorporada ao treinamento do modelo entregue como avaliado.

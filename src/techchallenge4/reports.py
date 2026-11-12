@@ -52,6 +52,12 @@ def relatorio_automatico(resultado):
                   f"- Estado: {source['status']}",
                   f"- Origem: {source.get('origem', 'não fornecida')}",
                   f"- Motivo: {source['motivo']}"]
+        if source.get("cobertura_parcial"):
+            lines.append("- Cobertura parcial: esta fonte exige revisão mesmo sem alerta positivo.")
+        if source.get("interpretacao"):
+            lines.append("- Interpretação: " + source["interpretacao"])
+        for limit in source.get("limitacoes", []):
+            lines.append("- Limitação: " + limit)
         for event in source.get("eventos", []):
             lines.append("- Evidência: " + json.dumps(event, ensure_ascii=False))
         for mention in source.get("mencoes", []):

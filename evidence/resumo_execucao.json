@@ -8,8 +8,8 @@
     "status": "16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha"
   },
   "tests": {
-    "name": "pytest Python 3.12; entrega final",
-    "passed": 77,
+    "name": "pytest Python 3.12; revisão de cobertura e vídeo",
+    "passed": 104,
     "failed": 0,
     "subtests_passed": 26
   },
@@ -17,10 +17,10 @@
     "gpu_used": true,
     "session_closed": true,
     "colab_used": false,
-    "description": "GPU local NVIDIA RTX 2060: áudio anterior e novo YOLOv8s. Treino e inferência encerrados. Nenhuma sessão Colab foi iniciada."
+    "description": "GPU local NVIDIA RTX 2060: áudio e novo YOLOv8s anteriores. Nesta revisão: inferências e referências locais, sem retreino, Colab ou chamadas pagas; processos de inferência encerrados."
   },
   "integration": {
-    "description": "Áudio novo-03, modelo congelado de treino, transcrição e análise textual reais do mesmo WAV, novo YOLO em montagem de teste e três fontes estruturadas sintéticas. Reserva por clipe apresentada separadamente, com seus eventos não detectados."
+    "description": "Composição revisada em integracao/evidencias/revisao_final_20261111; áudio novo-03, texto real em cache, novo YOLO em montagem de teste e fontes estruturadas sintéticas. Cobertura parcial de vídeo preservada. Dois controles externos verificam fila de revisão mesmo sem alerta positivo."
   },
   "video": {
     "yolo_reexecutado": true,
@@ -30,7 +30,15 @@
     "video_clinico_continuo_externo_avaliado": false,
     "reserva_prefixo_fora_desenvolvimento": true,
     "referencia": "evidence/video_reproducao.json",
-    "regra_temporal_reserva": "0 de 2 eventos de referência detectados; limiares não ajustados"
+    "regra_temporal_reserva": "0/2 intervalos derivados de caixas: ausência de anotação não confirma ausência anatômica; requer revisão independente.",
+    "calibracao_experimental_promovida": false,
+    "referencia_visual": "artifacts/video/referencia_visual.json",
+    "verificacao_externa": "evidence/video_cobertura_externa.json",
+    "video_didatico_externo_editado_avaliado": true,
+    "janela_externa_reservada_temporal_s": [
+      240,
+      330
+    ]
   },
   "gravacao_benicio": "Responsabilidade do grupo; fora da execução desta entrega.",
   "auditoria": {

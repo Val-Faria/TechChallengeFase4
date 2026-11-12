@@ -1,9 +1,11 @@
 {
-  "pages": 30,
-  "sha256": "6f125fd3cf4549559b8ed5b9a984933fb896f47b1f02ed9703ea714d0d3528d4",
-  "compiled_from": "relatorio/latex/main.tex",
-  "visual_review": "Contato completo, capa, métricas novas e última página inspecionados; sem cortes ou sobreposição",
+  "pages": 31,
+  "sha256": "5b42005dabb479ab633efd0188207020713a3db40950eb3fc2ccd7c5f8f5219f",
   "overfull_boxes": 0,
-  "date": "2026-11-11",
-  "padrao": "modelo LaTeX anexado da Fase 2, adaptado para a Fase 4"
+  "visual_review": "Capa, contato de todas as páginas; páginas de revisão, referências e apêndice finais inspecionadas; sem imagens externas publicadas.",
+  "font_pt": 12,
+  "margins_cm": 2.5,
+  "line_spacing": 1.5,
+  "sources_match_overleaf": true,
+  "clinical_media_in_pdf": false
 }

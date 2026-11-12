@@ -1,0 +1,103 @@
+{
+  "materiais_fornecidos": [
+    {
+      "arquivo": "4IADT - Fase 4 - Capítulo Projeto.pdf",
+      "sha256": "de1e760f54568e6e441b64e7fb15ecdd66257f77e2acabad4ec12d6174025119",
+      "paginas": 4,
+      "titulo_extraido": "1"
+    },
+    {
+      "arquivo": "Aula 01 - Introdução ao Textract e AWS Comprehend.pdf",
+      "sha256": "3c6cb0cde76e8100f42b5e942cfb92471523bf2faa4e505a6f0072a3654b6727",
+      "paginas": 13,
+      "titulo_extraido": "Introdução ao Textract e AWS Comprehend Página 1 de 13 THAMIRIS DA SILVA ADRIANO TEXTRACT E AWS COMPREHEND AULA 01 | AULA 01 - IA PARA DEVS FASE 4 INTRODUÇÃO AO TEXTRACT E AWS COMP"
+    },
+    {
+      "arquivo": "Aula 01 - Introdução à OpenAI e Inteligência Artificial.pdf",
+      "sha256": "7d400ae1dfc66089f98976d314a24a250619b7a2246de0ef74cfd828a21d7617",
+      "paginas": 14,
+      "titulo_extraido": "Introdução à OpenAI e Inteligência Artificial Página 1 de 14 ENRICO FERRAZ | AULA 01 - IA PARA DEVS FASE 4 INTRODUÇÃO À OPENAI E INTELIGÊNCIA ARTIFICIAL"
+    },
+    {
+      "arquivo": "Aula 01.pdf",
+      "sha256": "f9f0c7bef4b9415d68c1e232755f51cf50fb47cec9af997db4509ec3e234cd47",
+      "paginas": 28,
+      "titulo_extraido": "Reconhecimento facial Página 1 de 28 CARLOS EXPEDITO RODRIGUES ARAGÃO ANÁLISE DE VÍDEO, ÁUDIO E TEXTO | AULA 01 - IA PARA DEVS FASE 4 RECONHECIMENTO FACIAL"
+    },
+    {
+      "arquivo": "Aula 02 - Extracao de texto com Textract.pdf",
+      "sha256": "55b4d474182ce2b23531351d5bd69435923468c0c9d35508b35b50c0a738ac5e",
+      "paginas": 14,
+      "titulo_extraido": "Extração de texto com Textract Página 1 de 14 | AULA 02 - IA PARA DEVS FASE 4 EXTRAÇÃO DE TEXTO COM TEXTRACT"
+    },
+    {
+      "arquivo": "Aula 02 - Fundamentos da API do OpenAI.pdf",
+      "sha256": "5787a4ea395290bfe1863fd408df1b720b6925e2936099ea5d8e7b1c7443b616",
+      "paginas": 13,
+      "titulo_extraido": "Fundamentos da API do OpenAI Página 1 de 13 ENRICO FERRAZ OPEN API AULA 02 | AULA 02 - IA PARA DEVS FASE 4 FUNDAMENTOS DA API DO OPENAI"
+    },
+    {
+      "arquivo": "Aula 02.pdf",
+      "sha256": "bec51586739a4ba4a2a2ce17794c80c2f324a302a10e0ecdc891e2a9cbf863e4",
+      "paginas": 31,
+      "titulo_extraido": "Reconhecimento facial e análise de expressões emocionais em vídeos Página 1 de 31 CARLOS EXPEDITO RODRIGUES ARAGÃO ANÁLISE DE VÍDEO, ÁUDIO E TEXTO | AULA 02 - IA PARA DEVS FASE 4 R"
+    },
+    {
+      "arquivo": "Aula 03 - Análise de texto com AWS Comprehend.pdf",
+      "sha256": "35c9c95ef8014def11c55a7283de06334157488f5bc81a509ec93f03f8369e64",
+      "paginas": 14,
+      "titulo_extraido": "Análise de texto com AWS Comprehend Página 1 de 14 THAMIRIS DA SILVA ADRIANO TEXTRACT E AWS COMPREHEND AULA 03 | AULA 03 - IA PARA DEVS FASE 4 ANÁLISE DE TEXTO COM AWS COMPREHEND P"
+    },
+    {
+      "arquivo": "Aula 03 - Primeiros Passos com a API do GPT.pdf",
+      "sha256": "2b7a246bfec723de0284593d7ddf6ad074f129ed66022e354444343613a8c3d2",
+      "paginas": 12,
+      "titulo_extraido": "Primeiros Passos com a API do GPT Página 1 de 12 ENRICO FERRAZ | AULA 03 - IA PARA DEVS FASE 4 PRIMEIROS PASSOS COM A API DO GPT"
+    },
+    {
+      "arquivo": "Aula 03.pdf",
+      "sha256": "ba642def8dc7217b21c59c9718852b03d9c00ee1f860fb167955e7ca6ac4733d",
+      "paginas": 30,
+      "titulo_extraido": "Detecção de atividades e reconhecimento de ações em vídeos Página 1 de 30 CARLOS EXPEDITO RODRIGUES ARAGÃO ANÁLISE DE VÍDEO, ÁUDIO E TEXTO | AULA 03 - IA PARA DEVS FASE 4 DETECÇÃO"
+    },
+    {
+      "arquivo": "Aula 04 - Trabalhando com a API DALL·E.pdf",
+      "sha256": "17445e92bfed793f2a2e5185e5173eacc6998200432c932212d944641a1ebc99",
+      "paginas": 11,
+      "titulo_extraido": "Trabalhando com a API DALL·E Página 1 de 11 ENRICO FERRAZ OPEN API AULA 04 | AULA 04 - IA PARA DEVS FASE 4 TRABALHANDO COM A API DALL·E"
+    },
+    {
+      "arquivo": "Aula 04.pdf",
+      "sha256": "7147d2cfa631e7e43fda9b595e22d32028e7aca85d0db7a36b0d5e21e3d07994",
+      "paginas": 29,
+      "titulo_extraido": "Transcrição automática de áudio e conversão de fala em texto Página 1 de 29 ANÁLISE DE VÍDEO, ÁUDIO E TEXTO | AULA 04 - IA PARA DEVS FASE 4 TRANSCRIÇÃO AUTOMÁTICA DE ÁUDIO E CONVER"
+    },
+    {
+      "arquivo": "Aula 05 - Integração e Automação com a API da OpenAI.pdf",
+      "sha256": "db130e014b7d5e68e65d8902638a2eebc9be23b24175211547a7aeb277441a77",
+      "paginas": 12,
+      "titulo_extraido": "Integração e Automação com a API do OpenAI Página 1 de 12 ENRICO FERRAZ OPEN API AULA 05 | AULA 05 - IA PARA DEVS FASE 4 INTEGRAÇÃO E AUTOMAÇÃO COM A API DO OPENAI"
+    },
+    {
+      "arquivo": "Aula 05.pdf",
+      "sha256": "7d06b542c42729f30468db6fa4e7c1370b6de91fdebf902ac83751ba47a6b258",
+      "paginas": 26,
+      "titulo_extraido": "Classificação de tópicos e categorização de texto Página 1 de 26 CARLOS EXPEDITO RODRIGUES ARAGÃO ANÁLISE DE VÍDEO, ÁUDIO E TEXTO | AULA 05 - IA PARA DEVS FASE 4 CLASSIFICAÇÃO DE T"
+    },
+    {
+      "arquivo": "Aula 06.pdf",
+      "sha256": "48ab657546f10676acda3bd1306e31f1736847eb59e6959a3baa3f26ebf232b0",
+      "paginas": 20,
+      "titulo_extraido": "Sumarização automática de documentos e artigos Página 1 de 20 CARLOS EXPEDITO RODRIGUES ARAGÃO ANÁLISE DE VÍDEO, ÁUDIO E TEXTO | AULA 06 - IA PARA DEVS FASE 4 SUMARIZAÇÃO AUTOMÁTIC"
+    },
+    {
+      "arquivo": "IADT - Fase 4 - Tech challenge.pdf",
+      "sha256": "5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1",
+      "paginas": 5,
+      "titulo_extraido": "Tech Challenge Página 1 de 5 TECH CHALLENGE FASE 4"
+    }
+  ],
+  "analise": "Enunciado determina requisitos; bibliotecas alternativas das aulas não foram transformadas em obrigações adicionais.",
+  "alinhamento": "relatorio/alinhamento_docente.md",
+  "materiais_republicados": false
+}

@@ -40,7 +40,7 @@ Essas verificações não medem sensibilidade para fadiga, disartria ou dificuld
 
 ## Correções e verificações de software
 
-A suíte tem **77 testes e 26 subtestes aprovados**. Inclui contratos, prioridade, fontes inconclusivas, pressão arterial, validade temporal, referências congeladas, seleção explícita de áudio, revisão concorrente, cache e integridade de arquivos.
+A suíte tem **104 testes e 26 subtestes aprovados**. Inclui contratos, prioridade, fontes inconclusivas, pressão arterial, validade temporal, referências congeladas, seleção explícita de áudio, revisão concorrente, cache e integridade de arquivos.
 
 Foi corrigido um bloqueio intermitente do Windows ao substituir snapshots concorrentes: destinos são serializados no processo, e erros transitórios específicos recebem repetição limitada. Erros permanentes continuam visíveis e o snapshot anterior é preservado. Há testes próprios para os dois comportamentos.
 
@@ -51,3 +51,13 @@ O notebook de vídeo usa os scripts compartilhados e lê evidências por padrão
 O relatório segue o padrão anexado da Fase 2: fonte 12, A4, margens de 2,5 cm, espaçamento 1,5, capa simples com autores/RMs, links azuis e sumário antes do resumo. Os dados, figuras, resultados e links pertencem à Fase 4. O link audiovisual anterior não foi reutilizado.
 
 O PDF é compilado das mesmas fontes incluídas no Overleaf. O backup do Drive preserva ZIP original, pesos, vídeos e relatórios privados, código, evidências e manifestos. Nenhuma credencial integra os pacotes. Nesta etapa não houve novas chamadas pagas nem sessão Colab; os processos locais de GPU foram encerrados após treino/inferência.
+
+## Revisão das divergências e cobertura de vídeo
+
+A ausência de caixa anotada não confirma ausência anatômica. Os dois intervalos da reserva continuam sem concordância; os rótulos originais não foram alterados. A revisão encontrou 15 divergências de útero anotado/predito nos três conjuntos avaliados. A planilha de revisão conserva hashes e deixa a adjudicação independente pendente, sem criar rótulos médicos.
+
+A calibração em validação melhorou macro-F1 por quadro de 0,934 para 0,951, mas piorou na reserva conhecida de 0,627 para 0,583. O candidato não foi promovido; os limites operacionais continuam 0,4/0,6. A reserva já observada não é reutilizada como nova verificação cega.
+
+A compatibilidade visual por mediana/MAD é ajustada só em treino e retém 74/74 imagens de validação, 37/37 de teste e 60/60 da reserva. Quadros incompatíveis interrompem a regra e indicam cobertura parcial; não se tornam observações normais. A fusão, o relatório e o painel preservam essa indicação e mantêm o pedido de revisão mesmo sem evento positivo.
+
+Uma fonte TVASurg oficial adicional foi processada fora do ajuste. O falso alerta inicial em ilustração foi preservado e removido pela proteção de cobertura. Uma janela temporal seguinte foi definida antes da inferência com essa proteção; é a mesma fonte/paciente, sem rótulos clínicos. As mídias continuam privadas e não entram no Git/PDF. Não se declara acurácia clínica ou solução completa da divergência anatômica. Detalhes em [revisao_video.md](revisao_video.md); alinhamento com o material docente em [alinhamento_docente.md](alinhamento_docente.md).

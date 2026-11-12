@@ -38,3 +38,25 @@ def test_prioridade_e_intervalos():
     assert video.nivel_do_alerta([{'duracao_s': 15}]) == 'alto'
     with pytest.raises(ValueError):
         video.detectar_eventos([], -1)
+
+
+@pytest.mark.parametrize("duration", [float("nan"), -1, True])
+def test_rejeita_duracao_invalida(duration):
+    with pytest.raises(ValueError):
+        video.detectar_eventos([], .2, duracao_video=duration)
+
+
+def test_presenca_como_texto_nao_cria_alerta_falso():
+    with pytest.raises(ValueError, match="booleana"):
+        video.detectar_eventos([(0, "false", False, .9)], .2)
+
+
+def test_quadro_fora_da_duracao_nao_extrapola_evento():
+    with pytest.raises(ValueError, match="fora"):
+        video.detectar_eventos([(2, True, False, .9)], .2, duracao_video=1)
+
+
+def test_quadro_fora_da_referencia_interrompe_evento_sem_tolerancia():
+    rows = [(i, True, False, .9) for i in range(11)]
+    events = video.detectar_eventos(rows, 1, quadros_invalidos=[5])
+    assert [(e["inicio_s"], e["fim_s"]) for e in events] == [(0, 5), (6, 11)]

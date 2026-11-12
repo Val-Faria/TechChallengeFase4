@@ -72,6 +72,11 @@ def normalizar_video(resultado, origem="analisar_video", simulado=False):
     if resultado.get("status") in {"erro", "indisponivel"}:
         return fonte_indisponivel("video", resultado.get("motivo", "Falha no vídeo."),
                                  resultado["status"], simulado)
+    if resultado.get("status") == "baixa_confianca":
+        return fonte_indisponivel("video", resultado.get("motivo", "Vídeo sem confiança suficiente."),
+                                 "baixa_confianca", simulado)
+    if resultado.get("status", "ok") != "ok":
+        raise ValueError("Vídeo: status desconhecido.")
     alerta = resultado.get("alerta")
     if type(alerta) is not bool:
         raise ValueError("Vídeo: 'alerta' deve ser booleano JSON, nunca 'true' como texto.")
@@ -94,9 +99,18 @@ def normalizar_video(resultado, origem="analisar_video", simulado=False):
             numero_finito(e["confianca"], "confianca", 0, 1)
     if eventos and not alerta:
         raise ValueError("Vídeo: há eventos, mas alerta está desativado.")
+    parcial = resultado.get("cobertura_parcial", False)
+    if type(parcial) is not bool:
+        raise ValueError("Vídeo: cobertura_parcial deve ser booleano JSON.")
+    limitacoes = resultado.get("limitacoes", [])
+    if not isinstance(limitacoes, list) or any(not isinstance(v, str) or not v.strip() for v in limitacoes):
+        raise ValueError("Vídeo: limitações devem ser uma lista de textos.")
     return {"modalidade": "video", "status": "ok", "alerta": alerta, "nivel": nivel,
             "motivo": str(resultado.get("motivo", "Resultado de vídeo recebido.")),
             "eventos": deepcopy(eventos), "estatisticas": deepcopy(resultado.get("estatisticas", {})),
+            "cobertura_parcial": parcial, "limitacoes": list(limitacoes),
+            "interpretacao": str(resultado.get("interpretacao", "Resultado observacional; não exclui anomalias clínicas.")),
+            "parametros": deepcopy(resultado.get("parametros", {})),
             "origem": origem, "simulado": bool(simulado)}
 
 def validar_fonte(fonte):

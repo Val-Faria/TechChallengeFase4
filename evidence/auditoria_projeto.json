@@ -18,7 +18,7 @@
     },
     {
       "arquivo": "relatorio/gerar_relatorio.py",
-      "sha256": "f9d8769e30a61ff601e4722b23799c69cfce224acd4fcd2007b252d8193dc9da",
+      "sha256": "6beccc0157a5662653c2314f40c7138428ff5952902d6f48b0df71cabd0c0e3d",
       "celulas_codigo": 0
     },
     {
@@ -43,7 +43,7 @@
     },
     {
       "arquivo": "scripts/auditar_projeto.py",
-      "sha256": "f15628dcd29a66d15a4c3350c180bf0db7173bfb76327c7eb45a246296990d50",
+      "sha256": "298e5f562d86c3b29dfc1923d3cce481ec3f2387b7996b7220450cef3f7eaf68",
       "celulas_codigo": 0
     },
     {
@@ -53,7 +53,7 @@
     },
     {
       "arquivo": "scripts/gerar_notebook_video.py",
-      "sha256": "bcb02e23ad0aa9a489cc2b3c8d49f8385c1b27d262f86554744de632a6016899",
+      "sha256": "6467781234ba33a432bff190e28571be399384bcee327c3a449bf66aefa96ee3",
       "celulas_codigo": 0
     },
     {
@@ -97,13 +97,38 @@
       "celulas_codigo": 0
     },
     {
+      "arquivo": "scripts/video_calibrar_alertas.py",
+      "sha256": "4a73044b3d2b94ab46e6299bd70cb1a579401c1c5421a67de40e0be511027007",
+      "celulas_codigo": 0
+    },
+    {
       "arquivo": "scripts/video_infer_reserva.py",
-      "sha256": "152b95a0e1ee96cd25a0516f83675566640d6c93ebd9e8d273a0579507381e10",
+      "sha256": "afb259ee00d7dedea88c4123cc38a978a314267b8245976a62bb8813ee446b5b",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_preparar_referencia_visual.py",
+      "sha256": "1d94dbf6b7c180c743d13277e3ec747df24b484015ac3c76deceb135b17800e2",
       "celulas_codigo": 0
     },
     {
       "arquivo": "scripts/video_reproduce.py",
       "sha256": "bdd736bdd488ed70b0f9c526e9880d8aa4d2498a781c16f45dcdb67a01707d50",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_validar_integracao.py",
+      "sha256": "40237b2d0c19e49b486575ed9ae34d74751834ef2b95491a6c9a78388c4e4e9a",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_verificar_cobertura.py",
+      "sha256": "465410a9ef5fc2791d81ee404a87992aea580e9dec133a7a2660250a5b29b5e6",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_verificar_externo.py",
+      "sha256": "16ba8d75760c26298e53f9e54eac4524fe19f11faf7598a0c935ae0f57f2559a",
       "celulas_codigo": 0
     },
     {
@@ -113,12 +138,12 @@
     },
     {
       "arquivo": "src/techchallenge4/core.py",
-      "sha256": "60614a6f41cc6321f78f888cfd0006b652792249e519f86b63f020d71fffbecc",
+      "sha256": "bb73127747d4438d2d33e377f30c7d182210670494785759e49cc54a240f682e",
       "celulas_codigo": 0
     },
     {
       "arquivo": "src/techchallenge4/dashboard.py",
-      "sha256": "e429b7c831df1383890056ddf5a2b78e02f06b9b820512c7090f3f9727d1e7ad",
+      "sha256": "ac0219ef4f62b64fbd8802acc4f964fea4cb5dead60d91eb6449efff13a2c211",
       "celulas_codigo": 0
     },
     {
@@ -158,7 +183,7 @@
     },
     {
       "arquivo": "src/techchallenge4/reports.py",
-      "sha256": "eb689ee72b341ca4803910fbaacdcc4656a748deeaee154e81a53c5e950c5778",
+      "sha256": "6511a6b6b0d0cfaffd7f6e74f0d4091e2e07ca61084dae3a5ddcb6e2938dcec4",
       "celulas_codigo": 0
     },
     {
@@ -183,12 +208,17 @@
     },
     {
       "arquivo": "tests/test_pipeline.py",
-      "sha256": "a318c025307e39f21d7a5b2d60153e2415f9d88460c39fde8c056c022b9eb358",
+      "sha256": "563f2f4356aef9f38e2deed599e4c8bdf0064edc449d475fd3c1bf127f527bf2",
       "celulas_codigo": 0
     },
     {
       "arquivo": "tests/test_video.py",
-      "sha256": "844d1468b5c34aac0f90fdbb7775bfac5e312bdfd45efff64fd896f699adce1f",
+      "sha256": "f696ac602983c0dd2b1f8a66f39a4a0d91d9c9487bb15c9db822c0595cdd8d02",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_video_calibracao.py",
+      "sha256": "cf47e76597c566140b3c86ce45396ed36c70ef17c6481e8f6d7ab428ec13bab1",
       "celulas_codigo": 0
     },
     {
@@ -197,24 +227,39 @@
       "celulas_codigo": 0
     },
     {
+      "arquivo": "tests/test_video_qualidade.py",
+      "sha256": "3678d319a6217a19f1c37e6b9a00b08bd7d0587a3023e10bfebd0128156aaa47",
+      "celulas_codigo": 0
+    },
+    {
       "arquivo": "video/TechChallengeFase4_video.ipynb",
-      "sha256": "2f77559bf6a3f5b6834b07284cd4ce44e51b48711a24da5a9c4f2aeaed202c2a",
-      "celulas_codigo": 5
+      "sha256": "841ac73240eb7b250e4681b721133c7d07b8718871391df5c42eb980c4f21a59",
+      "celulas_codigo": 6
     },
     {
       "arquivo": "video/alerta_video.py",
-      "sha256": "c31a9765099493329ad80987754031e39f62803f7924e76f13e57ea232f3632d",
+      "sha256": "d1604150a2d6df7e5fd4d5a74f8da093825d68d8260e929762d91cf379264c18",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "video/calibracao.py",
+      "sha256": "fe60a16bb4d0e2458f7a615275751e627fa6fc71c14c844c3947575534185ad6",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "video/qualidade.py",
+      "sha256": "228af3faac41836ea2151984b46d14f510b8171999b4f5386e629a82622634d5",
       "celulas_codigo": 0
     }
   ],
-  "arquivos_python": 38,
+  "arquivos_python": 47,
   "notebooks": 3,
   "erros_sintaxe": [],
   "requisitos": [
     {
       "requisito": "Vídeo clínico e eventos",
       "status": "nova_reproducao_com_reserva_de_clipe",
-      "observacao": "Novo YOLOv8s a partir do ZIP fornecido; anotacoes normalizadas e prefixo inteiro reservado. Resultados historicos continuam separados. Montagens nao validam cirurgia continua externa."
+      "observacao": "Novo YOLOv8s, calibração só na validação e candidato não promovido. Cobertura visual ajustada em treino/validação; falso alerta externo sobre ilustração preservado e removido pela proteção. Nova janela temporal da mesma fonte, sem rótulos clínicos. Ausência de caixa não comprova ausência anatômica; divergência 0/2 mantida."
     },
     {
       "requisito": "Alterações vocais indicativas de condições médicas",

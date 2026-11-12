@@ -10,7 +10,9 @@ O notebook `TechChallengeFase4_integracao.ipynb` é a entrada para o Colab. Ele 
 
 ## Fontes
 
-O áudio `novo-03.wav` foi criado depois da divisão do dataset e não entra no treinamento. O JSON de vídeo contém os eventos recebidos do Marcelo, sem publicação de imagens. A resposta textual veio de uma chamada real OpenAI sobre a transcrição do mesmo áudio novo; o padrão somente reutiliza a resposta. Sinais vitais, prescrições e movimento são sintéticos, identificados individualmente. A composição não representa um mesmo paciente nem sincronização entre áudio e vídeo.
+O áudio `novo-03.wav` foi criado depois da divisão do dataset e não entra no treinamento. O JSON positivo de vídeo contém a inferência do novo YOLO na montagem de teste; o resultado histórico do Marcelo continua separado. A resposta textual veio de uma chamada real OpenAI sobre a transcrição do mesmo áudio novo; o padrão somente reutiliza a resposta. Sinais vitais, prescrições e movimento são sintéticos, identificados individualmente. A composição não representa um mesmo paciente nem sincronização entre áudio e vídeo.
+
+A composição revisada está em `evidencias/revisao_final_20261111/`. Os controles de vídeo externo estão em `evidencias/revisao_video_externo_20261111/`: o resultado sem evento permanece na fila por cobertura parcial, e o resultado positivo mantém a prioridade. Veja [a revisão do vídeo](../relatorio/revisao_video.md).
 
 ## Monitor e entrega
 

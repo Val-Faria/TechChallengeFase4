@@ -1,12 +1,21 @@
 {
   "alerta": false,
   "nivel": "nenhum",
-  "motivo": "0 trecho(s) com instrumento sem útero visível",
+  "motivo": "0 trecho(s) com instrumento detectado sem detecção sustentada de útero",
   "eventos": [],
+  "cobertura_parcial": true,
+  "limitacoes": [
+    "Montagem com dois segundos por imagem; não duração original de evento.",
+    "Ausência de anotação não confirma ausência anatômica.",
+    "Resultados do prefixo reservado já conhecidos; novas análises são posteriores à avaliação original."
+  ],
+  "interpretacao": "Presença/ausência de detecções pelo modelo; ausência de alerta não confirma normalidade nem ausência de falha clínica.",
   "estatisticas": {
     "duracao_video_s": 120.0,
     "quadros_analisados": 600,
     "amostra_fps_efetivo": 5.0,
+    "quadros_fora_referencia_visual": 0,
+    "quadros_yolo_processados": 600,
     "prop_quadros_com_utero": 0.7733333333333333,
     "prop_quadros_com_instrumento": 0.815,
     "prop_instrumento_sem_utero": 0.195
@@ -16,7 +25,8 @@
     "conf_area": 0.6,
     "min_perda_s": 5,
     "tolerancia_s": 1,
-    "imgsz": 416
+    "imgsz": 416,
+    "filtro_visual_ativo": true
   },
   "aviso": "Sinal de triagem para revisão da equipe médica. Não constitui diagnóstico.",
   "origem": "YOLOv8s novo; peso congelado; clipe reservado; inferência reexecutada",

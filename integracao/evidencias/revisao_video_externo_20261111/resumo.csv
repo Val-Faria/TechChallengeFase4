@@ -1,0 +1,3 @@
+id_caso,nivel,alerta,status,simulado,requer_revisao
+controle-externo-filtrado,nenhum,False,incompleto,True,True
+controle-externo-reserva-temporal,alto,True,incompleto,True,True

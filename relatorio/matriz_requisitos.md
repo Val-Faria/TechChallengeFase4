@@ -4,13 +4,13 @@ Referência: PDF original da Fase 4, páginas 2–4; substituição de Azure aut
 
 | Solicitação | Implementação/evidência | Limite |
 |---|---|---|
-| Vídeo clínico, eventos e relatório | Novo YOLOv8s, `video_reproducao.json`, `video_inferencia_nova.json`, saídas anotadas | Montagens; 0/2 eventos recuperados na reserva; sem cirurgia contínua externa |
+| Vídeo clínico, eventos e relatório | Novo YOLOv8s, `video_reproducao.json`, `video_inferencia_nova.json`, saídas anotadas | Montagens: 0/2 intervalos derivados de caixas, sem confirmação de ausência anatômica. Fonte externa didática editada, sem rótulos clínicos |
 | Áudio e alterações vocais | Whisper, características, Random Forest e referência intra-voz | Síntese e controles físicos; não determina causa médica |
 | Transcrição e análise textual | Chamadas reais OpenAI, termos, sentimento, contexto e negação | Fornecedor alternativo autorizado; interpretação requer revisão |
 | Sinais vitais | Mediana/MAD com batimentos, pressão e oxigenação | Histórico e desvios sintéticos; limiar não médico |
 | Prescrições | Mudanças em dose, unidade, via e intervalo | Não recomenda tratamento |
 | Movimentação | Série temporal e fluxo óptico complementar | Sem reconhecimento de postura clínica |
-| Fusão e alerta | Contrato por caso, maior prioridade e fontes inconclusivas | Fontes sem pareamento de paciente |
+| Fusão e alerta | Contrato por caso, maior prioridade e fontes inconclusivas | Fontes sem pareamento de paciente; cobertura parcial preservada mesmo sem sinal positivo |
 | Encaminhamento e resposta | SQLite, painel HTTP, confirmação e auditoria | Demonstração local; revisão simulada identificada |
 | Monitoramento temporal | JSONL e inferência local de mídias no ritmo original | Não mede nuvem ou captura clínica ao vivo |
 | Código completo | Branch Nirton, scripts compartilhados, modelos/manifestos e testes | Artefatos privados restaurados conforme `DATASETS_E_MODELOS.md` |

@@ -37,6 +37,7 @@ def temporal_metrics(expected, predicted):
 
 def make_montage(rows, destination, dataset):
     import cv2
+    import numpy as np
     rows = sorted(rows,key=lambda r:(r["quadro_origem"],r["arquivo"]))
     destination.parent.mkdir(parents=True, exist_ok=True)
     writer = cv2.VideoWriter(str(destination),cv2.VideoWriter_fourcc(*"mp4v"),5,(416,416))
@@ -46,7 +47,7 @@ def make_montage(rows, destination, dataset):
         for row in rows:
             path=dataset/row["particao"]/"images"/row["arquivo"]
             if sha256(path)!=row["sha256_imagem"]:raise ValueError("Quadro-fonte alterado.")
-            frame=cv2.imread(str(path))
+            frame=cv2.imdecode(np.frombuffer(path.read_bytes(), dtype=np.uint8), cv2.IMREAD_COLOR)
             if frame is None:raise ValueError("Quadro não decodificável.")
             frame=cv2.resize(frame,(416,416))
             label=dataset/row["particao"]/"labels"/(Path(row["arquivo"]).stem+".txt")
@@ -67,7 +68,11 @@ def public_result(result, partition, model_sha, video_sha):
     sanitized.update({"origem":f"YOLOv8s novo; peso congelado; {label}; inferência reexecutada",
                       "natureza":f"Montagem de {label}; não cirurgia contínua externa.",
                       "particao":partition,"simulado":True,"modelo_sha256":model_sha,
-                      "sha256_video":video_sha})
+                      "sha256_video":video_sha,
+                      "cobertura_parcial":True,
+                      "limitacoes":["Montagem com dois segundos por imagem; não duração original de evento.",
+                                    "Ausência de anotação não confirma ausência anatômica.",
+                                    "Resultados do prefixo reservado já conhecidos; novas análises são posteriores à avaliação original."]})
     return sanitized
 
 
@@ -78,11 +83,18 @@ def main():
     weights=ROOT/model_manifest["path"]
     if sha256(weights)!=model_manifest["sha256"]:raise ValueError("Peso diferente do congelado.")
     model=YOLO(str(weights))
+    reference_path=ROOT/"artifacts/video/referencia_visual.json"
+    reference=json.loads(reference_path.read_text(encoding="utf-8")) if reference_path.exists() else None
+    if reference is not None and reference["model_sha256"]!=model_manifest["sha256"]:
+        raise ValueError("Referência visual incompatível com o modelo.")
     dataset=ROOT/"dados_privados/video_dataset_v4"
     private=ROOT/"dados_privados/video_novo"
     output={"model_sha256":model_manifest["sha256"],"model_original_marcelo":False,
             "thresholds_frozen":{"conf":.4,"conf_area":.6,"min_perda_s":5.,"tolerancia_s":1.},
-            "thresholds_tuned_on_blind":False,"montages":[]}
+            "thresholds_tuned_on_blind":False,"montages":[],
+            "visual_reference_sha256":sha256(reference_path) if reference is not None else None,
+            "evaluation_phase":"Reexecução após diagnóstico; referência visual de treino/validação. A reserva original já foi observada.",
+            "annotation_absence_confirmed_anatomical_absence":False}
     for partition in ["test","blind_holdout"]:
         rows=[r for r in audit["records"] if r["particao"]==partition]
         path=private/f"montagem_{partition}.mp4"
@@ -92,7 +104,9 @@ def main():
             assert not set(hashes)&development
             assert all(r["clipe"]==audit["blind_source_clip"] for r in rows)
         started=time.perf_counter()
-        result=analisar_video(path,weights,saida=private/partition,modelo=model)
+        result=analisar_video(path,weights,saida=private/partition,modelo=model,
+            cobertura_parcial=True,referencia_visual=reference,limitacoes=["Montagem temporal artificial.",
+                "Referência derivada de caixas, sem confirmação de ausência anatômica ou falha clínica."])
         summary={"partition":partition,"source_images":len(rows),"duration_s":len(rows)*2,
                  "sha256_video":sha256(path),"sha256_sources":hashes,
                  "predicted_events":len(result["eventos"]),"expected_events":expected,

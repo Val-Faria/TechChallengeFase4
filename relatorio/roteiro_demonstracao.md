@@ -56,3 +56,9 @@ O notebook de vídeo apresenta o novo treino e a inferência em reserva; não é
 
 
 Na montagem reservada, mostrar também a falha: zero dos dois eventos de referência foi recuperado. Não escolher outro limiar após ver essa reserva. O exemplo positivo usa o teste de desenvolvimento e não deve ser apresentado como reserva inédita. Para confirmar revisão durante a gravação, executar a composição com um novo diretório de saída (`--output integracao/saidas/apresentacao`) e apontar o painel para o banco dessa pasta; a caixa da evidência final já contém uma confirmação automática de teste.
+
+## Revisão final do vídeo e cobertura
+
+Mostrar os números sanitizados de `evidence/video_cobertura_externa.json`: falso alerta inicial sobre ilustração, proteção visual e segundo intervalo definido antes da execução. A proteção retém todos os quadros de validação/teste/reserva disponíveis; o filtro é de aparência, não de anatomia. Não apresentar o novo sinal como erro cirúrgico confirmado. Os dois intervalos derivados de caixas do dataset continuam sem concordância e precisam de anotação independente; ausência de caixa não comprova ausência do órgão.
+
+A mídia TVASurg tem direitos reservados e fica privada. Sem autorização para republicação, mostrar os resultados sanitizados e o link da fonte, sem incorporar imagens à apresentação. Não substituir a demonstração original positiva por uma afirmação de acurácia externa. A composição revisada está em `integracao/evidencias/revisao_final_20261111/`; os controles com/sem sinal estão em `integracao/evidencias/revisao_video_externo_20261111/`.

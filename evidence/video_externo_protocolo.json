@@ -1,0 +1,26 @@
+{
+  "source_page": "https://pie.med.utoronto.ca/TVASurg/project/gyn-tlh/",
+  "source_media": "https://pie.med.utoronto.ca/tvasurg/TVASurg_content/assets/masterFolders/GYN_totallaphyst/video/HD/video.mp4",
+  "source": "TVASurg — University of Toronto, Total Laparoscopic Hysterectomy (2020)",
+  "interval_source_s": [
+    150.0,
+    240.0
+  ],
+  "interval_selected_by": "Capítulo público Entry & exposure, antes de executar o detector nesta fonte.",
+  "model_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "parameters": {
+    "conf": 0.4,
+    "conf_area": 0.6,
+    "min_perda_s": 5,
+    "tolerancia_s": 1,
+    "imgsz": 416
+  },
+  "used_for_training": false,
+  "used_for_validation": false,
+  "used_for_threshold_selection": false,
+  "clinical_ground_truth": false,
+  "source_is_edited_educational_video": true,
+  "rights": "Todos os direitos reservados pela fonte. Uso acadêmico privado; não incluir mídia/imagens no Git, no relatório público ou na apresentação sem autorização.",
+  "claim": "Nova fonte nesta avaliação do ajuste local; não se audita todo o pré-treino do modelo base.",
+  "frozen_at_utc": "2026-11-11T23:58:09.744702+00:00"
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0",
+  "id_caso": "controle-externo-filtrado",
+  "id_resultado": "4880d780848fc99020f0",
+  "gerado_em_utc": "2026-11-12T00:07:41.564653+00:00",
+  "alerta": false,
+  "nivel": "nenhum",
+  "requer_revisao": true,
+  "status": "incompleto",
+  "simulado": true,
+  "pareamento": "controle_sintetico_de_integracao_sem_paciente_pareado",
+  "fontes_esperadas": [
+    "audio",
+    "video"
+  ],
+  "fontes_inconclusivas": [
+    "video"
+  ],
+  "motivos": [],
+  "fontes": [
+    {
+      "modalidade": "audio",
+      "status": "ok",
+      "alerta": false,
+      "nivel": "nenhum",
+      "classe_audio": "neutro",
+      "confianca_audio": 0.95,
+      "limiar": 0.7,
+      "motivo": "Classe acústica: neutro; confiança 0.950.",
+      "origem": "controle_de_software_neutro_nao_gravacao_clinica",
+      "simulado": true
+    },
+    {
+      "modalidade": "video",
+      "status": "ok",
+      "alerta": false,
+      "nivel": "nenhum",
+      "motivo": "0 trecho(s) com instrumento detectado sem detecção sustentada de útero",
+      "eventos": [],
+      "estatisticas": {
+        "duracao_video_s": 90.0,
+        "quadros_analisados": 450,
+        "amostra_fps_efetivo": 5.0,
+        "quadros_fora_referencia_visual": 73,
+        "quadros_yolo_processados": 377,
+        "prop_quadros_com_utero": 0.0022222222222222222,
+        "prop_quadros_com_instrumento": 0.04,
+        "prop_instrumento_sem_utero": 0.04
+      },
+      "cobertura_parcial": true,
+      "limitacoes": [
+        "Não há referência independente de eventos clínicos para calcular acurácia.",
+        "Vídeo didático editado; mesma fonte da verificação inicial, sem independência por paciente.",
+        "Filtro estatístico de aparência não identifica anatomia nem garante que a cena seja apropriada.",
+        "Há quadros fora da referência visual; não interpretados como normais."
+      ],
+      "interpretacao": "Presença/ausência de detecções pelo modelo; ausência de alerta não confirma normalidade nem ausência de falha clínica.",
+      "parametros": {
+        "conf": 0.4,
+        "conf_area": 0.6,
+        "min_perda_s": 5,
+        "tolerancia_s": 1,
+        "imgsz": 416,
+        "filtro_visual_ativo": true
+      },
+      "origem": "resultado_video_externo_filtrado.json",
+      "simulado": true
+    }
+  ],
+  "entrega": {
+    "destino": "caixa_local_equipe_medica",
+    "status": "aguardando_persistencia"
+  },
+  "aviso": "Protótipo acadêmico para revisão humana. Não constitui diagnóstico."
+}

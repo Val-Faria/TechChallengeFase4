@@ -1,0 +1,51 @@
+{
+  "alerta": true,
+  "nivel": "alto",
+  "motivo": "1 trecho(s) com instrumento detectado sem detecção sustentada de útero",
+  "eventos": [
+    {
+      "descricao": "Instrumento em cena sem visualização do útero",
+      "inicio_s": 57.0,
+      "fim_s": 81.4,
+      "duracao_s": 24.4,
+      "confianca": 0.668
+    }
+  ],
+  "cobertura_parcial": true,
+  "limitacoes": [
+    "Não há referência independente de eventos clínicos para calcular acurácia.",
+    "Vídeo didático editado; mesma fonte da verificação inicial, sem independência por paciente.",
+    "Filtro estatístico de aparência não identifica anatomia nem garante que a cena seja apropriada.",
+    "Há quadros fora da referência visual; não interpretados como normais."
+  ],
+  "interpretacao": "Presença/ausência de detecções pelo modelo; ausência de alerta não confirma normalidade nem ausência de falha clínica.",
+  "estatisticas": {
+    "duracao_video_s": 90.0,
+    "quadros_analisados": 450,
+    "amostra_fps_efetivo": 5.0,
+    "quadros_fora_referencia_visual": 33,
+    "quadros_yolo_processados": 417,
+    "prop_quadros_com_utero": 0.08666666666666667,
+    "prop_quadros_com_instrumento": 0.3022222222222222,
+    "prop_instrumento_sem_utero": 0.29555555555555557
+  },
+  "parametros": {
+    "conf": 0.4,
+    "conf_area": 0.6,
+    "min_perda_s": 5,
+    "tolerancia_s": 1,
+    "imgsz": 416,
+    "filtro_visual_ativo": true
+  },
+  "aviso": "Sinal de triagem para revisão da equipe médica. Não constitui diagnóstico.",
+  "origem": "YOLO congelado com abstenção visual — TVASurg",
+  "simulado": false,
+  "source_page": "https://pie.med.utoronto.ca/TVASurg/project/gyn-tlh/",
+  "interval_source_s": [
+    240.0,
+    330.0
+  ],
+  "sha256_video": "66f7bc2310e3ef81efb9cf62a8b0d81ce731c5f4776ba742cdb9516e248d22b4",
+  "model_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "reference_sha256": "e06eec5f5fca1f1bfe77d8ace0f4db9d4a568fc7b226c74cf93f25279162376f"
+}

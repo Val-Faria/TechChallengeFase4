@@ -20,8 +20,12 @@ def render_dashboard(alerts, *, interactive=True):
         r = item["resultado"]
         e = html.escape
         sources = "".join(f"<li><b>{e(modalities.get(f['modalidade'], f['modalidade']))}</b>: "
-                          f"{e(statuses.get(f['status'], f['status']))} — "
-                          f"{e(f['motivo'].replace('ansiedade_hesitacao', 'ansiedade/hesitação'))}</li>"
+                          f"{e(statuses.get(f['status'], f['status']))}"
+                          f"{' (cobertura parcial)' if f.get('cobertura_parcial') else ''} — "
+                          f"{e(f['motivo'].replace('ansiedade_hesitacao', 'ansiedade/hesitação'))}"
+                          + ("<details><summary>Limitações para revisão</summary><ul>" +
+                             "".join("<li>" + e(v) + "</li>" for v in f.get("limitacoes", [])) +
+                             "</ul></details>" if f.get("limitacoes") else "") + "</li>"
                           for f in r["fontes"])
         state = f"Revisado por {e(item['revisor'])}" if item["revisado_em_utc"] else "Aguardando revisão"
         action = ""

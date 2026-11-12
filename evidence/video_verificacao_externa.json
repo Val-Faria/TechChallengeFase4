@@ -1,0 +1,17 @@
+{
+  "protocol_sha256": "c7ba55957a4c1395d43c258206f08bd6312b57b59d0290bef4b5c43c213ff368",
+  "model_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "source_sha256": "18ff57cb8046ed50526dfa893703c959cf195709d620fcae88fe399206724340",
+  "clip_sha256": "673db110c5abb328ee07e332e792ee9c4f5e927a906eb822a367e8c2338eb1f3",
+  "source_bytes": 152904066,
+  "clip_frames": 450,
+  "clip_duration_s": 90.0,
+  "events_predicted": 1,
+  "event_metrics": null,
+  "reason_metrics_unavailable": "Não há referência independente de eventos nem ausência anatômica confirmada.",
+  "paid_api_calls": 0,
+  "new_training": false,
+  "training_weights_unchanged": true,
+  "qualitative_only": true,
+  "public_media_redistributed": false
+}

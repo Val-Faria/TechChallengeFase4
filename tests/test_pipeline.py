@@ -40,6 +40,43 @@ class FusionTests(unittest.TestCase):
         r = result(fontes_esperadas=["audio", "video", "texto_openai"])
         self.assertIn("texto_openai", r["fontes_inconclusivas"])
 
+    def test_video_parcial_sem_evento_nao_vira_normalidade(self):
+        source = {"alerta": False, "nivel": "nenhum", "cobertura_parcial": True,
+                  "limitacoes": ["Anotações de ausência não confirmadas."],
+                  "parametros": {"conf": .4}}
+        r = result(video=source)
+        self.assertFalse(r["alerta"])
+        self.assertTrue(r["requer_revisao"])
+        self.assertEqual(r["status"], "incompleto")
+        self.assertIn("video", r["fontes_inconclusivas"])
+        self.assertEqual(r["fontes"][1]["limitacoes"], source["limitacoes"])
+        r["fontes"][1]["limitacoes"].append("novo")
+        self.assertEqual(len(source["limitacoes"]), 1)
+
+    def test_video_parcial_nao_cancela_alerta_positivo(self):
+        r = result(video={"alerta": True, "nivel": "alto", "cobertura_parcial": True})
+        self.assertTrue(r["alerta"])
+        self.assertEqual(r["nivel"], "alto")
+        self.assertIn("video", r["fontes_inconclusivas"])
+
+    def test_video_recusa_cobertura_textual(self):
+        with self.assertRaises(ValueError):
+            normalizar_video({"alerta": False, "nivel": "nenhum", "cobertura_parcial": "false"})
+
+    def test_painel_preserva_limites_e_escapa_conteudo(self):
+        r = result(video={"alerta": False, "nivel": "nenhum", "cobertura_parcial": True,
+                          "limitacoes": ["<script>injetado</script>"]})
+        page = render_dashboard([{"resultado": r, "revisor": "", "revisado_em_utc": None}])
+        self.assertIn("cobertura parcial", page)
+        self.assertIn("&lt;script&gt;", page)
+        self.assertNotIn("<script>", page)
+
+    def test_baixa_confianca_video_nao_e_descartada(self):
+        r = result(video={"status": "baixa_confianca", "motivo": "Cena não suportada."})
+        self.assertIn("video", r["fontes_inconclusivas"])
+        self.assertTrue(r["requer_revisao"])
+        self.assertFalse(r["alerta"])
+
     def test_unknown_class_and_nonfinite_confidence_rejected(self):
         for audio in [("diagnostico", .8), ("neutro", math.nan), ("neutro", True), ("neutro", 1.1)]:
             with self.subTest(audio=audio), self.assertRaises(ValueError):
