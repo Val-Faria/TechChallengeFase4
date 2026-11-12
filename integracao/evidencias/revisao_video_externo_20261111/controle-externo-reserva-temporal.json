@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "id_caso": "controle-externo-reserva-temporal",
   "id_resultado": "ca35163830ecb64bb1c5",
-  "gerado_em_utc": "2026-11-12T00:07:41.570656+00:00",
+  "gerado_em_utc": "2026-11-12T00:21:15.674362+00:00",
   "alerta": true,
   "nivel": "alto",
   "requer_revisao": true,
@@ -78,8 +78,11 @@
     }
   ],
   "entrega": {
+    "confirmacao": "gravacao_transacional_sqlite",
     "destino": "caixa_local_equipe_medica",
-    "status": "aguardando_persistencia"
+    "entrega_hospitalar": false,
+    "recebido_em_utc": "2026-11-12T00:07:41.570656+00:00",
+    "status": "persistido"
   },
   "aviso": "Protótipo acadêmico para revisão humana. Não constitui diagnóstico."
 }

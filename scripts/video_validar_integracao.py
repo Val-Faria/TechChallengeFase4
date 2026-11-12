@@ -27,7 +27,7 @@ def main():
             raise AssertionError("Cobertura parcial foi perdida.")
         if result["alerta"] != video["alerta"]:
             raise AssertionError("Sinal positivo foi alterado pela fusão.")
-        store.deliver(result)
+        result["entrega"] = store.deliver(result)
         results.append(result)
     salvar_resultados(results, output)
     atomic_write(output / "painel.html", render_dashboard(store.list_alerts(), interactive=False))

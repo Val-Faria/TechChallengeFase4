@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "id_caso": "controle-externo-filtrado",
   "id_resultado": "4880d780848fc99020f0",
-  "gerado_em_utc": "2026-11-12T00:07:41.564653+00:00",
+  "gerado_em_utc": "2026-11-12T00:21:15.673362+00:00",
   "alerta": false,
   "nivel": "nenhum",
   "requer_revisao": true,
@@ -68,8 +68,11 @@
     }
   ],
   "entrega": {
+    "confirmacao": "gravacao_transacional_sqlite",
     "destino": "caixa_local_equipe_medica",
-    "status": "aguardando_persistencia"
+    "entrega_hospitalar": false,
+    "recebido_em_utc": "2026-11-12T00:07:41.564653+00:00",
+    "status": "persistido"
   },
   "aviso": "Protótipo acadêmico para revisão humana. Não constitui diagnóstico."
 }

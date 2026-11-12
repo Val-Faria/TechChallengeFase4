@@ -28,7 +28,7 @@
 
 ## Resposta operacional
 
-Entrega: {"destino": "caixa_local_equipe_medica", "status": "aguardando_persistencia"}
+Entrega: {"confirmacao": "gravacao_transacional_sqlite", "destino": "caixa_local_equipe_medica", "entrega_hospitalar": false, "recebido_em_utc": "2026-11-12T00:07:41.564653+00:00", "status": "persistido"}
 
 A caixa de revisão e o painel são locais. Não há envio a um hospital.
 
