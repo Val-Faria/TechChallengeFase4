@@ -12,13 +12,18 @@
       "celulas_codigo": 7
     },
     {
+      "arquivo": "relatorio/gerar_diagramas.py",
+      "sha256": "8025fb9e9d30816ef50b9cdabb4ac116a842a277129deeabef34a6dac04fcc5c",
+      "celulas_codigo": 0
+    },
+    {
       "arquivo": "relatorio/gerar_figuras.py",
       "sha256": "5bb42cd413d8f3417c36e258cc1f643359a73eba5f94aa51d2f037f2013f419b",
       "celulas_codigo": 0
     },
     {
       "arquivo": "relatorio/gerar_relatorio.py",
-      "sha256": "8a10eedb1fa273a1a75e3995177e06db8933a8f0c59f1ae0bd98d95ba0c0ff20",
+      "sha256": "2a06baf02ed22b875ba4337b08edb932dd2b0e6aded69e8615ca206af33dc8f8",
       "celulas_codigo": 0
     },
     {
@@ -282,7 +287,7 @@
       "celulas_codigo": 0
     }
   ],
-  "arquivos_python": 53,
+  "arquivos_python": 54,
   "notebooks": 3,
   "erros_sintaxe": [],
   "requisitos": [

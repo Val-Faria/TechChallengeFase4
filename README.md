@@ -13,7 +13,7 @@ Protótipo que combina voz, vídeo, texto e séries temporais para gerar sinais 
 | Análise de áudio | [Notebook executado](audio/notebooks/TechChallengeFase4_audio.ipynb) · [Abrir no Colab](https://colab.research.google.com/github/Val-Faria/TechChallengeFase4/blob/Nirton/audio/notebooks/TechChallengeFase4_audio.ipynb) |
 | Análise de vídeo | [Notebook executado](video/TechChallengeFase4_video.ipynb) · [Abrir no Colab](https://colab.research.google.com/github/Val-Faria/TechChallengeFase4/blob/Nirton/video/TechChallengeFase4_video.ipynb) |
 | Dados e modelos | [Restauração e reprodução](DATASETS_E_MODELOS.md) |
-| Requisitos e apresentação | [Matriz](relatorio/matriz_requisitos.md) · [Roteiro](relatorio/roteiro_demonstracao.md) |
+| Requisitos | [Matriz de atendimento](relatorio/matriz_requisitos.md) |
 
 Os notebooks contêm saídas de execução local, incluindo tabelas, gráficos e painel. Podem ser visualizados sem executar novamente. O áudio recalcula previsões com o modelo congelado; vídeo apresenta medições registradas; integração executa fusão, detectores e persistência. O modo padrão não faz chamadas pagas nem treina modelos.
 
@@ -82,13 +82,11 @@ O [guia de dados e modelos](DATASETS_E_MODELOS.md) contém hashes, fontes e cami
 
 `OPENAI_API_KEY` é necessária somente para novas chamadas; usar variável de ambiente ou Secret do Colab. Há cache e controle local de consumo, que não substituem os limites de cobrança da conta. Credenciais e mídias privadas não integram os pacotes públicos. Ao usar GPU opcional no Colab, salvar os artefatos e desconectar/excluir o ambiente ao terminar.
 
-## Equipe e apresentação
+## Equipe
 
-| Integrante | RM | Participação |
-|---|---|---|
-| Marcelo Viana de Araújo | 372707 | Vídeo |
-| Nirton Afonso de Oliveira Filho | 370221 | Integração e relatório |
-| Valkiria Nonato de Faria | 373256 | Áudio |
-| Benicio Antonio Cardoso | 371527 | Apresentação |
-
-A gravação deve ter até 15 minutos e ser publicada no YouTube ou Vimeo. Inserir o link no relatório e nesta página após a publicação. O [roteiro](relatorio/roteiro_demonstracao.md) organiza a demonstração e as restrições de uso das imagens de terceiros.
+| Integrante | RM |
+|---|---|
+| Marcelo Viana de Araújo | 372707 |
+| Nirton Afonso de Oliveira Filho | 370221 |
+| Valkiria Nonato de Faria | 373256 |
+| Benicio Antonio Cardoso | 371527 |

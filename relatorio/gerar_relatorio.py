@@ -489,7 +489,6 @@ def build_macros():
 \item Compilar o relatório com \code{python relatorio/gerar_relatorio.py --compile --package} ou importar o ZIP no Overleaf.
 \end{enumerate}"""
     macros = {
-        "DataRelatorio": "13 de novembro de 2026",
         "ResultadoAudio": make_audio(audio),
         "ResultadoNuvem": make_cloud(summary),
         "ResultadoTestes": make_tests(summary),

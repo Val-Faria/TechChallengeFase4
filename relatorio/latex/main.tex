@@ -1,14 +1,12 @@
 \documentclass[12pt,a4paper]{article}
-% Padrão do Overleaf da Fase 2 fornecido pela equipe: fonte 12, A4,
-% margens 2,5 cm, espaçamento 1,5, capa por maketitle e links azuis.
+% Formatação acadêmica: A4, fonte 12, margens 2,5 cm e espaçamento 1,5.
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[brazil]{babel}
 \usepackage{lmodern,microtype}
 \usepackage{geometry}
 \usepackage{graphicx,float,booktabs,array,longtable,tabularx,multirow}
-\usepackage{xcolor,setspace,hyperref,caption,enumitem,amsmath,tikz}
-\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+\usepackage{xcolor,setspace,hyperref,caption,enumitem,amsmath,etoolbox}
 \geometry{margin=2.5cm}
 \onehalfspacing
 \hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue,
@@ -24,7 +22,7 @@
 \newcommand{\note}[1]{\begin{quote}\small #1\end{quote}}
 \newcommand{\sectionpage}[1]{\section{#1}}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
-\newcommand{\linkdovideo}{\textit{A inserir após gravação e publicação por Benicio.}}
+\newcommand{\linkdovideo}{}
 \input{dados_gerados.tex}
 \title{\textbf{Tech Challenge -- IA Aplicada à Saúde -- Fase 4}\\
 \large Monitoramento Multimodal: Análise de Voz e Vídeo, Detecção de Anomalias e Alertas com IA em Nuvem}
@@ -44,12 +42,8 @@ Pós-Graduação em IA para Devs}
 \textbf{Dataset de vídeo -- Uterus v4:}\\
 {\footnotesize\url{https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4}}
 
-\vspace{0.2cm}
-\textbf{Vídeo de demonstração:}\\
-\linkdovideo
-
-\vspace{0.2cm}
-\textbf{Versão documental:} \DataRelatorio
+\ifdefempty{\linkdovideo}{}{\vspace{0.2cm}
+\href{\linkdovideo}{Vídeo de demonstração}}
 \end{center}
 \newpage
 \begingroup\singlespacing\tableofcontents\endgroup
@@ -66,29 +60,15 @@ O Tech Challenge da Fase 4 propõe analisar dados médicos multimodais para iden
 
 São objetivos do trabalho: processar as modalidades por componentes reutilizáveis; identificar eventos e alterações temporais; integrar a análise textual em nuvem; preservar a rastreabilidade dos resultados; e demonstrar o percurso entre a observação, o alerta e sua revisão. O sistema é um protótipo acadêmico e não altera tratamentos ou condutas.
 
-\begin{center}\small\begin{tabularx}{\linewidth}{lY}\toprule
-Responsável & Participação\\\midrule
-Marcelo Viana & Desenvolvimento da frente original de vídeo.\\
-Valkiria Faria & Dataset, características e classificação de áudio.\\
-Nirton Afonso & Integração, avaliação, nuvem, alertas e documentação.\\
-Benicio Cardoso & Gravação, edição e publicação da apresentação.\\\bottomrule
-\end{tabularx}\end{center}
+
 
 \section{Arquitetura da solução}
 Áudio e vídeo são mantidos em módulos separados; contratos, detectores, persistência e painel pertencem ao pacote \code{src/techchallenge4}. Os notebooks utilizam esse código, sem duplicar as regras de decisão. Os scripts permitem reproduzir extração, avaliação e geração de relatórios.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[node distance=5mm and 7mm,box/.style={draw=navy,rounded corners=2pt,fill=light,align=center,font=\small,text width=3.8cm,minimum height=11mm},arr/.style={-{Latex[length=2mm]},thick,color=teal}]
-\node[box](a){WAV e metadados\\Whisper + Librosa + RF};
-\node[box,right=of a](v){Vídeo / JSON da equipe\\YOLOv8 + regra temporal};
-\node[box,below=of a](t){Transcrição\\OpenAI: análise textual};
-\node[box,below=of v](s){Séries e prescrições\\Detectores demonstrativos};
-\node[box,below=12mm of t,xshift=22mm,text width=6.8cm](f){Validação do contrato e fusão por caso\\Maior prioridade, origem e cobertura explícitas};
-\node[box,below=of f,text width=6.8cm](o){JSON / Markdown / CSV + caixa de alertas\\Persistência SQLite, painel e auditoria};
-\draw[arr](a)--(t);\draw[arr](a.south east)--(f.north west);\draw[arr](v.east)--++(4mm,0)|-(f.east);\draw[arr](t)--(f);\draw[arr](s)--(f);\draw[arr](f)--(o);
-\end{tikzpicture}
-\caption{Fluxo lógico da integração. As fontes disponíveis não constituem uma coorte clínica pareada.}
+\includegraphics[width=\linewidth]{figures/fluxo_multimodal.pdf}
+\caption{Fluxo multimodal: cada modalidade produz evidências que convergem para a fusão e a caixa de revisão. A transcrição da voz alimenta a análise textual; as fontes do experimento são associadas por caso e não representam um paciente pareado.}
 \end{figure}
 
 
@@ -149,6 +129,13 @@ O modelo avaliado é um YOLOv8s com ajuste a partir de pesos COCO, diferente do 
 
 A prioridade é baixa a partir de cinco segundos, média a partir de dez e alta a partir de quinze, ou com pelo menos três eventos. A ausência de detecção não comprova ausência anatômica. Os sinais solicitam revisão e podem ocorrer durante etapas normais do procedimento.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/regra_temporal_didatica.pdf}
+\caption{Esquema ilustrativo da regra temporal, sem medir desempenho clínico. No cenário A, a condição persiste por tempo suficiente; no B, um quadro incompatível interrompe a sequência. Ausência de evento positivo não elimina a necessidade de revisão da cobertura.}
+\end{figure}
+
+
 \ResultadoVideoNovo
 
 \subsection{Anotações, calibração e compatibilidade visual}
@@ -197,6 +184,12 @@ A caixa SQLite utiliza transações e uma identidade estável para impedir entre
 
 \ResultadoIntegracao
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/exemplo_fusao.pdf}
+\caption{Decisão do caso integrado registrado. O sinal alto de vídeo é preservado, enquanto baixa confiança e cobertura parcial mantêm o caso incompleto. A associação de fontes é didática e exige revisão humana.}
+\end{figure}
+
 \ResultadoReplay
 
 Os controles também verificam vídeo sem evento positivo e com cobertura parcial: o caso permanece na fila. No controle positivo, a prioridade alta é mantida. A confirmação automática de teste é identificada como demonstração, sem atribuir revisão clínica a um profissional.
@@ -221,9 +214,6 @@ O projeto demonstra o fluxo multimodal e a entrega local de sinais para revisão
 No vídeo, os dois intervalos derivados de caixas da reserva continuam sem pareamento. A ausência de caixa anotada não confirma ausência do órgão, e uma anotação independente deve distinguir presença, ausência confirmada e visibilidade inconclusiva. A fonte didática externa não possui rótulos clínicos para calcular acurácia; a proteção de aparência corrige um falso alerta técnico, mas não comprova detecção confiável de falhas cirúrgicas.
 
 As modalidades não são sincronizadas por paciente; valores estruturados e controles de apresentação são sintéticos. As decisões exigem contexto e revisão humana. O sistema não altera condutas, e as medições de latência não demonstram funcionamento em um hospital. Essas restrições delimitam os resultados e orientam uma avaliação futura com dados anotados de outras origens.
-
-\subsection{Apresentação e entrega}
-A apresentação deve mostrar o processamento de áudio e vídeo, a análise textual em nuvem, os desvios estruturados e o percurso do alerta até sua revisão. O roteiro de até quinze minutos está em \path{relatorio/roteiro_demonstracao.md}. A gravação e a publicação ficam com Benicio; o link deve ser inserido na capa quando estiver disponível.
 
 \clearpage
 \section{Referências}

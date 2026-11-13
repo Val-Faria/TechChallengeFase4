@@ -32,7 +32,7 @@
     "chamadas_api_adicionais": 0
   },
   "padrao_relatorio": "modelo LaTeX fornecido: fonte 12, A4, margem 2.5 cm, espaçamento 1.5",
-  "hashes_codigo_notebooks_conferidos_na_exportacao": 56,
+  "hashes_codigo_notebooks_conferidos_na_exportacao": 57,
   "pacote_modelo_audio_hash_conferido": true,
   "revisao_video": {
     "calibracao": "validação somente; candidato não promovido",
@@ -64,5 +64,11 @@
     "notebook_environment": "Python local CPU com dependências científicas",
     "paid_api_calls": 0,
     "git_directory_in_export": false
+  },
+  "ajustes_editoriais": {
+    "diagramas_vetoriais": 3,
+    "divisao_individual_removida": true,
+    "versao_documental_removida": true,
+    "secao_planejamento_apresentacao_removida": true
   }
 }

@@ -40,4 +40,6 @@ Não inclua arquivos `.env`, bancos de alertas, áudios, vídeos privados, chave
 
 O relatório segue o modelo LaTeX da Fase 2 fornecido pela equipe: `article`, A4, fonte 12, margens de 2,5 cm, espaçamento 1,5, capa com `maketitle`, autores/RMs na mesma ordem, links azuis e sumário antes do resumo. O sumário e o manifesto usam espaçamento compacto para legibilidade. A fonte de apresentação está registrada por hash em `evidence/padrao_relatorio.json`; resultados e links da Fase 2 não foram reutilizados como dados da Fase 4.
 
-`\linkdovideo` fica na fonte principal. Alterar somente essa definição quando Benicio publicar a apresentação, sem reutilizar o link da fase anterior. As figuras são geradas por `python relatorio/gerar_figuras.py` a partir das evidências, sem imagens clínicas privadas.
+`\linkdovideo` é um campo opcional na fonte principal. A capa exibe o acesso à apresentação somente quando uma URL real está preenchida nessa definição. As figuras são geradas por `python relatorio/gerar_figuras.py` a partir das evidências, sem imagens clínicas privadas.
+
+Os diagramas vetoriais são gerados por `python relatorio/gerar_diagramas.py`. As figuras distinguem o processamento, um exemplo ilustrativo da regra temporal e a decisão do caso integrado registrado.

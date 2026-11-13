@@ -1,12 +1,14 @@
 {
-  "pages": 17,
-  "sha256": "8e66ac8eae9fdb318a933a2316765bc268f8cb2608464ecfda1d3b087ca2f6a7",
+  "pages": 19,
+  "sha256": "2cd982d89930261d55da6fe75bbe723fa5c61e48a2bbed94a956f2493ffec425",
   "overfull_boxes": 0,
-  "visual_review": "Revisão da capa, sumário, contato de todas as páginas, tabelas, figuras e manifesto.",
+  "visual_review": "Capa, contato das 19 páginas e três diagramas vetoriais inspecionados.",
   "font_pt": 12,
   "margins_cm": 2.5,
   "line_spacing": 1.5,
   "sources_match_overleaf": true,
   "clinical_media_in_pdf": false,
-  "date": "2026-11-13"
+  "date": "2026-11-13",
+  "removed_version_and_roles": true,
+  "presentation_planning_section_removed": true
 }
