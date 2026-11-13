@@ -1,0 +1,11 @@
+{
+  "get_http": 200,
+  "post_redirect_get_http": 200,
+  "partial_coverage_visible": true,
+  "limits_visible": true,
+  "review_audited": true,
+  "reviewer": "demonstracao_automatica",
+  "scope": "Controle de software local, sem revisão médica real.",
+  "paid_api_calls": 0,
+  "server_closed": true
+}

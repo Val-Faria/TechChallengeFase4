@@ -1,0 +1,18 @@
+{
+  "auditoria_audio_preserva_particoes": true,
+  "notebook_default_executado": true,
+  "celulas_codigo": 7,
+  "api_adicional": false,
+  "treinamento_adicional": false,
+  "hashes_artefatos_locais": {
+    "model": true,
+    "features": true,
+    "predictions": true,
+    "partitions": true
+  },
+  "hashes_csv_preservados_no_git": {
+    "features": true,
+    "predictions": true,
+    "partitions": true
+  }
+}

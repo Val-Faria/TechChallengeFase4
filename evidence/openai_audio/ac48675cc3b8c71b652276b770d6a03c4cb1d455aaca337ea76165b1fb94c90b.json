@@ -1,0 +1,18 @@
+{
+  "text": "Sinto saudade da minha família e tenho ficado desanimada durante a internação. Gostaria de receber apoio.",
+  "usage": {
+    "type": "tokens",
+    "total_tokens": 149,
+    "input_tokens": 122,
+    "input_token_details": {
+      "text_tokens": 0,
+      "audio_tokens": 122
+    },
+    "output_tokens": 27
+  },
+  "modelo": "gpt-4o-mini-transcribe",
+  "duracao_s": 12.24984126984127,
+  "latencia_s": 2.2857956999796443,
+  "sha256_audio": "0bc1e863ef3f2a239902939f1063cd37151e78cbb63ca940c5c55843e7e29a0d",
+  "custo_estimado_usd": 0.0006124920634920635
+}

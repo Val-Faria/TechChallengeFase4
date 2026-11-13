@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "model_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "dataset_zip_sha256": "d2345667a5efa840b7f1f3ff33af52ebf25d8ccf0f7c3c985afdeba6d7e04bf8",
+  "created_at_utc": "2026-11-12T00:05:58.787022+00:00",
+  "selection_partition": "valid",
+  "selection_images": 74,
+  "selection_data_sha256": "c8e3404c9d8cf77f07a02d04cce4d7bc74d2860f56a49a64025e53997c281389",
+  "parameters": {
+    "conf": 0.4,
+    "conf_area": 0.4,
+    "min_perda_s": 5.0,
+    "tolerancia_s": 1.0,
+    "imgsz": 416
+  },
+  "objective": "macro_F1_da_condicao_por_quadro_anotado",
+  "clinical_ground_truth": false,
+  "post_hoc_study": true,
+  "approved_for_default_inference": false,
+  "promotion_policy": "Candidato experimental; a demonstração mantém 0,4/0,6. Melhora na validação não comprova generalização.",
+  "note": "Nova versão após observar a reserva original; limites escolhidos somente em validação. Não é nova avaliação cega."
+}

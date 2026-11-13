@@ -1,0 +1,31 @@
+# Relatório automático multimodal
+
+**Caso:** controle-preserva-video
+**Resultado:** 00f1168256663dbdac28
+**Prioridade:** alto
+**Cobertura:** completo
+**Revisão necessária:** True
+**Contém fonte simulada:** True
+**Associação:** associacao_manual_por_caso
+
+## audio
+
+- Estado: ok
+- Origem: classificar_audio
+- Motivo: Classe acústica: neutro; confiança 0.950.
+
+## video
+
+- Estado: ok
+- Origem: analisar_video
+- Motivo: Resultado de vídeo recebido.
+- Interpretação: Resultado observacional; não exclui anomalias clínicas.
+- Evidência: {"inicio_s": 1, "fim_s": 19, "duracao_s": 18}
+
+## Resposta operacional
+
+Entrega: {"destino": "caixa_local_equipe_medica", "status": "persistido", "recebido_em_utc": "2026-11-12T00:07:41.811656+00:00", "confirmacao": "gravacao_transacional_sqlite", "entrega_hospitalar": false}
+
+A caixa de revisão e o painel são locais. Não há envio a um hospital.
+
+> Protótipo acadêmico para revisão humana. Não constitui diagnóstico.

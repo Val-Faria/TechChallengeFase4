@@ -1,0 +1,26 @@
+{
+  "source_page": "https://pie.med.utoronto.ca/TVASurg/project/gyn-tlh/",
+  "source_sha256": "18ff57cb8046ed50526dfa893703c959cf195709d620fcae88fe399206724340",
+  "model_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "reference_sha256": "e06eec5f5fca1f1bfe77d8ace0f4db9d4a568fc7b226c74cf93f25279162376f",
+  "parameters": {
+    "conf": 0.4,
+    "conf_area": 0.6,
+    "min_perda_s": 5,
+    "tolerancia_s": 1,
+    "imgsz": 416
+  },
+  "observed_interval_s": [
+    150.0,
+    240.0
+  ],
+  "new_temporal_interval_s": [
+    240.0,
+    330.0
+  ],
+  "new_interval_never_used_to_fit_or_select": true,
+  "same_source_not_independent_patient": true,
+  "post_hoc_change": "Filtro motivado por falso alerta em ilustração no intervalo inicial. Referência calculada só em treino e limite só na validação.",
+  "clinical_ground_truth": false,
+  "frozen_at_utc": "2026-11-12T00:04:37.784681+00:00"
+}

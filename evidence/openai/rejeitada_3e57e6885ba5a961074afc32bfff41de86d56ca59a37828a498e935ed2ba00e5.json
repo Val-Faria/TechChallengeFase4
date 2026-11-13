@@ -1,0 +1,40 @@
+{
+  "estado": "rejeitada_na_validacao_sem_uso_na_decisao",
+  "motivo": "Evidência não corresponde literalmente à transcrição.",
+  "analise_recebida": {
+    "sentimento": "positivo",
+    "mencoes": [
+      {
+        "termo": "dor",
+        "estado": "negado",
+        "contexto": "paciente_atual",
+        "evidencia": "Não estou com dor."
+      },
+      {
+        "termo": "falta de ar",
+        "estado": "negado",
+        "contexto": "paciente_atual",
+        "evidencia": "não tenho falta de ar."
+      }
+    ],
+    "limitacoes": [
+      "ausência de informações adicionais"
+    ]
+  },
+  "id_resposta": "resp_0b28730eab2201b8016af25923ea1087d2aa5074eedfa0eb91",
+  "modelo": "gpt-4o-mini",
+  "sha256_transcricao": "6f52f4e36e9287451edeaaa5644d20b8bddbc4db70cfa61b8b5d1a04e79303a6",
+  "usage": {
+    "input_tokens": 396,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 83,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 479
+  },
+  "custo_estimado_usd": 0.00010919999999999998
+}

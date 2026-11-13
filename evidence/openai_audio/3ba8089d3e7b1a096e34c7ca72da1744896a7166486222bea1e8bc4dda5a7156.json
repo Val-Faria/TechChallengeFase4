@@ -1,0 +1,18 @@
+{
+  "text": "A profissional perguntou sobre sangramento, mas respondi que não tive sangramento. A consulta terminou normalmente.",
+  "usage": {
+    "type": "tokens",
+    "total_tokens": 123,
+    "input_tokens": 100,
+    "input_token_details": {
+      "text_tokens": 0,
+      "audio_tokens": 100
+    },
+    "output_tokens": 23
+  },
+  "modelo": "gpt-4o-mini-transcribe",
+  "duracao_s": 10.069251700680272,
+  "latencia_s": 1.0979694000270683,
+  "sha256_audio": "80c99e6f53dc4d561564f3846349106f49ac62dda36d61d682dcdca859e75e19",
+  "custo_estimado_usd": 0.0005034625850340136
+}

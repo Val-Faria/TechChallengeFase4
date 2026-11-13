@@ -1,0 +1,43 @@
+{
+  "alerta": true,
+  "nivel": "baixo",
+  "motivo": "1 trecho(s) com instrumento sem útero visível",
+  "eventos": [
+    {
+      "descricao": "Instrumento em cena sem visualização do útero",
+      "inicio_s": 2.0,
+      "fim_s": 10.2,
+      "duracao_s": 8.2,
+      "confianca": 0.8
+    }
+  ],
+  "cobertura_parcial": true,
+  "limitacoes": [
+    "Fonte externa sem anotações médicas/temporais para medir acertos e erros.",
+    "Vídeo didático editado, não registro integral e contínuo de cirurgia.",
+    "Modelo treinado em outra origem; ausência de alerta não confirma normalidade."
+  ],
+  "interpretacao": "Presença/ausência de detecções pelo modelo; ausência de alerta não confirma normalidade nem ausência de falha clínica.",
+  "estatisticas": {
+    "duracao_video_s": 90.0,
+    "quadros_analisados": 450,
+    "amostra_fps_efetivo": 5.0,
+    "prop_quadros_com_utero": 0.0022222222222222222,
+    "prop_quadros_com_instrumento": 0.13777777777777778,
+    "prop_instrumento_sem_utero": 0.13777777777777778
+  },
+  "parametros": {
+    "conf": 0.4,
+    "conf_area": 0.6,
+    "min_perda_s": 5,
+    "tolerancia_s": 1,
+    "imgsz": 416
+  },
+  "aviso": "Sinal de triagem para revisão da equipe médica. Não constitui diagnóstico.",
+  "origem": "YOLO congelado — verificação qualitativa TVASurg",
+  "simulado": false,
+  "source_page": "https://pie.med.utoronto.ca/TVASurg/project/gyn-tlh/",
+  "source_sha256": "18ff57cb8046ed50526dfa893703c959cf195709d620fcae88fe399206724340",
+  "sha256_video": "673db110c5abb328ee07e332e792ee9c4f5e927a906eb822a367e8c2338eb1f3",
+  "model_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a"
+}

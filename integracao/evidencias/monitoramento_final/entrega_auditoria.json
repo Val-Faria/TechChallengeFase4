@@ -1,0 +1,9 @@
+[
+  {
+    "sequence": 1,
+    "at_utc": "2026-11-10T14:54:10.733105+00:00",
+    "action": "entrega_local",
+    "result_id": "0a9eb241638d475d4844",
+    "detail": "{\"sha256_payload\": \"6cf0595833959929fb1dd910a4760e00cff307ddcdc57aad93e65a8bac63e660\"}"
+  }
+]

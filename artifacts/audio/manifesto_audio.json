@@ -1,0 +1,22 @@
+{
+  "model": {
+    "path": "artifacts/audio/modelo_audio_1180.joblib",
+    "sha256": "505c882da687e90e2bca57b3d92436338b57a5ec450a96eecefec989b0e2dd05",
+    "bytes": 2565408
+  },
+  "features": {
+    "path": "artifacts/audio/caracteristicas_audio_1180.csv",
+    "sha256": "fcb83de076604895993dd6944f0099a813e806053d0f9c2360aebe80789c5d36",
+    "bytes": 538971
+  },
+  "predictions": {
+    "path": "artifacts/audio/resultado_audio_1180.csv",
+    "sha256": "a6b46c44b1312d977949935155c716978ef6947579fbd60178f7b6d97f16ea99",
+    "bytes": 152393
+  },
+  "partitions": {
+    "path": "audio/evidencias/particoes_audio.csv",
+    "sha256": "30dc41d77d9167b3e75587de6fb698ad2de7d75b3b08c9b033661ec50130b7ef",
+    "bytes": 229210
+  }
+}

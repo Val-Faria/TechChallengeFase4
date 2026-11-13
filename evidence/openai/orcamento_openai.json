@@ -1,0 +1,125 @@
+{
+  "chamadas": [
+    {
+      "sha256_entrada": "4696982934682dac417680513253c726fe761e02051e87ee26b526bba043690e",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:35:42.081065+00:00",
+      "estado": "falha_reserva_mantida",
+      "reserva_usd": 0.0014529,
+      "custo_contabilizado_usd": 0.0014529,
+      "erro": "ValueError"
+    },
+    {
+      "sha256_entrada": "3e57e6885ba5a961074afc32bfff41de86d56ca59a37828a498e935ed2ba00e5",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:37:07.310043+00:00",
+      "estado": "falha_com_consumo_medido",
+      "reserva_usd": 0.00150825,
+      "custo_contabilizado_usd": 0.00010919999999999998,
+      "input_tokens": 396,
+      "output_tokens": 83,
+      "erro": "ValueError"
+    },
+    {
+      "sha256_entrada": "d03e2ae4591a5cabc704b847407dfe60c79b9c2c1f13ac5ad53461b61916cc66",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:38:33.516564+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.0015169499999999998,
+      "custo_contabilizado_usd": 0.00012255,
+      "input_tokens": 421,
+      "output_tokens": 99
+    },
+    {
+      "sha256_entrada": "e9eeb87a4f36496f0e4112d75472281080d7364b5597ac677f389a98f5a5498a",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:38:36.372002+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.0015208499999999998,
+      "custo_contabilizado_usd": 0.00012209999999999999,
+      "input_tokens": 422,
+      "output_tokens": 98
+    },
+    {
+      "sha256_entrada": "6ad7bc6a14ff7fc38659e42a731b6cb0b7b7493780f7cb89cb4d5b2d3a3224bf",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:38:38.650342+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.0015290999999999998,
+      "custo_contabilizado_usd": 0.0001224,
+      "input_tokens": 432,
+      "output_tokens": 96
+    },
+    {
+      "sha256_entrada": "5860baf81602d71674b3d06cd2b573dd8808ec286ae9e21a111e79d286e0573f",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:38:40.812324+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.0015345,
+      "custo_contabilizado_usd": 0.0001482,
+      "input_tokens": 444,
+      "output_tokens": 136
+    },
+    {
+      "sha256_entrada": "64cdab097647146a089fb21d057797972bfef618b564783844ed5688c80c8689",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:42:28.825017+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.0015393,
+      "custo_contabilizado_usd": 0.00011819999999999999,
+      "input_tokens": 444,
+      "output_tokens": 86
+    },
+    {
+      "sha256_entrada": "9a5d13d7c862970ffbf390cfb05194a6234298521ae6301044f924c09b21caae",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:42:31.297158+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.0015396,
+      "custo_contabilizado_usd": 0.00013005000000000002,
+      "input_tokens": 455,
+      "output_tokens": 103
+    },
+    {
+      "sha256_entrada": "669ef8e6ce421ff03a1f53676b345a769aa45323432c3eb18bfb6b97373271fb",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:42:33.412284+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.0015375,
+      "custo_contabilizado_usd": 0.00013725,
+      "input_tokens": 451,
+      "output_tokens": 116
+    },
+    {
+      "sha256_entrada": "515d264b28b6dcc366806849babcf19fc539e4b6eae301d7435cc8cab6136920",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:42:35.413578+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.0015366,
+      "custo_contabilizado_usd": 0.00015285,
+      "input_tokens": 451,
+      "output_tokens": 142
+    },
+    {
+      "sha256_entrada": "8a36e53cedccb60cc523c5e12a4d2eb926b16f961fc5f41b948077a923bed1bf",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:42:38.701430+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.001539,
+      "custo_contabilizado_usd": 0.00010619999999999999,
+      "input_tokens": 436,
+      "output_tokens": 68
+    },
+    {
+      "sha256_entrada": "409e7b0363290803ab8fcead1a904ca7eb28141e1e8f76195d606986769f19d1",
+      "modelo": "gpt-4o-mini",
+      "instante_utc": "2026-11-09T23:42:40.450349+00:00",
+      "estado": "concluido",
+      "reserva_usd": 0.0015423,
+      "custo_contabilizado_usd": 0.0001224,
+      "input_tokens": 444,
+      "output_tokens": 93
+    }
+  ],
+  "limite_usd": 0.1
+}

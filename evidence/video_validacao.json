@@ -1,0 +1,64 @@
+{
+  "status": "validacao_de_software_concluida",
+  "detector_yolo_reexecutado": false,
+  "motivo": "Pesos best_uterus_tools_v4.pt não disponibilizados nos arquivos nem no Drive acessível.",
+  "video_clinico_independente_avaliado": false,
+  "novos_videos": {
+    "origem": "Gerados localmente por este script; sem imagens clínicas",
+    "detector": "Oráculo de marcadores coloridos, sem treinamento",
+    "escopo": "Decodificação, amostragem, regra temporal, exportação e fechamento de recursos; não mede desempenho YOLO",
+    "casos": [
+      {
+        "nome": "normal",
+        "sha256": "782b78cf270964ed76a31dc56ddac480e35df2ec39a7a6c36e01f380aec93e95",
+        "duracao_s": 8,
+        "nivel_esperado": "nenhum",
+        "nivel_obtido": "nenhum",
+        "eventos": [],
+        "aprovado": true
+      },
+      {
+        "nome": "alerta",
+        "sha256": "c4df6aca2716a7b25733264f6f583ea3919c31a5327ef78fec19fe7c8aae4667",
+        "duracao_s": 18,
+        "nivel_esperado": "alto",
+        "nivel_obtido": "alto",
+        "eventos": [
+          {
+            "descricao": "Instrumento em cena sem visualização do útero",
+            "inicio_s": 0.0,
+            "fim_s": 18.0,
+            "duracao_s": 18.0,
+            "confianca": 0.99
+          }
+        ],
+        "aprovado": true
+      }
+    ]
+  },
+  "artefato_equipe": {
+    "quadros_decodificados": 570,
+    "fps": 5.0,
+    "duracao_s": 114.0,
+    "sha256": "5307a83375c3a6b17a7ae929b81d59692e2023e429772d7e6b2a33643c7ca9d2",
+    "eventos_recalculados": [
+      {
+        "descricao": "Instrumento em cena sem visualização do útero",
+        "inicio_s": 76.0,
+        "fim_s": 82.0,
+        "duracao_s": 6.0,
+        "confianca": 0.823
+      },
+      {
+        "descricao": "Instrumento em cena sem visualização do útero",
+        "inicio_s": 84.0,
+        "fim_s": 114.0,
+        "duracao_s": 30.0,
+        "confianca": 0.813
+      }
+    ],
+    "nivel_recebido": "alto",
+    "origem": "Montagem do conjunto já usado pela frente de vídeo; não é amostra inédita"
+  },
+  "ressalva": "Nenhuma métrica clínica ou de generalização do detector foi obtida nesta validação."
+}

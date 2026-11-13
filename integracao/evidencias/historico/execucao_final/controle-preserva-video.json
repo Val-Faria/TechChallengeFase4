@@ -1,0 +1,59 @@
+{
+  "schema_version": "2.0",
+  "id_caso": "controle-preserva-video",
+  "id_resultado": "45dde39c47f95770ad66",
+  "gerado_em_utc": "2026-11-10T14:54:10.588252+00:00",
+  "alerta": true,
+  "nivel": "alto",
+  "requer_revisao": true,
+  "status": "completo",
+  "simulado": true,
+  "pareamento": "associacao_manual_por_caso",
+  "fontes_esperadas": [
+    "audio",
+    "video"
+  ],
+  "fontes_inconclusivas": [],
+  "motivos": [
+    "Resultado de vídeo recebido."
+  ],
+  "fontes": [
+    {
+      "modalidade": "audio",
+      "status": "ok",
+      "alerta": false,
+      "nivel": "nenhum",
+      "classe_audio": "neutro",
+      "confianca_audio": 0.95,
+      "limiar": 0.7,
+      "motivo": "Classe acústica: neutro; confiança 0.950.",
+      "origem": "classificar_audio",
+      "simulado": true
+    },
+    {
+      "modalidade": "video",
+      "status": "ok",
+      "alerta": true,
+      "nivel": "alto",
+      "motivo": "Resultado de vídeo recebido.",
+      "eventos": [
+        {
+          "inicio_s": 1,
+          "fim_s": 19,
+          "duracao_s": 18
+        }
+      ],
+      "estatisticas": {},
+      "origem": "analisar_video",
+      "simulado": true
+    }
+  ],
+  "entrega": {
+    "destino": "caixa_local_equipe_medica",
+    "status": "persistido",
+    "recebido_em_utc": "2026-11-10T14:54:10.603292+00:00",
+    "confirmacao": "gravacao_transacional_sqlite",
+    "entrega_hospitalar": false
+  },
+  "aviso": "Protótipo acadêmico para revisão humana. Não constitui diagnóstico."
+}

@@ -2,8 +2,26 @@ __pycache__/
 .ipynb_checkpoints/
 *.pyc
 .env
+.env.*
+*.env
+dados_privados/
+.cache/
+*.sqlite
+*.sqlite3
+*.db
+output/private/
+*.log
+*.aux
+*.toc
+*.out
+*.fls
+*.fdb_latexmk
 *.key
 *.pem
+*.joblib
+!artifacts/audio/modelo_audio_1180.joblib
+*.wav
+.venv/
 audio/datasets/extracted/
 
 # Frente de vídeo: dataset, modelos e saídas geradas (não versionar)
@@ -12,3 +30,16 @@ Uterus.v4i.yolov8/
 runs*/
 saida_video/
 *.mp4
+
+# Entradas e resultados da integração são gerados no Colab.
+integracao/entradas/
+integracao/saidas/
+integracao/resultados_integracao.zip
+saida_notebook/
+integracao/evidencias/monitoramento_incremental/
+.playwright-mcp/
+artifacts/audio/features_cache.jsonl
+output/revisao_visual/
+tmp/
+build/
+*.egg-info/

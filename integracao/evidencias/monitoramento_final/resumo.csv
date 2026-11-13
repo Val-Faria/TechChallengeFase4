@@ -1,0 +1,2 @@
+id_caso,nivel,alerta,status,simulado,requer_revisao
+monitor-sintetico,medio,True,completo,True,True

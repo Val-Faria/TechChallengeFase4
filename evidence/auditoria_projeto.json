@@ -1,0 +1,330 @@
+{
+  "data": "2026-11-13",
+  "codigo": [
+    {
+      "arquivo": "audio/notebooks/TechChallengeFase4_audio.ipynb",
+      "sha256": "7209b06c8b420367ed9929b4c69cd2e16793ddac27f8a81f8329b965167380cf",
+      "celulas_codigo": 5
+    },
+    {
+      "arquivo": "integracao/TechChallengeFase4_integracao.ipynb",
+      "sha256": "64ec60b5704f19742a5b57aa68e7f944473871134543e46291a09dd5259a8456",
+      "celulas_codigo": 7
+    },
+    {
+      "arquivo": "relatorio/gerar_diagramas.py",
+      "sha256": "8025fb9e9d30816ef50b9cdabb4ac116a842a277129deeabef34a6dac04fcc5c",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "relatorio/gerar_figuras.py",
+      "sha256": "5bb42cd413d8f3417c36e258cc1f643359a73eba5f94aa51d2f037f2013f419b",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "relatorio/gerar_relatorio.py",
+      "sha256": "2a06baf02ed22b875ba4337b08edb932dd2b0e6aded69e8615ca206af33dc8f8",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/audio_compare_asr.py",
+      "sha256": "7d0d8db162c0a5549ca5feb43d471b86735e1193a308387ca02e70f24efb5699",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/audio_external.py",
+      "sha256": "b5289c18c5499a9ffeb4b4b2e27953efc456a412c5f7f8330c7490b8cf1f6b0e",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/audio_infer.py",
+      "sha256": "d32d0b269404d0f50626c9d8e94734f646c0ddf58421985e362aae69d3ca89f2",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/audio_reproduce.py",
+      "sha256": "52d42604bc297adea5f59234e8164ee785de3362d85aba1fbaa0d271f65ad5e9",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/auditar_projeto.py",
+      "sha256": "06888f971736b546c278ed75256fd1657bfd7eaf49700deefb7cca3076a3c29c",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/executar_notebooks.py",
+      "sha256": "b5fd20e7f8325c3462fe4779dc87138580e094ec59ef72a00651ee8cbc2fa422",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/gerar_notebook_audio.py",
+      "sha256": "778577e05524d0d9440bfddb0a308d723caae2211b173fa940e0d65a1b43c73c",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/gerar_notebook_integracao.py",
+      "sha256": "b79da8c628cc2a42ad438b3fe5f093f31e66ec6bbe809ed8f1356641bc880625",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/gerar_notebook_video.py",
+      "sha256": "899de69818b495a861c8d33afd5020eb207849d6c76fe7e232f8bdca667aec00",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/notebook_common.py",
+      "sha256": "be38946d8df1352ca7db3a900a47622b5068250734f0b080dd3fdf6d0b5de8d0",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/preparar_referencia_voz.py",
+      "sha256": "3a25d17508b65dad0ce41fcaa3d317ca182a297f026ce36a1c1ffa8811880439",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/run_demo.py",
+      "sha256": "2103608b56ecc8c880da6dc37e8bc9e002f367fd4535069db20bc8c810f1238c",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/run_stream.py",
+      "sha256": "26430c1738c955bf68a2bdcc173c7d385ac430426bcfc6c7758bbc330c034ce0",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/transcrever_openai.py",
+      "sha256": "f31bc1f7dacca1059773c9febb9971e429e0be28dbad266fc960e4c88f3ad8c9",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/validar_midias.py",
+      "sha256": "1bd6d312eebb23779512dcdbebca3b57c04873e6fd735f38c4562eb3e1001ac2",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/validar_openai.py",
+      "sha256": "2458247148a728a7c22f6c948f642ba7c4b6e756a134b0b9d543a9039ef8d077",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/validar_video.py",
+      "sha256": "72bf8b38d9568f69712f5b02196730983ad162c08d3b12baa8b0a4f00d4dbf51",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/verificar_entrega.py",
+      "sha256": "a01ad62fad676c47f86ccff541ee92024a25a9933b6142b0b3c91b33d0cc91a9",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_calibrar_alertas.py",
+      "sha256": "749fec675ec6cd0e7f584f46b047dda530cac6a1d8616b4f1e229319367e5512",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_infer_reserva.py",
+      "sha256": "4fb58024e5373fa688aadb5759a0c479b0090df5b7f36759f14fed7988ba9f5e",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_preparar_referencia_visual.py",
+      "sha256": "9223aeb213d83af1ec5ba4ff51607a99e3c542601d25cae322dd2396add2c9a9",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_reproduce.py",
+      "sha256": "56e9e0a4741ba5c2a00e62b554832b991e4867776591908ad378c985c15f840a",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_validar_integracao.py",
+      "sha256": "d968c8d09df4b73805f93771c9e25db315379042110783226b1ad606cf0391b7",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_verificar_cobertura.py",
+      "sha256": "2c87f054dcf3b0f8cf74042f1d5ea90ac9c17c1d6e997ea7f0acc6da56b79dc9",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "scripts/video_verificar_externo.py",
+      "sha256": "89528911d7af77f1b1a558f9e81e40cb1267833c75d08647c09ad863396ab3f7",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/__init__.py",
+      "sha256": "4419459eb303775609e1932720289653d485f264a0188e5b5e1f792c48b5940d",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/audio_evaluation.py",
+      "sha256": "2c444d490755a734db7e59b8e870246ac10fa7f9cf379c2986779850096d104a",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/core.py",
+      "sha256": "c2959b30993aedc2d19f4402e0870b168578e356006dd3edddb82b39ff6fedfd",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/dashboard.py",
+      "sha256": "9babec2f26bbf34529acc05353a98a6e07649e80e746e2ba5596e1b53f958b1e",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/delivery.py",
+      "sha256": "a3bc393ccc1de4e44422dbd729f840feac58a9762fba2d99fed8610de9cca57b",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/demo.py",
+      "sha256": "9cbf00894e193ee6c26e13e056052ca4f362632fa7f49939a8cd7cdb01de2412",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/media.py",
+      "sha256": "a66b422783f3459d72475408a7fc7a7e896c07b08dc7822f64f60237a8241630",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/media_stream.py",
+      "sha256": "0871ead81bcedd62a4e5c54086a493690086289f86a223f01db8220119d4ee83",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/monitor.py",
+      "sha256": "caa21adabd50828be8097206dd297e971003d7721463c5302f7e5926c8b41083",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/notebook_display.py",
+      "sha256": "b0a6d056c2d3b4f900c29fc8308cc71360eb43a17ebf3e1f381d87583c22db89",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/openai_audio.py",
+      "sha256": "61f1bf41091763d9c035d7578ba8f8c43952b11887acf9919f0c1520f27b3d05",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/openai_text.py",
+      "sha256": "3803d59f6b4d02a444e32fe1d6e385dbe8f2bfa00cdfe6a60671481d3725594d",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "src/techchallenge4/reports.py",
+      "sha256": "af1463a66d8f06a77aad2d972a2533c33a26cb558a22649633d0e18bc72c15b5",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_auditoria.py",
+      "sha256": "39f69f486989cd16d94180917190f20cff3f99f7dc5d76e050be4bbb5cea8d7a",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_media.py",
+      "sha256": "1824d5c1d799966cb2298c5aea4bac1b517ca21640241d08c7cb219fa54938bf",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_monitor.py",
+      "sha256": "bce91273e28a8990b7ea59b0c7776fa522845bcc415541d493badcda1f580223",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_notebooks.py",
+      "sha256": "9827151a251448efadb9362450dbca7a45aa8f79d5520b7a1f965bca914ed5ef",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_openai_audio.py",
+      "sha256": "825a6b5a6b0241c6005d24222e73c403fcd7a08a2ac2fec8165c973b476d0fff",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_pipeline.py",
+      "sha256": "98a4168eb455900e542047a9dc443307e241b0035f42ea002527d6b32586e2c8",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_video.py",
+      "sha256": "e76ee6bf8e51329cf26f02b0e220c1c02d0fa882aa5cc84b816018408b0b6aa4",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_video_calibracao.py",
+      "sha256": "79ca47d5b6eb5e9c1af06f86ad64cfaadd888a19a06b4c57ed5c6ef2f9dea224",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_video_dataset.py",
+      "sha256": "6ca8a8506b4934ef18be9b807e69273ee2a91a56be81ea5889aa96a79ce1b614",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "tests/test_video_qualidade.py",
+      "sha256": "e938f8da4ef07ed7ca5146e490200b4b611e9bbc1d708fcfe0edaeb23c8bba53",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "video/TechChallengeFase4_video.ipynb",
+      "sha256": "4860ad7dc03d5f551d90f6875de8b983bb0729375e4c429ea8fbf1b9c210d802",
+      "celulas_codigo": 6
+    },
+    {
+      "arquivo": "video/alerta_video.py",
+      "sha256": "2beaf757a888583559574c1d6dabe7d03ae3de79bfd5ea3d57d43e8ba6f7187f",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "video/calibracao.py",
+      "sha256": "dcf42f807844435cbab404ca695f7282ff9c7ea367652e70b783f0942aaf6b51",
+      "celulas_codigo": 0
+    },
+    {
+      "arquivo": "video/qualidade.py",
+      "sha256": "f3a68055b5f32bbef035459868808b791b51513459a078a304d7fdbf5c160ba8",
+      "celulas_codigo": 0
+    }
+  ],
+  "arquivos_python": 54,
+  "notebooks": 3,
+  "erros_sintaxe": [],
+  "requisitos": [
+    {
+      "requisito": "Vídeo clínico e eventos",
+      "status": "nova_reproducao_com_reserva_de_clipe",
+      "observacao": "Novo YOLOv8s, calibração só na validação e candidato não promovido. Cobertura visual ajustada em treino/validação; falso alerta externo sobre ilustração preservado e removido pela proteção. Nova janela temporal da mesma fonte, sem rótulos clínicos. Ausência de caixa não comprova ausência anatômica; divergência 0/2 mantida."
+    },
+    {
+      "requisito": "Alterações vocais indicativas de condições médicas",
+      "status": "demonstracao_acustica_controlada",
+      "observacao": "Referência intra-voz anterior, pausas e duração dos trechos vocais. Controles físicos executados. Sem rótulos médicos, sensibilidade clínica ou atribuição causal."
+    },
+    {
+      "requisito": "Transcrição, termos críticos e sentimentos em nuvem",
+      "status": "atendido_no_prototipo",
+      "observacao": "OpenAI autorizada pelo professor. Chamadas reais salvas; sentimento não é gravidade clínica."
+    },
+    {
+      "requisito": "Sinais vitais, prescrições e movimento",
+      "status": "demonstrado_com_dados_sinteticos",
+      "observacao": "Inclui batimentos, oxigenação e pressão arterial. Limiares demonstrativos, sem exigência inferida de ensaio hospitalar."
+    },
+    {
+      "requisito": "Alertas e monitoramento temporal",
+      "status": "demonstrado_no_prototipo_local",
+      "observacao": "Eventos estruturados e inferência acústica/visual incremental sobre arquivos, medida no ritmo original; a latência de nuvem/captura ao vivo não está incluída."
+    },
+    {
+      "requisito": "Código e relatório",
+      "status": "atendido_com_limitacoes_explicitas"
+    },
+    {
+      "requisito": "Vídeo de até15min noYouTube/Vimeo",
+      "status": "pendente_grupo"
+    }
+  ],
+  "conformidade_integral": false,
+  "ressalva": "Dados clínicos reais, validação hospitalar e envio por e-mail não são tratados como exigências adicionais ao PDF."
+}

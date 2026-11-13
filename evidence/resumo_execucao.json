@@ -1,0 +1,57 @@
+{
+  "data_entrega": "2026-11-13",
+  "branch": "Nirton",
+  "cloud": {
+    "model": "gpt-4o-mini (texto) e gpt-4o-mini-transcribe (áudio)",
+    "calls": 18,
+    "estimated_cost_usd": 0.005980495011337869,
+    "status": "16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha"
+  },
+  "tests": {
+    "name": "pytest Python 3.12; verificação de entrega",
+    "passed": 106,
+    "failed": 0,
+    "subtests_passed": 26
+  },
+  "resources": {
+    "gpu_used": true,
+    "session_closed": true,
+    "colab_used": false,
+    "description": "Experimentos: GPU local NVIDIA RTX 2060. Notebooks de apresentação executados em CPU, com modelo de áudio congelado e resultados de vídeo registrados; sem treinamento, Colab ou chamadas pagas nesta etapa."
+  },
+  "integration": {
+    "description": "Composição revisada em integracao/evidencias/revisao_final_20261111; áudio novo-03, texto real em cache, novo YOLO em montagem de teste e fontes estruturadas sintéticas. Cobertura parcial de vídeo preservada. Dois controles externos verificam fila de revisão mesmo sem alerta positivo."
+  },
+  "video": {
+    "yolo_reexecutado": true,
+    "modelo_novo": true,
+    "peso_original_marcelo_recuperado": false,
+    "pesos_disponiveis": true,
+    "video_clinico_continuo_externo_avaliado": false,
+    "reserva_prefixo_fora_desenvolvimento": true,
+    "referencia": "evidence/video_reproducao.json",
+    "regra_temporal_reserva": "0/2 intervalos derivados de caixas: ausência de anotação não confirma ausência anatômica; requer revisão independente.",
+    "calibracao_experimental_promovida": false,
+    "referencia_visual": "artifacts/video/referencia_visual.json",
+    "verificacao_externa": "evidence/video_cobertura_externa.json",
+    "video_didatico_externo_editado_avaliado": true,
+    "janela_externa_reservada_temporal_s": [
+      240,
+      330
+    ]
+  },
+  "gravacao_benicio": "Responsabilidade do grupo; fora da execução desta entrega.",
+  "auditoria": {
+    "conformidade_integral": false,
+    "documento": "relatorio/auditoria_conformidade.md",
+    "sem_chamadas_api_adicionais": true
+  },
+  "media_complementares": {
+    "evidencia": "evidence/midias_complementares.json",
+    "sem_pesos_privados": true,
+    "cenario_audio": "comparacao_acustica_intra_voz_controlada",
+    "cenario_video": "fluxo_optico_inespecifico",
+    "captura_clinica_ao_vivo": false,
+    "novas_chamadas_api": 0
+  }
+}

@@ -1,0 +1,5 @@
+ultralytics==8.4.208
+opencv-python==5.0.0.93
+PyYAML==6.0.3
+Pillow>=11,<13
+# GPU: instalar a versão de torch/torchvision compatível com o hardware.

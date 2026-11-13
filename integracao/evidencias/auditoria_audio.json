@@ -1,0 +1,89 @@
+{
+  "linhas_csv_validadas": 1200,
+  "auditoria_zip": {
+    "wavs": 1180,
+    "linhas_metadata": 1180,
+    "classes_metadata": {
+      "ansiedade_hesitacao": 380,
+      "neutro": 400,
+      "tristeza": 400
+    },
+    "arquivos_metadata_ausentes": []
+  },
+  "nomes_csv_sem_wav": [
+    "ansiedade_hesitacao_045_lento.wav",
+    "ansiedade_hesitacao_045_original.wav",
+    "ansiedade_hesitacao_045_rapido.wav",
+    "ansiedade_hesitacao_045_ruido.wav",
+    "ansiedade_hesitacao_057_lento.wav",
+    "ansiedade_hesitacao_057_original.wav",
+    "ansiedade_hesitacao_057_rapido.wav",
+    "ansiedade_hesitacao_057_ruido.wav",
+    "ansiedade_hesitacao_064_lento.wav",
+    "ansiedade_hesitacao_064_original.wav",
+    "ansiedade_hesitacao_064_rapido.wav",
+    "ansiedade_hesitacao_064_ruido.wav",
+    "ansiedade_hesitacao_075_lento.wav",
+    "ansiedade_hesitacao_075_original.wav",
+    "ansiedade_hesitacao_075_rapido.wav",
+    "ansiedade_hesitacao_075_ruido.wav",
+    "ansiedade_hesitacao_081_lento.wav",
+    "ansiedade_hesitacao_081_original.wav",
+    "ansiedade_hesitacao_081_rapido.wav",
+    "ansiedade_hesitacao_081_ruido.wav"
+  ],
+  "versoes": {
+    "python": "3.12.14",
+    "scikit-learn": "1.6.1",
+    "numpy": "2.5.4",
+    "librosa": "0.11.0",
+    "soundfile": "0.13.1"
+  },
+  "inferencia_random_forest_real": [
+    {
+      "arquivo": "ansiedade_hesitacao_000_original.wav",
+      "classe_prevista": "ansiedade_hesitacao",
+      "confianca": 0.975,
+      "caracteristicas": {
+        "duracao": 4.1835625,
+        "energia_media": 0.08454505354166031,
+        "proporcao_pausas": 0.24275064612994302,
+        "ritmo_palavras_minuto": 114.73475058637226,
+        "tom_medio_hz": 272.75100072745687,
+        "tom_desvio_hz": 51.268402284860116
+      },
+      "transcricao": "texto de referência do metadata, sem execução do Whisper"
+    },
+    {
+      "arquivo": "neutro_000_original.wav",
+      "classe_prevista": "neutro",
+      "confianca": 1.0,
+      "caracteristicas": {
+        "duracao": 2.9875,
+        "energia_media": 0.0720447227358818,
+        "proporcao_pausas": 0.29305439330543925,
+        "ritmo_palavras_minuto": 120.50209205020921,
+        "tom_medio_hz": 229.95762999097056,
+        "tom_desvio_hz": 36.29215012835993
+      },
+      "transcricao": "texto de referência do metadata, sem execução do Whisper"
+    },
+    {
+      "arquivo": "tristeza_000_original.wav",
+      "classe_prevista": "tristeza",
+      "confianca": 1.0,
+      "caracteristicas": {
+        "duracao": 4.8633125,
+        "energia_media": 0.0364961251616478,
+        "proporcao_pausas": 0.23673422178813316,
+        "ritmo_palavras_minuto": 98.69816097567244,
+        "tom_medio_hz": 207.28925524578574,
+        "tom_desvio_hz": 38.945843845531115
+      },
+      "transcricao": "texto de referência do metadata, sem execução do Whisper"
+    }
+  ],
+  "whisper_executado": false,
+  "azure_real_executado": false,
+  "yolo_real_executado": false
+}

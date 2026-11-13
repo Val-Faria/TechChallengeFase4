@@ -1,0 +1,44 @@
+{
+  "modalidade": "texto_openai",
+  "status": "ok",
+  "alerta": false,
+  "nivel": "nenhum",
+  "motivo": "0 menção(ões) afirmada(s) atuais; 0 incerta(s).",
+  "origem": "openai_responses",
+  "simulado": false,
+  "termos_criticos": [],
+  "sentimento": "positivo",
+  "mencoes": [
+    {
+      "termo": "dor",
+      "estado": "negado",
+      "contexto": "paciente_atual",
+      "evidencia": "Não estou com dor nem com falta de ar."
+    },
+    {
+      "termo": "falta de ar",
+      "estado": "negado",
+      "contexto": "paciente_atual",
+      "evidencia": "Não estou com dor nem com falta de ar."
+    }
+  ],
+  "limitacoes": [],
+  "ressalva": "Extração textual para revisão; sentimento não é diagnóstico ou gravidade.",
+  "modelo": "gpt-4o-mini",
+  "id_resposta": "resp_0206bc529fb49987016af25a65748c87d2a26484a67cb33ee9",
+  "sha256_transcricao": "492e27ddedacda790759e7d354314c863ef4e28b85f01d5d8196a5d98346c3f9",
+  "usage": {
+    "input_tokens": 444,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 86,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 530
+  },
+  "custo_estimado_usd": 0.00011819999999999999,
+  "cache_utilizado": false
+}

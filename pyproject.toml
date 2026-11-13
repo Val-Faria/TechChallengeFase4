@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "techchallenge4"
+version = "2.0.0"
+description = "Protótipo acadêmico de integração multimodal com evidências e revisão humana"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+tc4-demo = "techchallenge4.demo:main"
+tc4-painel = "techchallenge4.dashboard:main"
+tc4-monitor = "techchallenge4.monitor:main"
+tc4-midias = "techchallenge4.media_stream:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.format]
+line-ending = "lf"

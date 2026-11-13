@@ -1,0 +1,9 @@
+{
+  "path": "artifacts/video/best_uterus_tools_nirton_v4.pt",
+  "sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "trained_partitions": [
+    "train"
+  ],
+  "selected_by": "validation_only",
+  "original_team_weights": false
+}

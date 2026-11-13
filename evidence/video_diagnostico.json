@@ -1,0 +1,45 @@
+{
+  "tipo": "diagnostico_de_divergencia_de_anotacoes",
+  "modelo_sha256": "efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a",
+  "anotacoes_originais_alteradas": false,
+  "causa_confirmada": false,
+  "segmentos": [
+    {
+      "intervalo_montagem_s": [
+        8,
+        14
+      ],
+      "quadros_fonte": 3,
+      "instrumento_detectado": 3,
+      "utero_detectado_sem_caixa_anotada": 3,
+      "score_utero_min": 0.8270046710968018,
+      "score_utero_max": 0.9176107048988342,
+      "imagens_sha256": [
+        "138a1454a745d1f017fa01c4661b6897faf8a55c50defed426e8c17f53d38065",
+        "53c31665cb766dd42b8950314d512cc05e993b8567ecd9543ba1a030472a269d",
+        "eba349020b6f29e7fc9d90ce731c57d16bc12ff5de3d40e1982764d161cca6a7"
+      ]
+    },
+    {
+      "intervalo_montagem_s": [
+        48,
+        58
+      ],
+      "quadros_fonte": 5,
+      "instrumento_detectado": 5,
+      "utero_detectado_sem_caixa_anotada": 5,
+      "score_utero_min": 0.657288134098053,
+      "score_utero_max": 0.8438683152198792,
+      "imagens_sha256": [
+        "9f216414e74529aecdd4cf85055a1b84f9800322032bd77d4ada140aca07373e",
+        "8fddb7813ce5845e122f9fef7594f4e45e60ecc8719ef970089d2f30f7eab52c",
+        "bacfcfa4ffa1fdcb8d7faf835cdb78951d0c89c81a66671a7ed2d1050b91dc3d",
+        "3f7a390e00c8bdc5c547ca55594e021d008e82b57e4ff4650c6ca4d321b2db3b",
+        "4af82043842c14f0defd3b0b2eade1f8a6bba8e769ecdeece90f7767dd7fa420"
+      ]
+    }
+  ],
+  "divergencias_utero_total": 15,
+  "interpretacao": "O detector vê instrumento e útero nos quadros que compõem as duas referências. Isso inibe o alerta. Não está confirmado se há detecção espúria ou anotação incompleta. Nenhum rótulo foi corrigido automaticamente.",
+  "revisao_visual": "Comparação técnica de mosaicos de caixas originais/preditas; não substitui anotação anatômica independente."
+}

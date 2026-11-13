@@ -1,0 +1,68 @@
+{
+  "7e67160d4fc4f7ceb95440ff177ee987ce13c881576c74624f66495056fafbea": {
+    "caracteristicas": {
+      "duracao": 9.7426875,
+      "energia_media": 0.07115508615970612,
+      "proporcao_pausas": 0.17887133298691973,
+      "tom_medio_hz": 138.3483173478157,
+      "tom_desvio_hz": 19.341119858485776,
+      "ritmo_palavras_minuto": 123.16930005196204
+    },
+    "transcricao_whisper": "Hoje conseguí caminhar pelo corredor e conversei tranquilamente com a equipe. Não estou com dor nem com falta de ar."
+  },
+  "97acb73205e779deb05f7c29a53a17ab562ccd9589ebf8919d2296e97bb4348b": {
+    "caracteristicas": {
+      "duracao": 9.127875,
+      "energia_media": 0.05680643767118454,
+      "proporcao_pausas": 0.1656327458471988,
+      "tom_medio_hz": 185.23469579604037,
+      "tom_desvio_hz": 17.39162282188071,
+      "ritmo_palavras_minuto": 124.89215726551909
+    },
+    "transcricao_whisper": "Estou preocupada com o exame de amanhã. Meu coração parece acelerado e gostaria de conversar com alguém da equipe."
+  },
+  "16d36f6d5ed84e3ab758adbcf124d94d701c6b239b82060bddb761b304b2c98c": {
+    "caracteristicas": {
+      "duracao": 10.424125,
+      "energia_media": 0.06731925159692764,
+      "proporcao_pausas": 0.19264206827911212,
+      "tom_medio_hz": 137.92350826324568,
+      "tom_desvio_hz": 23.548756005761533,
+      "ritmo_palavras_minuto": 126.62933339728754
+    },
+    "transcricao_whisper": "Desde o começo da tarde, sinto falta de área uma tontura que não passa. Preciso que a equipe vem a minha avaliar."
+  },
+  "0bc1e863ef3f2a239902939f1063cd37151e78cbb63ca940c5c55843e7e29a0d": {
+    "caracteristicas": {
+      "duracao": 12.249875,
+      "energia_media": 0.0533331036567688,
+      "proporcao_pausas": 0.19280808987846798,
+      "tom_medio_hz": 183.5800700668991,
+      "tom_desvio_hz": 19.651895247091232,
+      "ritmo_palavras_minuto": 83.26615577709977
+    },
+    "transcricao_whisper": "Sinto saudade da minha família e tem o ficado desanimada durante a internação. Gostaria de receber apoio."
+  },
+  "80c99e6f53dc4d561564f3846349106f49ac62dda36d61d682dcdca859e75e19": {
+    "caracteristicas": {
+      "duracao": 10.0693125,
+      "energia_media": 0.06946218758821487,
+      "proporcao_pausas": 0.1832610220409785,
+      "tom_medio_hz": 138.11865691598783,
+      "tom_desvio_hz": 27.02236338831369,
+      "ritmo_palavras_minuto": 89.38048153734428
+    },
+    "transcricao_whisper": "A profissional perguntou sobre sangramento, mas respondir que não tives sangramento. A consulta terminou normalmente."
+  },
+  "ee7f4082321c5f1823567023fe5494853b4493f2b6e77e328f5483fbdba18f7a": {
+    "caracteristicas": {
+      "duracao": 11.11025,
+      "energia_media": 0.05278756096959114,
+      "proporcao_pausas": 0.1589748205485926,
+      "tom_medio_hz": 184.65572493133962,
+      "tom_desvio_hz": 19.04050756477751,
+      "ritmo_palavras_minuto": 91.80711505141649
+    },
+    "transcricao_whisper": "Estou conseguindo descansar melhor. Ador diminui o depois do atendimento e quero continuar seguindo as orientações recebidas."
+  }
+}

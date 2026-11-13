@@ -1,121 +1,92 @@
-# Tech Challenge Fase 4 — Monitoramento Multimodal em Saúde da Mulher
+# Monitoramento multimodal em saúde da mulher
 
-Extensão do assistente clínico da Fase 3 para a análise de **vídeo** e **áudio**, com geração de alertas para a equipe médica.
+Tech Challenge · Fase 4 · FIAP · IA para Devs
 
-O sistema analisa vídeos de procedimentos ginecológicos e gravações de consultas, identifica sinais de risco em cada um e combina os dois resultados em um alerta único.
+Protótipo que combina voz, vídeo, texto e séries temporais para gerar sinais destinados à revisão humana. Os módulos usam contratos comuns, relatórios automáticos e uma caixa de alertas local. O relatório apresenta métodos, resultados e limitações do experimento.
 
-## Objetivos atendidos
+## Entrega e demonstração
 
-- Detecção precoce de riscos em procedimentos ginecológicos (vídeo)
-- Monitoramento do bem-estar psicológico pela voz (áudio)
-- Uso de serviços em nuvem (Azure Speech)
-- Detecção de anomalias com alerta multimodal
+| Material | Acesso |
+|---|---|
+| Relatório final | [PDF](output/pdf/relatorio_tecnico_fase4.pdf) · [Overleaf](relatorio/overleaf_fase4.zip) |
+| Demonstração integrada | [Notebook executado](integracao/TechChallengeFase4_integracao.ipynb) · [Abrir no Colab](https://colab.research.google.com/github/Val-Faria/TechChallengeFase4/blob/Nirton/integracao/TechChallengeFase4_integracao.ipynb) |
+| Análise de áudio | [Notebook executado](audio/notebooks/TechChallengeFase4_audio.ipynb) · [Abrir no Colab](https://colab.research.google.com/github/Val-Faria/TechChallengeFase4/blob/Nirton/audio/notebooks/TechChallengeFase4_audio.ipynb) |
+| Análise de vídeo | [Notebook executado](video/TechChallengeFase4_video.ipynb) · [Abrir no Colab](https://colab.research.google.com/github/Val-Faria/TechChallengeFase4/blob/Nirton/video/TechChallengeFase4_video.ipynb) |
+| Dados e modelos | [Restauração e reprodução](DATASETS_E_MODELOS.md) |
+| Requisitos | [Matriz de atendimento](relatorio/matriz_requisitos.md) |
 
-## Arquitetura
+Os notebooks contêm saídas de execução local, incluindo tabelas, gráficos e painel. Podem ser visualizados sem executar novamente. O áudio recalcula previsões com o modelo congelado; vídeo apresenta medições registradas; integração executa fusão, detectores e persistência. O modo padrão não faz chamadas pagas nem treina modelos.
 
-```text
-Vídeo cirúrgico ──► YOLOv8 (útero + instrumentos) ──► regras de anomalia ──┐
-                                                                           ├──► Fusão ──► Alerta (JSONL)
-Áudio da consulta ─► Whisper + librosa ─► classificador (Random Forest) ───┘
+## Executar localmente
+
+Python 3.11 ou 3.12 para a integração; os experimentos publicados utilizam Python 3.12. As regras, a persistência e o painel usam a biblioteca padrão.
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python -m pip install -e . pytest
+.venv\Scripts\python -m pytest -q
+.venv\Scripts\python scripts/run_demo.py --output integracao/saidas/execucao_local --audio-csv audio/evidencias/resultado_audio_externo.csv --audio-filename novo-03.wav --video-json evidence/resultado_video_teste.json --text-json evidence/texto_openai_integracao.json
+.venv\Scripts\python -m techchallenge4.dashboard --db integracao/saidas/execucao_local/alertas.sqlite3
 ```
 
-| Frente | Modelo | Dados | Status |
-|---|---|---|---|
-| Vídeo | YOLOv8 customizado | Uterus v4 (Roboflow Universe, CC BY 4.0) | Concluído (mAP50 0,928) |
-| Áudio | Whisper + Random Forest | 1.200 falas sintéticas (Azure Speech) | Concluído (acurácia 0,88) |
-| Integração | `combinar_audio_video` | Saídas das duas frentes | Em andamento |
+Abra o endereço local exibido. A confirmação registra responsável e instante na caixa de revisão; não altera tratamentos. Saídas novas ficam em `integracao/saidas/`, fora do versionamento, preservando as evidências publicadas.
 
-## Organização
+Para executar e salvar as saídas dos três notebooks:
 
-```text
-audio/
-├── datasets/      dataset_audio_emocoes_1180.zip (Git LFS)
-└── notebooks/     TechChallengeFase4_audio.ipynb
-video/
-├── TechChallengeFase4_video.ipynb
-└── alerta_video.py
-integracao/        pipeline que junta áudio e vídeo no alerta final
-relatorio/
-└── secao_video.md
+```powershell
+python -m pip install -r requirements-notebooks.txt
+python scripts/executar_notebooks.py
 ```
 
-## Como executar
+## Fluxo e organização
 
-1. **Áudio:** ver a seção [Frente de áudio](#frente-de-áudio).
-2. **Vídeo:** ver [`video/README.md`](video/README.md).
-3. **Integração:** em andamento.
+```mermaid
+flowchart LR
+ A[Áudio] --> W[Whisper, Librosa e Random Forest]
+ V[Vídeo] --> Y[YOLOv8 e regra temporal]
+ T[Transcrição] --> L[Análise textual OpenAI]
+ S[Sinais vitais, prescrições e movimento] --> D[Detectores temporais]
+ W --> F[Fusão por caso, origem e prioridade]
+ Y --> F
+ L --> F
+ D --> F
+ F --> R[Relatórios e caixa SQLite]
+ R --> P[Painel de revisão]
+```
 
-> O dataset de áudio está no Git LFS. Após clonar o repositório, rode `git lfs install` e `git lfs pull`. Sem isso, o ZIP baixado é só um arquivo de referência de poucos bytes.
+| Diretório | Responsabilidade |
+|---|---|
+| `src/techchallenge4/` | Contratos, fusão, detectores, nuvem, entrega, painel e suporte aos notebooks |
+| `audio/`, `video/` | Notebooks, regras visuais e documentação das modalidades |
+| `integracao/` | Demonstração integrada e resultados de referência |
+| `scripts/` | Extração, avaliação, reprodução e geração de artefatos |
+| `tests/` | Regressões de contratos, regras, cache, orçamento e persistência |
+| `evidence/`, `artifacts/` | Métricas, partições, proveniência e manifestos de modelos |
+| `relatorio/` | Fonte LaTeX, Overleaf, matriz de requisitos e roteiro |
+| `output/pdf/` | Relatório final compilado |
 
-## Frente de áudio
+A execução de referência está em `integracao/evidencias/revisao_final_20261111/`. Os controles externos estão em `revisao_video_externo_20261111/`; o monitor estruturado, em `monitoramento_final/`. Resultados anteriores ficam em `integracao/evidencias/historico/` e não substituem a avaliação atual.
 
-### O que faz
+## Resultados e alcance
 
-- Gera falas sintéticas rotuladas com Azure Speech, nas classes `ansiedade_hesitacao`, `neutro` e `tristeza`
-- Expande o conjunto localmente com aumento de dados (velocidade, ruído etc.), chegando a 1.200 áudios
-- Transcreve com Whisper
-- Extrai pausas, ritmo e tom
-- Classifica as características acústicas com Random Forest
-- Gera uma saída pronta para ser combinada ao resultado do vídeo no alerta final
+- **Áudio:** 1.180 gravações sintéticas, partições isoladas por família de frase. A reserva tem acurácia de 88,33%. As seis falas externas ficaram abaixo do limiar de confiança e são inconclusivas.
+- **Vídeo:** novo YOLOv8s, mAP50 de 0,980 no teste e 0,613 na reserva de origem. A regra pareou 2/3 intervalos derivados de caixas no teste e 0/2 na reserva. Ausência de caixa não confirma ausência anatômica; a divergência exige revisão das anotações e das detecções.
+- **Nuvem:** transcrição e análise textual reais da OpenAI, com resultados salvos, negação/contexto e consumo registrado. A substituição do Azure foi [autorizada pelo professor](evidence/orientacao_docente.md).
+- **Alertas:** monitoramento incremental, caixa SQLite e confirmação auditável. Baixa confiança ou cobertura parcial não são convertidas em normalidade.
 
-### Como executar
+O conjunto não representa pacientes pareados. Séries estruturadas e controles físicos são sintéticos. A proteção visual removeu um falso alerta sobre ilustração em uma fonte didática externa; não demonstra detecção clínica confiável. [Detalhes da avaliação de vídeo](relatorio/revisao_video.md).
 
-1. Abra `audio/notebooks/TechChallengeFase4_audio.ipynb` no Google Colab.
-2. Cadastre `SPEECH_KEY` e `SPEECH_REGION` nos Secrets do Colab.
-3. Execute as células em ordem.
-4. Se o dataset já estiver disponível, use o ZIP em `audio/datasets/` e pule a geração.
+## Reprodução e credenciais
 
-### Resultado
+O [guia de dados e modelos](DATASETS_E_MODELOS.md) contém hashes, fontes e caminhos de restauração. Áudio, vídeo e análise de mídias têm dependências opcionais próprias. Reproduções de treinamento são experimentos separados da visualização dos notebooks.
 
-A divisão entre treino e teste é feita por frase original (`GroupShuffleSplit`), para que as variações de uma mesma fala não apareçam nos dois conjuntos.
-
-| Classe | Precisão | Recall | F1 |
-|---|---|---|---|
-| ansiedade_hesitacao | 0,81 | 0,86 | 0,84 |
-| neutro | 0,86 | 0,79 | 0,82 |
-| tristeza | 0,97 | 1,00 | 0,99 |
-| **Acurácia** | | | **0,88** |
-
-## Frente de vídeo
-
-YOLOv8 treinado para detectar útero e instrumentos cirúrgicos em laparoscopia ginecológica. O alerta dispara quando há instrumento em cena e o útero não é visto por 5 s ou mais. Detalhes em [`video/README.md`](video/README.md).
-
-| Detector (teste) | mAP50 | | Alerta (teste) | Precisão | Recall |
-|---|---|---|---|---|---|
-| Geral | 0,928 | | `conf_area` = 0,6 | 1,00 | 0,72 |
-| Útero | 0,950 | | | | |
-| Instrumentos | 0,906 | | | | |
-
-## Limitações
-
-- Os áudios são sintéticos, gerados para demonstrar e validar o pipeline. Não representam gravações clínicas reais e não permitem, sozinhos, validação médica.
-- O dataset de vídeo é pequeno (cerca de 570 imagens únicas) e a origem das imagens não é documentada pelo autor.
-- Os alertas são sinais de triagem para revisão da equipe médica, não diagnósticos.
-- Nenhum dado de paciente real foi usado ou enviado a serviços de terceiros.
-
-## Tecnologias
-
-- Azure Speech (camada F0)
-- OpenAI Whisper
-- Librosa
-- Scikit-learn
-- Ultralytics YOLOv8
-- Google Colab
-
-## Fontes
-
-- **Uterus Dataset v4** — Roboflow Universe, CC BY 4.0. https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4
-
-## Vídeo de demonstração
-
-Link: em breve.
+`OPENAI_API_KEY` é necessária somente para novas chamadas; usar variável de ambiente ou Secret do Colab. Há cache e controle local de consumo, que não substituem os limites de cobrança da conta. Credenciais e mídias privadas não integram os pacotes públicos. Ao usar GPU opcional no Colab, salvar os artefatos e desconectar/excluir o ambiente ao terminar.
 
 ## Equipe
 
-| Nome | RM |
-|------|-----|
-| Benicio Antonio Cardoso | 371527 |
+| Integrante | RM |
+|---|---|
 | Marcelo Viana de Araújo | 372707 |
 | Nirton Afonso de Oliveira Filho | 370221 |
 | Valkiria Nonato de Faria | 373256 |
-
+| Benicio Antonio Cardoso | 371527 |

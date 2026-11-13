@@ -101,7 +101,7 @@ Para cada vídeo analisado, o sistema gera automaticamente:
 - `<video>_anotado.mp4`: vídeo com as caixas e o aviso "ÚTERO FORA DE VISTA";
 - uma imagem do momento central de cada evento.
 
-Das quatro categorias de relatório automático do enunciado, esta frente cobre **sinais de complicações em cirurgias ginecológicas**. Desvios em procedimentos obstétricos, indicadores visuais de desconforto psicológico e alertas de violência doméstica exigiriam dados de outra natureza (partos, consultas e triagem filmadas) e ficam como trabalho futuro.
+O PDF fornecido pede relatórios automáticos de desvios ou falhas em vídeo clínico; não estabelece quatro categorias obrigatórias. Esta frente implementa um indicador visual em cirurgia ginecológica. A nova reprodução e sua reserva por clipe são documentadas em `evidence/video_reproducao.json`, separadamente destes resultados históricos.
 
 ## 6. Limitações
 

@@ -1,0 +1,42 @@
+{
+  "reference_sha256": "e06eec5f5fca1f1bfe77d8ace0f4db9d4a568fc7b226c74cf93f25279162376f",
+  "candidates_validation": [
+    {
+      "threshold": 4.0,
+      "retention": 1.0
+    },
+    {
+      "threshold": 6.0,
+      "retention": 1.0
+    },
+    {
+      "threshold": 8.0,
+      "retention": 1.0
+    },
+    {
+      "threshold": 10.0,
+      "retention": 1.0
+    }
+  ],
+  "retention": {
+    "train": {
+      "images": 776,
+      "accepted": 760
+    },
+    "valid": {
+      "images": 74,
+      "accepted": 74
+    },
+    "test": {
+      "images": 37,
+      "accepted": 37
+    },
+    "blind_holdout": {
+      "images": 60,
+      "accepted": 60
+    }
+  },
+  "threshold": 4.0,
+  "used_external_frames_to_fit": false,
+  "limitations": "Cores apenas; pode reter cenas inadequadas ou rejeitar cenas clínicas válidas. Cobertura parcial exige revisão, nunca significa normalidade."
+}

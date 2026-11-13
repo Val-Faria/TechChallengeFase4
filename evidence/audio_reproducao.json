@@ -1,0 +1,396 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-09T23:55:07.768941+00:00",
+  "dataset": {
+    "file": "dataset_audio_emocoes_1180.zip",
+    "sha256": "d37a28e118f648be967c37224d27f9a54cb1bdd76446be30033235d5f74f83e6",
+    "wav_count": 1180,
+    "original_recordings": 295,
+    "phrase_families": 20,
+    "classes": {
+      "neutro": 400,
+      "tristeza": 400,
+      "ansiedade_hesitacao": 380
+    }
+  },
+  "versions": {
+    "openai-whisper": "20250625",
+    "torch": "2.11.0+cu128",
+    "librosa": "0.11.0",
+    "scikit-learn": "1.6.1",
+    "pandas": "2.2.3",
+    "numpy": "2.5.4",
+    "soundfile": "0.13.1"
+  },
+  "features": {
+    "columns": [
+      "duracao",
+      "energia_media",
+      "proporcao_pausas",
+      "ritmo_palavras_minuto",
+      "tom_medio_hz",
+      "tom_desvio_hz"
+    ],
+    "transcriber": "openai-whisper tiny local",
+    "language": "pt",
+    "device": "cuda",
+    "sr": 16000,
+    "metadata_text_used_as_transcription": false
+  },
+  "model": {
+    "class": "RandomForestClassifier",
+    "n_estimators": 200,
+    "class_weight": "balanced",
+    "random_state": 42,
+    "fit_partitions": [
+      "train"
+    ],
+    "hyperparameter_search": false,
+    "refit_on_reserved_partitions": false,
+    "training_s": 0.7179999999934807
+  },
+  "partitions": {
+    "train": {
+      "wav_count": 712,
+      "original_recordings": 178,
+      "phrase_families": [
+        "a dor está diminuindo",
+        "acho que consigo continuar",
+        "acho que preciso descansar",
+        "estou com dificuldade para relaxar",
+        "estou com medo de que algo aconteça",
+        "estou me sentindo triste",
+        "estou sem disposição hoje",
+        "estou sentindo um desconforto",
+        "estou tentando manter a calma",
+        "está tudo bem, podemos continuar",
+        "não sei explicar exatamente o que estou sentindo",
+        "preciso de ajuda para ficar mais tranquilo"
+      ],
+      "classes": {
+        "neutro": 240,
+        "tristeza": 240,
+        "ansiedade_hesitacao": 232
+      }
+    },
+    "validation": {
+      "wav_count": 172,
+      "original_recordings": 43,
+      "phrase_families": [
+        "estou muito nervoso neste momento",
+        "estou um pouco preocupado com o procedimento",
+        "não tenho certeza se isso está normal"
+      ],
+      "classes": {
+        "neutro": 60,
+        "tristeza": 60,
+        "ansiedade_hesitacao": 52
+      }
+    },
+    "test": {
+      "wav_count": 176,
+      "original_recordings": 44,
+      "phrase_families": [
+        "estou me sentindo cansado",
+        "minha respiração está normal",
+        "não estou me sentindo muito bem"
+      ],
+      "classes": {
+        "neutro": 60,
+        "tristeza": 60,
+        "ansiedade_hesitacao": 56
+      }
+    },
+    "blind_holdout": {
+      "wav_count": 120,
+      "original_recordings": 30,
+      "phrase_families": [
+        "estou me sentindo bem hoje",
+        "sinto uma pressão no peito"
+      ],
+      "classes": {
+        "ansiedade_hesitacao": 40,
+        "neutro": 40,
+        "tristeza": 40
+      }
+    }
+  },
+  "leakage": {
+    "phrase_overlap": 0,
+    "original_overlap": 0,
+    "sha256_overlap": 0,
+    "manifest_sha256": "30dc41d77d9167b3e75587de6fb698ad2de7d75b3b08c9b033661ec50130b7ef"
+  },
+  "limitations": [
+    "Synthetic single-voice corpus; no clinical generalization established.",
+    "Blind holdout comes from the existing corpus and is unseen by this newly fitted model only.",
+    "Historical model had seen the entire corpus and is not used in this evaluation.",
+    "Validation and test are descriptive only; no model or threshold selected from their scores."
+  ],
+  "train": {
+    "n": 712,
+    "accuracy": 1.0,
+    "balanced_accuracy": 1.0,
+    "macro_f1": 1.0,
+    "labels": [
+      "ansiedade_hesitacao",
+      "neutro",
+      "tristeza"
+    ],
+    "confusion_matrix": [
+      [
+        232,
+        0,
+        0
+      ],
+      [
+        0,
+        240,
+        0
+      ],
+      [
+        0,
+        0,
+        240
+      ]
+    ],
+    "classification_report": {
+      "ansiedade_hesitacao": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 232.0
+      },
+      "neutro": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 240.0
+      },
+      "tristeza": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 240.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 712.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 712.0
+      }
+    }
+  },
+  "validation": {
+    "n": 172,
+    "accuracy": 0.936046511627907,
+    "balanced_accuracy": 0.9294871794871794,
+    "macro_f1": 0.9325836548195573,
+    "labels": [
+      "ansiedade_hesitacao",
+      "neutro",
+      "tristeza"
+    ],
+    "confusion_matrix": [
+      [
+        41,
+        11,
+        0
+      ],
+      [
+        0,
+        60,
+        0
+      ],
+      [
+        0,
+        0,
+        60
+      ]
+    ],
+    "classification_report": {
+      "ansiedade_hesitacao": {
+        "precision": 1.0,
+        "recall": 0.7884615384615384,
+        "f1-score": 0.8817204301075269,
+        "support": 52.0
+      },
+      "neutro": {
+        "precision": 0.8450704225352113,
+        "recall": 1.0,
+        "f1-score": 0.916030534351145,
+        "support": 60.0
+      },
+      "tristeza": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 60.0
+      },
+      "accuracy": 0.936046511627907,
+      "macro avg": {
+        "precision": 0.948356807511737,
+        "recall": 0.9294871794871794,
+        "f1-score": 0.9325836548195573,
+        "support": 172.0
+      },
+      "weighted avg": {
+        "precision": 0.9459547985587946,
+        "recall": 0.936046511627907,
+        "f1-score": 0.9349493862015121,
+        "support": 172.0
+      }
+    }
+  },
+  "test": {
+    "n": 176,
+    "accuracy": 0.8636363636363636,
+    "balanced_accuracy": 0.8623015873015873,
+    "macro_f1": 0.8620279512340172,
+    "labels": [
+      "ansiedade_hesitacao",
+      "neutro",
+      "tristeza"
+    ],
+    "confusion_matrix": [
+      [
+        45,
+        11,
+        0
+      ],
+      [
+        13,
+        47,
+        0
+      ],
+      [
+        0,
+        0,
+        60
+      ]
+    ],
+    "classification_report": {
+      "ansiedade_hesitacao": {
+        "precision": 0.7758620689655172,
+        "recall": 0.8035714285714286,
+        "f1-score": 0.7894736842105263,
+        "support": 56.0
+      },
+      "neutro": {
+        "precision": 0.8103448275862069,
+        "recall": 0.7833333333333333,
+        "f1-score": 0.7966101694915254,
+        "support": 60.0
+      },
+      "tristeza": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 60.0
+      },
+      "accuracy": 0.8636363636363636,
+      "macro avg": {
+        "precision": 0.8620689655172414,
+        "recall": 0.8623015873015873,
+        "f1-score": 0.8620279512340172,
+        "support": 176.0
+      },
+      "weighted avg": {
+        "precision": 0.8640282131661443,
+        "recall": 0.8636363636363636,
+        "f1-score": 0.8636769118481875,
+        "support": 176.0
+      }
+    }
+  },
+  "blind_holdout": {
+    "n": 120,
+    "accuracy": 0.8833333333333333,
+    "balanced_accuracy": 0.8833333333333333,
+    "macro_f1": 0.8830409356725145,
+    "labels": [
+      "ansiedade_hesitacao",
+      "neutro",
+      "tristeza"
+    ],
+    "confusion_matrix": [
+      [
+        35,
+        5,
+        0
+      ],
+      [
+        9,
+        31,
+        0
+      ],
+      [
+        0,
+        0,
+        40
+      ]
+    ],
+    "classification_report": {
+      "ansiedade_hesitacao": {
+        "precision": 0.7954545454545454,
+        "recall": 0.875,
+        "f1-score": 0.8333333333333334,
+        "support": 40.0
+      },
+      "neutro": {
+        "precision": 0.8611111111111112,
+        "recall": 0.775,
+        "f1-score": 0.8157894736842105,
+        "support": 40.0
+      },
+      "tristeza": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 40.0
+      },
+      "accuracy": 0.8833333333333333,
+      "macro avg": {
+        "precision": 0.8855218855218855,
+        "recall": 0.8833333333333333,
+        "f1-score": 0.8830409356725145,
+        "support": 120.0
+      },
+      "weighted avg": {
+        "precision": 0.8855218855218855,
+        "recall": 0.8833333333333333,
+        "f1-score": 0.8830409356725146,
+        "support": 120.0
+      }
+    }
+  },
+  "artifacts": {
+    "model": {
+      "path": "artifacts/audio/modelo_audio_1180.joblib",
+      "sha256": "505c882da687e90e2bca57b3d92436338b57a5ec450a96eecefec989b0e2dd05",
+      "bytes": 2565408
+    },
+    "features": {
+      "path": "artifacts/audio/caracteristicas_audio_1180.csv",
+      "sha256": "fcb83de076604895993dd6944f0099a813e806053d0f9c2360aebe80789c5d36",
+      "bytes": 538971
+    },
+    "predictions": {
+      "path": "artifacts/audio/resultado_audio_1180.csv",
+      "sha256": "a6b46c44b1312d977949935155c716978ef6947579fbd60178f7b6d97f16ea99",
+      "bytes": 152393
+    },
+    "partitions": {
+      "path": "audio/evidencias/particoes_audio.csv",
+      "sha256": "30dc41d77d9167b3e75587de6fb698ad2de7d75b3b08c9b033661ec50130b7ef",
+      "bytes": 229210
+    }
+  }
+}

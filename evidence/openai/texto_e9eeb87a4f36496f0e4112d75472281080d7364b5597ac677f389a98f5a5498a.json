@@ -1,0 +1,47 @@
+{
+  "modalidade": "texto_openai",
+  "status": "ok",
+  "alerta": true,
+  "nivel": "medio",
+  "motivo": "2 menção(ões) afirmada(s) atuais; 0 incerta(s).",
+  "origem": "openai_responses",
+  "simulado": false,
+  "termos_criticos": [
+    "falta de ar",
+    "tontura"
+  ],
+  "sentimento": "positivo",
+  "mencoes": [
+    {
+      "termo": "falta de ar",
+      "estado": "afirmado",
+      "contexto": "paciente_atual",
+      "evidencia": "Estou com falta de ar e tontura desde o começo da tarde."
+    },
+    {
+      "termo": "tontura",
+      "estado": "afirmado",
+      "contexto": "paciente_atual",
+      "evidencia": "Estou com falta de ar e tontura desde o começo da tarde."
+    }
+  ],
+  "limitacoes": [],
+  "ressalva": "Extração textual para revisão; sentimento não é diagnóstico ou gravidade.",
+  "modelo": "gpt-4o-mini",
+  "id_resposta": "resp_09887488938e43e0016af2597c987887d2be87ede751d9112f",
+  "sha256_transcricao": "88afe235a389303cd3abd9da6c9f79c6fdfb2f75c3667591a106d363c4505f26",
+  "usage": {
+    "input_tokens": 422,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 98,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 520
+  },
+  "custo_estimado_usd": 0.00012209999999999999,
+  "cache_utilizado": false
+}

@@ -1,0 +1,173 @@
+% Gerado exclusivamente de evidências locais; sem credenciais.
+\newcommand{\ResultadoAudio}{%
+A avaliação foi regenerada com partições isoladas por família de frase-base. Os valores abaixo são extraídos de \path{evidence/audio_reproducao.json}; cada partição é reportada separadamente.
+\begin{center}\begin{tabular}{lrrr}\toprule
+Partição & Exemplos & Acurácia & F1 macro\\\midrule
+Validação & 172 & 93,60\% & 0,933\\
+Teste & 176 & 86,36\% & 0,862\\
+Verificação cega & 120 & 88,33\% & 0,883\\
+\bottomrule\end{tabular}\end{center}
+
+}
+\newcommand{\ResultadoNuvem}{%
+Modelo utilizado: \textbf{gpt-4o-mini (texto) e gpt-4o-mini-transcribe (áudio)}. Chamadas reais registradas: \textbf{18}. Custo estimado acumulado: \textbf{US\$ 0,005980}. Estado registrado: 16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha.
+}
+\newcommand{\ResultadoTestes}{%
+Suíte \textbf{pytest Python 3.12; verificação de entrega}: 106 verificações aprovadas, 0 falhas.
+
+Também foram aprovadas 26 verificações parametrizadas adicionais (subtestes), registradas separadamente da contagem de testes.
+}
+\newcommand{\ResultadoReplay}{%
+Os registros completos da reprodução e da entrega estão em \path{integracao/evidencias/revisao_final_20261111/replay.json} e \path{integracao/evidencias/revisao_final_20261111/entrega_auditoria.json}.
+
+No monitor incremental foram processados 32 pacotes. Latência local média: 0,631 ms; percentil 95 (posto mais próximo): 0,928 ms; máxima: 4,598 ms. O intervalo inclui detector estatístico, fusão e SQLite, conforme a instrumentação do monitor.
+}
+\newcommand{\ResultadoIntegracao}{%
+Composição revisada em integracao/evidencias/revisao\_final\_20261111; áudio novo-03, texto real em cache, novo YOLO em montagem de teste e fontes estruturadas sintéticas. Cobertura parcial de vídeo preservada. Dois controles externos verificam fila de revisão mesmo sem alerta positivo. No caso integrado, a confiança acústica do áudio novo-03 é 0,595, inferior ao limiar 0,70. A fonte de áudio fica inconclusiva e a cobertura permanece incompleta; o alerta alto do vídeo é preservado. A cobertura depende da validade de cada fonte, além da disponibilidade dos arquivos.
+}
+\newcommand{\ResultadoRecursos}{%
+Experimentos: GPU local NVIDIA RTX 2060. Notebooks de apresentação executados em CPU, com modelo de áudio congelado e resultados de vídeo registrados; sem treinamento, Colab ou chamadas pagas nesta etapa. GPU utilizada neste estudo: sim. Sessão de computação encerrada ao final: sim.
+}
+\newcommand{\ResultadoMidias}{%
+Foram criadas seis sínteses novas: duas referências e uma gravação reservada por voz. Não há hashes compartilhados com o corpus de 1.180 WAVs nem com as seis provas externas anteriores. O classificador emocional permaneceu congelado e não participou destes critérios.
+
+\begin{center}\small\begin{tabular}{llcc}\toprule Voz & Cenário & Esperado & Obtido\\\midrule
+
+Daniel & Original & Sem sinal & Sem sinal\\
+
+Daniel & Volume reduzido & Sem sinal & Sem sinal\\
+
+Daniel & Pausas inseridas & Sinal & Sinal\\
+
+Daniel & Silêncio & Inconclusivo & Inconclusivo\\
+
+Maria & Original & Sem sinal & Sem sinal\\
+
+Maria & Volume reduzido & Sem sinal & Sem sinal\\
+
+Maria & Pausas inseridas & Sinal & Sinal\\
+
+Maria & Silêncio & Inconclusivo & Inconclusivo\\
+
+\bottomrule\end{tabular}\end{center}
+
+A versão interrompida insere 380 ms de silêncio a cada bloco de 180 ms. A versão com ganho reduzido multiplica a amplitude por 0,35. São perturbações técnicas, sem rótulo de doença; as derivações da mesma fonte não são observações independentes.
+
+Dois vídeos geométricos novos passaram pelos cálculos reais de fluxo óptico: o controle não gerou eventos e o cenário alterado gerou 2. Não foi usado oráculo de caixas ou classes. Na montagem recebida foram processados 570 quadros e não houve aumento persistente que atingisse essa regra. Isso não significa ausência de eventos clínicos.
+
+A reprodução contínua no ritmo original analisou 89 pares de quadros em 17,83 s de parede. Foram avaliadas 3 janelas de voz e persistidas 6 transições com sinais. O percentil 95 de processamento foi 15,20 ms por passo, além da espera da janela de cinco segundos. Não inclui ASR, nuvem ou captura clínica.
+
+Evidência: \path{evidence/midias_complementares.json}. Nenhuma chamada paga foi feita nesta complementação.
+}
+\newcommand{\ResultadoVideoNovo}{%
+A nova execução utilizou YOLOv8s, resolução de 416 por 416 pixels, batch 8, até 80 épocas e paciência 20. Foram concluídas 80 épocas, em 27,12 minutos de treinamento na GPU NVIDIA GeForce RTX 2060. A seleção usa somente a validação do primeiro prefixo de clipe.
+
+\begin{center}\small\begin{tabular}{lrrr}\toprule Conjunto & Imagens & mAP50 & mAP50--95\\\midrule
+
+Validação & 74 & 0,941 & 0,620\\
+
+Teste & 37 & 0,980 & 0,615\\
+
+Reserva de clipe & 60 & 0,613 & 0,299\\
+
+\bottomrule\end{tabular}\end{center}
+
+As métricas acima pertencem à nova execução e não são diretamente comparáveis ao mAP50 histórico: partições, preparação de anotações, batch e ambiente são diferentes. A queda de mAP50 do teste (mesmo prefixo do treino) para a reserva mostra que o valor alto no desenvolvimento não se mantém na outra origem disponível. Isso é compatível com diferenças de domínio e similaridade temporal, sem identificar uma causa única. A reserva não participou do treino, da escolha de limiares ou do checkpoint. O resultado entre prefixos não é validação em pacientes independentes.
+
+Precisão e recall presentes no JSON são resumos de objetos da avaliação padrão Ultralytics. Não são os índices da regra temporal com limiares 0,4/0,6, cuja referência e resultados são registrados separadamente.
+
+\begin{figure}[H]\centering\includegraphics[width=0.92\textwidth]{figures/video_treino.png}\caption{Evolução da validação no novo treino YOLOv8s; a reserva de clipe não participa da curva.}\end{figure}
+
+O peso congelado possui SHA-256 iniciado por \texttt{efe5cc2588300eea}. Evidências em \path{evidence/video_reproducao.json} e \path{evidence/video_dataset_auditoria.json}.
+
+A montagem reservada foi construída após congelar o modelo, com 60 quadros-fonte não usados no desenvolvimento e duração de 120,0 segundos. A inferência gerou 0 evento(s). A referência temporal deriva das caixas anotadas e da própria regra de montagem; não é anotação clínica de complicações. A integração usa o teste para o exemplo positivo e mantém a reserva como verificação separada, com seus intervalos não pareados.
+
+\begin{center}\small\begin{tabular}{lrrrr}\toprule Montagem & Referência & Sinalizados & Pareados & Sem pareamento\\\midrule
+
+Teste & 3 & 2 & 2 & 1\\
+
+Reserva & 2 & 0 & 0 & 2\\
+
+\bottomrule\end{tabular}\end{center}
+
+Os intervalos são pareados uma única vez com IoU temporal de pelo menos 0,5. No teste, dois de três intervalos derivados das caixas foram recuperados (precisão 1,00 e recall 0,667). Na reserva, os dois intervalos não foram recuperados: recall 0 e precisão não definida. São índices de concordância com uma referência construída, não sensibilidade clínica. Não foi confirmada a exaustividade das anotações; ausência de caixa não comprova ausência anatômica. A divergência exige revisar tanto rótulos quanto detecções. Os limiares operacionais continuam 0,4/0,6.
+}
+\newcommand{\ResultadoVideoRevisao}{%
+A revisão separou três questões: concordância com caixas anotadas, detecção temporal e interpretação clínica. Nos oito quadros-fonte que compõem os dois intervalos esperados da reserva, o modelo identifica instrumento e também útero sem caixa correspondente. Isso bloqueia o alerta, mas não comprova isoladamente erro anatômico do modelo: pode haver detecção espúria ou marcação incompleta. As anotações e o peso foram preservados.
+
+Uma busca declarada de 30 pares de confiança utilizou exclusivamente as 74 imagens de validação. O alvo é a condição por quadro anotado (instrumento com útero não anotado), e o desempate favorece a configuração original. A duração de cinco segundos e a tolerância de um segundo não são ajustadas pela montagem.
+
+\begin{center}\small\begin{tabular}{lrr}\toprule Conjunto & Original (0,4/0,6) & Candidato (0,4/0,4)\\\midrule
+
+Validação & 0,934 & 0,951\\
+
+Teste & 0,967 & 0,967\\
+
+Reserva já observada & 0,627 & 0,583\\
+
+\bottomrule\end{tabular}\end{center}
+
+A tabela apresenta macro-F1 por quadro, não por evento. O candidato melhora a validação, mas piora na reserva conhecida; não foi promovido. Após observar a reserva, essa investigação é posterior à avaliação original e não constitui nova verificação cega.
+
+Foi acrescentada uma verificação de compatibilidade visual por mediana e MAD de duas características globais: proporção de tons quentes e diferença média vermelho--azul. A referência utiliza somente 776 imagens de treino. O menor limite na grade 4/6/8/10 que retém ao menos 95\% da validação é escolhido sem imagens externas. O limite selecionado foi 4, retendo 74/74 na validação, 37/37 no teste e 60/60 na reserva. Cores não reconhecem anatomia; o filtro pode rejeitar cenas válidas ou reter cenas inadequadas.
+
+Quadros incompatíveis interrompem imediatamente a regra temporal; não são preenchidos como observações normais e não são unidos pela tolerância. A integração conserva cobertura parcial, parâmetros e limitações. Um vídeo sem evento, mas com cobertura parcial, continua na caixa de revisão. Um alerta positivo mantém sua prioridade mesmo com cobertura parcial.
+
+A fonte adicional é o vídeo didático editado \textit{Total Laparoscopic Hysterectomy}, TVASurg, Universidade de Toronto. A mídia não foi usada no ajuste do YOLO nem na escolha de limiares. No intervalo 150--240 segundos, a primeira execução gerou um falso alerta técnico sobre uma ilustração; ele permanece registrado. Após a proteção visual, esse alerta não reapareceu. A correção foi motivada por essa falha externa e não é apresentada como resultado cego.
+
+\begin{center}\small\begin{tabular}{lrrr}\toprule Trecho da fonte & Quadros & Fora da referência & Sinais\\\midrule
+
+150--240 s & 450 & 73 & 0\\
+
+240--330 s & 450 & 33 & 1\\
+
+\bottomrule\end{tabular}\end{center}
+
+O segundo intervalo (240--330 segundos) foi fixado antes de sua primeira inferência com a referência congelada. É uma reserva temporal do mesmo vídeo/paciente, sem independência clínica. O sinal obtido solicita revisão e não comprova desvio cirúrgico. Não há rótulos médicos para calcular acurácia nessa fonte. O pré-treino do modelo base não foi integralmente auditado.
+
+As imagens externas continuam privadas, com atribuição e orientação para não republicação sem autorização. O relatório e o Git contêm apenas resultados sanitizados, hashes e a origem. A revisão não retreinou o YOLO nem fez chamadas pagas à API.
+}
+\newcommand{\ComandosReproducao}{%
+\begin{enumerate}
+\item Preparar Python e instalar as dependências descritas no README.
+\item Executar \code{python -m pytest -q} para a suíte de software.
+\item Executar \code{python scripts/run_demo.py --help} para conferir entradas e diretório de saída.
+\item Informar o CSV regenerado, o JSON de vídeo e o resultado textual real ao script de demonstração.
+\item Abrir o painel com \code{python -m techchallenge4.dashboard --help} e selecionar o banco gerado.
+\item Compilar o relatório com \code{python relatorio/gerar_relatorio.py --compile --package} ou importar o ZIP no Overleaf.
+\end{enumerate}
+}
+\newcommand{\ManifestoEvidencias}{%
+\footnotesize\begin{longtable}{p{8.7cm}p{4.4cm}}\toprule
+Artefato & SHA-256 (prefixo)\\\midrule\endhead
+\path{evidence/video_dataset_auditoria.json} & \texttt{8f14126d114c5190}\\
+\path{evidence/video_reproducao.json} & \texttt{e267cdb305d3734d}\\
+\path{evidence/video_calibracao.json} & \texttt{8a213305e9cb1a85}\\
+\path{evidence/video_diagnostico.json} & \texttt{82c54397cc1ad66b}\\
+\path{artifacts/video/referencia_visual.json} & \texttt{e06eec5f5fca1f1b}\\
+\path{evidence/video_cobertura_externa.json} & \texttt{e0d74a51226c8003}\\
+\path{evidence/video_cobertura_protocolo.json} & \texttt{cced71fcb2f21956}\\
+\path{evidence/video_integracao_revisao.json} & \texttt{c42d69df5abda281}\\
+\path{evidence/video_inferencia_nova.json} & \texttt{149d0b27e28a2d68}\\
+\path{artifacts/video/manifesto_video.json} & \texttt{ca6187addfca1461}\\
+\path{evidence/midias_complementares.json} & \texttt{4a1ad23c210416af}\\
+\path{evidence/padrao_relatorio.json} & \texttt{dce7f0f2b99dd414}\\
+\path{evidence/audio_reproducao.json} & \texttt{eec78c6135392737}\\
+\path{audio/evidencias/particoes_audio.csv} & \texttt{30dc41d77d9167b3}\\
+\path{audio/evidencias/predicoes_avaliacao.csv} & \texttt{a6b46c44b1312d97}\\
+\path{artifacts/audio/manifesto_audio.json} & \texttt{fafd4dbbe961e037}\\
+\path{evidence/resumo_execucao.json} & \texttt{218e23352c018d82}\\
+\path{evidence/audio_externo_transcricoes.json} & \texttt{8da6101b626df962}\\
+\path{evidence/asr_comparacao.json} & \texttt{c86c4ff64c6c6263}\\
+\path{evidence/audio_externo.json} & \texttt{20d055c33a303003}\\
+\path{evidence/audio_recebido_drive.json} & \texttt{99a156e55c61acef}\\
+\path{evidence/openai_validacao.json} & \texttt{9e43f13d89c3dc42}\\
+\path{evidence/video_validacao.json} & \texttt{17832e5417cf354e}\\
+\path{evidence/dashboard_validacao.json} & \texttt{e994518026d1aa81}\\
+\path{integracao/evidencias/monitoramento_final/monitoramento_resumo.json} & \texttt{20c95ef1eec67a2b}\\
+\path{integracao/evidencias/revisao_final_20261111/replay.json} & \texttt{4c41c70cc3c53b47}\\
+\path{integracao/evidencias/revisao_final_20261111/entrega_auditoria.json} & \texttt{341ad38886b9c194}\\
+\path{integracao/evidencias/revisao_final_20261111/anomalias_estruturadas.json} & \texttt{e5e6f55892ed79b8}\\
+\bottomrule\end{longtable}\normalsize
+Os hashes completos devem ser consultados nos manifestos de execução e no histórico do repositório. O prefixo serve como referência de leitura, não como substituto de uma verificação integral.
+}

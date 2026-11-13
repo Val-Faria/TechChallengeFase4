@@ -1,0 +1,37 @@
+[
+  {
+    "sequence": 1,
+    "at_utc": "2026-11-12T00:07:41.806654+00:00",
+    "action": "entrega_local",
+    "result_id": "bf81b7ad3001102a2c0a",
+    "detail": "{\"sha256_payload\": \"8735721dabfa4a11738259cdd0e2dfaa3e3b1a18ba152baae9254ad93c10c4e9\"}"
+  },
+  {
+    "sequence": 2,
+    "at_utc": "2026-11-12T00:07:41.811656+00:00",
+    "action": "entrega_local",
+    "result_id": "00f1168256663dbdac28",
+    "detail": "{\"sha256_payload\": \"c98cf5f409cce60dfcc3a8b0ef1e63f9fdf45896d2661a43d8210c36131c7545\"}"
+  },
+  {
+    "sequence": 3,
+    "at_utc": "2026-11-12T00:07:41.815655+00:00",
+    "action": "entrega_local",
+    "result_id": "5726e4c975d8f3b6802f",
+    "detail": "{\"sha256_payload\": \"46444d38a890a1a6513921c21fe4c24f56f790acc7b667ea92ee5c1f3ada374d\"}"
+  },
+  {
+    "sequence": 4,
+    "at_utc": "2026-11-12T00:07:41.819683+00:00",
+    "action": "entrega_local",
+    "result_id": "2d61c21763f400d3777e",
+    "detail": "{\"sha256_payload\": \"2824d901073c36a5dd6ed267d65e1118d962c525a078f84d18b05fba7e11bc27\"}"
+  },
+  {
+    "sequence": 5,
+    "at_utc": "2026-11-12T00:17:23.323615+00:00",
+    "action": "revisao_confirmada",
+    "result_id": "bf81b7ad3001102a2c0a",
+    "detail": "{\"revisor\": \"demonstracao_automatica\"}"
+  }
+]
