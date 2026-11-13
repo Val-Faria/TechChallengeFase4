@@ -1,6 +1,6 @@
 % Gerado exclusivamente de evidências locais; sem credenciais.
 \newcommand{\DataRelatorio}{%
-11 de novembro de 2026
+13 de novembro de 2026
 }
 \newcommand{\ResultadoAudio}{%
 A avaliação foi regenerada com partições isoladas por família de frase-base. Os valores abaixo são extraídos de \path{evidence/audio_reproducao.json}; cada partição é reportada separadamente.
@@ -16,7 +16,7 @@ Verificação cega & 120 & 88,33\% & 0,883\\
 Modelo utilizado: \textbf{gpt-4o-mini (texto) e gpt-4o-mini-transcribe (áudio)}. Chamadas reais registradas: \textbf{18}. Custo estimado acumulado: \textbf{US\$ 0,005980}. Estado registrado: 16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha.
 }
 \newcommand{\ResultadoTestes}{%
-Suíte \textbf{pytest Python 3.12; revisão de cobertura e vídeo}: 104 verificações aprovadas, 0 falhas.
+Suíte \textbf{pytest Python 3.12; verificação de entrega}: 106 verificações aprovadas, 0 falhas.
 
 Também foram aprovadas 26 verificações parametrizadas adicionais (subtestes), registradas separadamente da contagem de testes.
 }
@@ -26,10 +26,10 @@ Os registros completos da reprodução e da entrega estão em \path{integracao/e
 No monitor incremental foram processados 32 pacotes. Latência local média: 0,631 ms; percentil 95 (posto mais próximo): 0,928 ms; máxima: 4,598 ms. O intervalo inclui detector estatístico, fusão e SQLite, conforme a instrumentação do monitor.
 }
 \newcommand{\ResultadoIntegracao}{%
-Composição revisada em integracao/evidencias/revisao\_final\_20261111; áudio novo-03, texto real em cache, novo YOLO em montagem de teste e fontes estruturadas sintéticas. Cobertura parcial de vídeo preservada. Dois controles externos verificam fila de revisão mesmo sem alerta positivo. No caso integrado, a confiança acústica do áudio novo-03 é 0,595, inferior ao limiar 0,70. A fonte de áudio fica inconclusiva e a cobertura permanece incompleta; o alerta alto do vídeo é preservado. Não se declara cobertura completa por terem sido fornecidos todos os arquivos.
+Composição revisada em integracao/evidencias/revisao\_final\_20261111; áudio novo-03, texto real em cache, novo YOLO em montagem de teste e fontes estruturadas sintéticas. Cobertura parcial de vídeo preservada. Dois controles externos verificam fila de revisão mesmo sem alerta positivo. No caso integrado, a confiança acústica do áudio novo-03 é 0,595, inferior ao limiar 0,70. A fonte de áudio fica inconclusiva e a cobertura permanece incompleta; o alerta alto do vídeo é preservado. A cobertura depende da validade de cada fonte, além da disponibilidade dos arquivos.
 }
 \newcommand{\ResultadoRecursos}{%
-GPU local NVIDIA RTX 2060: áudio e novo YOLOv8s anteriores. Nesta revisão: inferências e referências locais, sem retreino, Colab ou chamadas pagas; processos de inferência encerrados. GPU utilizada nesta consolidação: sim. Sessão de computação encerrada ao final: sim.
+Experimentos: GPU local NVIDIA RTX 2060. Notebooks de apresentação executados em CPU, com modelo de áudio congelado e resultados de vídeo registrados; sem treinamento, Colab ou chamadas pagas nesta etapa. GPU utilizada neste estudo: sim. Sessão de computação encerrada ao final: sim.
 }
 \newcommand{\ResultadoMidias}{%
 Foram criadas seis sínteses novas: duas referências e uma gravação reservada por voz. Não há hashes compartilhados com o corpus de 1.180 WAVs nem com as seis provas externas anteriores. O classificador emocional permaneceu congelado e não participou destes critérios.
@@ -83,7 +83,7 @@ Precisão e recall presentes no JSON são resumos de objetos da avaliação padr
 
 O peso congelado possui SHA-256 iniciado por \texttt{efe5cc2588300eea}. Evidências em \path{evidence/video_reproducao.json} e \path{evidence/video_dataset_auditoria.json}.
 
-A montagem reservada foi construída após congelar o modelo, com 60 quadros-fonte não usados no desenvolvimento e duração de 120,0 segundos. A inferência gerou 0 evento(s). A referência temporal deriva das caixas anotadas e da própria regra de montagem; não é anotação clínica de complicações. A integração usa o teste para o exemplo positivo e mantém a reserva como verificação separada, sem ocultar seus eventos não detectados.
+A montagem reservada foi construída após congelar o modelo, com 60 quadros-fonte não usados no desenvolvimento e duração de 120,0 segundos. A inferência gerou 0 evento(s). A referência temporal deriva das caixas anotadas e da própria regra de montagem; não é anotação clínica de complicações. A integração usa o teste para o exemplo positivo e mantém a reserva como verificação separada, com seus intervalos não pareados.
 
 \begin{center}\small\begin{tabular}{lrrrr}\toprule Montagem & Referência & Sinalizados & Pareados & Sem pareamento\\\midrule
 
@@ -110,7 +110,7 @@ Reserva já observada & 0,627 & 0,583\\
 
 \bottomrule\end{tabular}\end{center}
 
-A tabela apresenta macro-F1 por quadro, não por evento. O candidato melhora a validação, mas piora na reserva conhecida; não foi promovido. Não se aumentou o limiar apenas para produzir os dois alertas desejados. Após observar a reserva, essa investigação é posterior à avaliação original e não constitui nova verificação cega.
+A tabela apresenta macro-F1 por quadro, não por evento. O candidato melhora a validação, mas piora na reserva conhecida; não foi promovido. Após observar a reserva, essa investigação é posterior à avaliação original e não constitui nova verificação cega.
 
 Foi acrescentada uma verificação de compatibilidade visual por mediana e MAD de duas características globais: proporção de tons quentes e diferença média vermelho--azul. A referência utiliza somente 776 imagens de treino. O menor limite na grade 4/6/8/10 que retém ao menos 95\% da validação é escolhido sem imagens externas. O limite selecionado foi 4, retendo 74/74 na validação, 37/37 no teste e 60/60 na reserva. Cores não reconhecem anatomia; o filtro pode rejeitar cenas válidas ou reter cenas inadequadas.
 
@@ -159,7 +159,7 @@ Artefato & SHA-256 (prefixo)\\\midrule\endhead
 \path{audio/evidencias/particoes_audio.csv} & \texttt{30dc41d77d9167b3}\\
 \path{audio/evidencias/predicoes_avaliacao.csv} & \texttt{a6b46c44b1312d97}\\
 \path{artifacts/audio/manifesto_audio.json} & \texttt{fafd4dbbe961e037}\\
-\path{evidence/resumo_execucao.json} & \texttt{d3cdefcd33a893a0}\\
+\path{evidence/resumo_execucao.json} & \texttt{218e23352c018d82}\\
 \path{evidence/audio_externo_transcricoes.json} & \texttt{8da6101b626df962}\\
 \path{evidence/asr_comparacao.json} & \texttt{c86c4ff64c6c6263}\\
 \path{evidence/audio_externo.json} & \texttt{20d055c33a303003}\\

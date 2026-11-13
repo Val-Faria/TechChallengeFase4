@@ -1,0 +1,38 @@
+{
+  "executed_at_utc": "2026-11-13T19:45:36.564892+00:00",
+  "python": "3.12.10",
+  "environment": "local_cpu",
+  "notebooks": [
+    {
+      "path": "audio/notebooks/TechChallengeFase4_audio.ipynb",
+      "code_cells": 5,
+      "elapsed_s": 2.822,
+      "sha256": "7209b06c8b420367ed9929b4c69cd2e16793ddac27f8a81f8329b965167380cf",
+      "errors": 0
+    },
+    {
+      "path": "video/TechChallengeFase4_video.ipynb",
+      "code_cells": 6,
+      "elapsed_s": 0.149,
+      "sha256": "4860ad7dc03d5f551d90f6875de8b983bb0729375e4c429ea8fbf1b9c210d802",
+      "errors": 0
+    },
+    {
+      "path": "integracao/TechChallengeFase4_integracao.ipynb",
+      "code_cells": 7,
+      "elapsed_s": 0.14,
+      "sha256": "64ec60b5704f19742a5b57aa68e7f944473871134543e46291a09dd5259a8456",
+      "errors": 0
+    }
+  ],
+  "versions": {
+    "numpy": "2.5.4",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.6.1",
+    "matplotlib": "3.11.2",
+    "joblib": "1.5.2"
+  },
+  "paid_api_calls": 0,
+  "colab_session_created": false,
+  "note": "As saídas foram calculadas pelas células. Métricas históricas são identificadas como leitura de evidências; áudio executa predict no modelo congelado."
+}

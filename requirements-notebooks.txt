@@ -1,0 +1,6 @@
+# Execução local dos notebooks de apresentação, sem ASR ou treinamento.
+-e .
+scikit-learn==1.6.1
+joblib>=1.4,<2
+pandas>=2.2,<4
+matplotlib>=3.8,<4

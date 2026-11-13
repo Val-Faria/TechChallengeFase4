@@ -1,6 +1,6 @@
 # Auditoria da entrega técnica — Fase 4
 
-Data: 11/11/2026. Referência: enunciado original, páginas 2–4; SHA-256 `5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1`.
+Data: 13/11/2026. Referência: enunciado original, páginas 2–4; SHA-256 `5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1`.
 
 ## Estado da entrega
 
@@ -40,7 +40,7 @@ Essas verificações não medem sensibilidade para fadiga, disartria ou dificuld
 
 ## Correções e verificações de software
 
-A suíte tem **104 testes e 26 subtestes aprovados**. Inclui contratos, prioridade, fontes inconclusivas, pressão arterial, validade temporal, referências congeladas, seleção explícita de áudio, revisão concorrente, cache e integridade de arquivos.
+A suíte tem **106 testes e 26 subtestes aprovados**. Inclui contratos, prioridade, fontes inconclusivas, pressão arterial, validade temporal, referências congeladas, seleção explícita de áudio, revisão concorrente, cache e integridade de arquivos.
 
 Foi corrigido um bloqueio intermitente do Windows ao substituir snapshots concorrentes: destinos são serializados no processo, e erros transitórios específicos recebem repetição limitada. Erros permanentes continuam visíveis e o snapshot anterior é preservado. Há testes próprios para os dois comportamentos.
 
@@ -61,3 +61,7 @@ A calibração em validação melhorou macro-F1 por quadro de 0,934 para 0,951, 
 A compatibilidade visual por mediana/MAD é ajustada só em treino e retém 74/74 imagens de validação, 37/37 de teste e 60/60 da reserva. Quadros incompatíveis interrompem a regra e indicam cobertura parcial; não se tornam observações normais. A fusão, o relatório e o painel preservam essa indicação e mantêm o pedido de revisão mesmo sem evento positivo.
 
 Uma fonte TVASurg oficial adicional foi processada fora do ajuste. O falso alerta inicial em ilustração foi preservado e removido pela proteção de cobertura. Uma janela temporal seguinte foi definida antes da inferência com essa proteção; é a mesma fonte/paciente, sem rótulos clínicos. As mídias continuam privadas e não entram no Git/PDF. Não se declara acurácia clínica ou solução completa da divergência anatômica. Detalhes em [revisao_video.md](revisao_video.md); alinhamento com o material docente em [alinhamento_docente.md](alinhamento_docente.md).
+
+## Organização e notebooks de entrega
+
+Os módulos permanecem separados, com regras compartilhadas no pacote Python. Resultados anteriores ficam em `integracao/evidencias/historico/`. Os três notebooks contêm saídas de execução local em CPU: áudio com previsões do modelo congelado, vídeo com medições registradas e integração com nova execução dos detectores, fusão e caixa de revisão. Não houve treinamento ou chamadas pagas. A redação do relatório foi organizada por métodos e resultados, preservando o protocolo, as limitações e a identificação dos dados sintéticos.

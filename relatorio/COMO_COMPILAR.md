@@ -31,7 +31,7 @@ Para usar uma instalação LaTeX tradicional, abra `relatorio/latex/` e execute 
 
 ## Atualizar resultados
 
-Execute primeiro os scripts de reprodução. Depois execute novamente `gerar_relatorio.py`. O gerador usa `evidence/audio_reproducao.json`, `evidence/resumo_execucao.json` e os resultados de `integracao/evidencias/execucao_final/` quando presentes.
+Execute primeiro os scripts de reprodução. Depois execute novamente `gerar_relatorio.py`. O gerador usa `evidence/audio_reproducao.json`, `evidence/resumo_execucao.json` e os resultados de `integracao/evidencias/revisao_final_20261111/` quando presentes.
 
 Não inclua arquivos `.env`, bancos de alertas, áudios, vídeos privados, chaves ou cabeçalhos de autenticação no projeto Overleaf. O pacote produzido pelo gerador utiliza uma lista explícita de formatos e diretórios de documentação.
 

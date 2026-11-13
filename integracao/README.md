@@ -18,7 +18,7 @@ A composição revisada está em `evidencias/revisao_final_20261111/`. Os contro
 
 `scripts/run_stream.py` aceita JSONL e acompanha novas linhas com limites de duração e quantidade. A referência estatística usa somente observações anteriores e fica congelada antes do monitoramento. O servidor do painel se vincula apenas a `127.0.0.1`; a confirmação registra revisor e instante em trilha local, sem mensagens a terceiros.
 
-`evidencias/execucao_final/` guarda a composição multimodal. `evidencias/monitoramento_final/` guarda o processamento incremental de dados estruturados. As evidências antigas são históricas.
+`evidencias/revisao_final_20261111/` guarda a composição multimodal. `evidencias/monitoramento_final/` guarda o processamento incremental de dados estruturados. Os snapshots anteriores estão em `evidencias/historico/`.
 
 ## Credenciais e GPU
 

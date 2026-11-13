@@ -1,5 +1,5 @@
 {
-  "data": "2026-11-11",
+  "data": "2026-11-13",
   "enunciado": {
     "sha256": "5166f7d0f963d641b79e59768bb81b78d15924cce90735624a234076b20d5ba1",
     "arquivo_anexado_identico_ao_original": true,
@@ -7,24 +7,19 @@
   },
   "ambiente_minimo": {
     "python": "3.12",
-    "dependencias_de_teste": "pytest e dependencias basicas instaladas do cache",
-    "testes_aprovados": 104,
+    "dependencias_de_teste": "pytest; sem bibliotecas científicas adicionais",
+    "testes_aprovados": 106,
     "subtestes_aprovados": 26,
-    "notebook_zip_sem_git_executado": true,
     "gpu": false,
-    "credenciais": false,
-    "notebooks_exportados_executados": {
-      "integracao/TechChallengeFase4_integracao.ipynb": 7,
-      "video/TechChallengeFase4_video.ipynb": 6
-    }
+    "credenciais": false
   },
   "pacote_overleaf_fontes_identicas": true,
   "links_locais_quebrados": [],
   "chamadas_api_adicionais": 0,
   "ci_revisao_anterior": {
-    "commit": "7c22fbc549b244040072120395d4fcbac2b5c4fe",
+    "commit": "a2ac6c6e30a362bfe6db6736933eaeb5304e49f7",
     "resultado": "success",
-    "url": "https://github.com/Val-Faria/TechChallengeFase4/actions/runs/42957135210"
+    "url": "https://github.com/Val-Faria/TechChallengeFase4/actions/runs/43126740719"
   },
   "pendencias_funcionais_preservadas": [
     "Gravação, publicação e link da apresentação do grupo.",
@@ -37,7 +32,7 @@
     "chamadas_api_adicionais": 0
   },
   "padrao_relatorio": "modelo LaTeX fornecido: fonte 12, A4, margem 2.5 cm, espaçamento 1.5",
-  "hashes_codigo_notebooks_conferidos_na_exportacao": 50,
+  "hashes_codigo_notebooks_conferidos_na_exportacao": 56,
   "pacote_modelo_audio_hash_conferido": true,
   "revisao_video": {
     "calibracao": "validação somente; candidato não promovido",
@@ -52,5 +47,22 @@
     ],
     "rotulos_clinicos_externos": false,
     "cobertura_parcial_preservada": true
+  },
+  "notebooks_com_saidas": {
+    "ambiente": "Python local CPU; compatível com Colab",
+    "audio": 5,
+    "video": 6,
+    "integracao": 7,
+    "erros": 0,
+    "evidencia": "evidence/notebooks_execucao.json"
+  },
+  "verificacao_exportacao": {
+    "hashes": 56,
+    "tests": 106,
+    "subtests": 26,
+    "all_three_notebooks_executed": true,
+    "notebook_environment": "Python local CPU com dependências científicas",
+    "paid_api_calls": 0,
+    "git_directory_in_export": false
   }
 }

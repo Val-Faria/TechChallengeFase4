@@ -1,64 +1,40 @@
-# Roteiro para Benicio - demonstração final
+# Roteiro da apresentação — Fase 4
 
-Duração planejada: **13 minutos e 30 segundos**, com margem até 15 minutos. Publicar no YouTube ou Vimeo, público ou não listado conforme as condições do material utilizado.
+Duração prevista: 13 minutos e 30 segundos, com margem até o limite de 15 minutos. Responsável pela gravação e publicação: Benicio Cardoso.
 
-| Tempo | Conteúdo | Evidência |
+| Tempo | Conteúdo | Material |
 |---|---|---|
-| 00:00-01:00 | Problema, equipe e recorte | Diagrama do fluxo e sinais de triagem |
-| 01:00-03:30 | Áudio | 1.180 WAVs, amostra reservada, transcrição, características, classe/confiança e partições |
-| 03:30-05:30 | Vídeo | Mostrar o novo YOLO e a montagem reservada; separar resultados novos dos eventos históricos 76-82/84-114 s |
-| 05:30-07:00 | Texto em nuvem | Resposta real da OpenAI, evidências, negação e consumo, sem credenciais |
-| 07:00-09:30 | Integração | Caso combinado, prioridade preservada, cobertura, JSON e relatório |
-| 09:30-11:30 | Anomalias e resposta | Séries/prescrições sintéticas, reprodução temporal, painel e confirmação de revisão |
-| 11:30-13:30 | Resultados e limites | Testes, avaliação cega, métricas atribuídas e reprodutibilidade |
+| 00:00–01:00 | Problema, recorte e arquitetura | Relatório: introdução e fluxo |
+| 01:00–03:30 | Áudio, partições, previsões e confiança | Notebook de áudio executado |
+| 03:30–05:30 | YOLO, regra temporal, resultados e limites | Notebook de vídeo executado |
+| 05:30–07:00 | Transcrição, termos e contexto em nuvem | Respostas reais salvas da OpenAI |
+| 07:00–09:30 | Fusão e detecção de anomalias | Notebook de integração |
+| 09:30–11:30 | Entrega e confirmação de revisão | Painel local e auditoria |
+| 11:30–13:30 | Métricas, limitações e reprodução | Relatório final e repositório |
 
 ## Preparação
 
-1. Abrir a branch `Nirton` e conferir o README de execução.
-2. Disponibilizar os artefatos regenerados de áudio e o pacote privado de Marcelo.
-3. Usar evidências reais já salvas para evitar gastar créditos ou tempo de GPU durante a gravação.
-4. Executar a demonstração e abrir o painel antes da captura.
-5. Deixar o PDF aberto na arquitetura e nos resultados.
-6. Fechar `.env`, Secrets, abas de chaves e telas com credenciais.
-7. Selecionar com Marcelo imagens compatíveis com a orientação do grupo sobre o material de terceiros.
+Abrir os três notebooks e o relatório. As saídas já estão salvas e não exigem GPU ou novas chamadas à API. Para demonstrar a confirmação de revisão, criar uma saída própria:
 
-## Demonstração prática
+```powershell
+python scripts/run_demo.py --output integracao/saidas/apresentacao --audio-csv audio/evidencias/resultado_audio_externo.csv --audio-filename novo-03.wav --video-json evidence/resultado_video_teste.json --text-json evidence/texto_openai_integracao.json
+python -m techchallenge4.dashboard --db integracao/saidas/apresentacao/alertas.sqlite3
+```
 
-1. Mostrar classe/confiança de um WAV reservado e explicar o isolamento do novo classificador.
-2. Mostrar transcrição e resultado textual real.
-3. Mostrar o novo peso/manifesto, a reserva por clipe e a inferência registrada; usar os vídeos anotados do pacote privado conforme as condições das imagens.
-4. Executar `scripts/run_demo.py` conforme o README.
-5. Localizar a origem de cada modalidade no resultado.
-6. Mostrar que áudio neutro não cancela alerta alto e que fonte ausente não vira normalidade.
-7. Abrir o painel, conferir o alerta e confirmar sua revisão.
-8. Mostrar a auditoria e explicar o que a latência mede.
+Abrir o endereço local exibido, mostrar a prioridade e a cobertura e confirmar a revisão. A evidência publicada já contém uma confirmação automática de teste; a nova pasta evita reutilizá-la durante a gravação.
 
-## Formulações corretas
+## Pontos a explicar
 
-- “O protótipo gera sinais para revisão humana, não diagnósticos.”
-- “As falas são sintéticas. A verificação cega foi reservada para o novo classificador, sem representar validação em pacientes.”
-- “O professor autorizou outros fornecedores. Utilizamos Whisper e análise textual OpenAI.”
-- “O vídeo recebido pertence à avaliação original; os clipes inéditos são verificações controladas de software.”
-- “Há medições distintas: replay de resultados, monitor estruturado e nova inferência de mídia sobre arquivos no ritmo original. Esta última mede extração acústica, fluxo óptico, fusão e persistência; a espera da janela é de cinco segundos e a nuvem está fora dessa latência.”
-- “O painel demonstra entrega e revisão no protótipo, sem conexão hospitalar.”
+- Os áudios e as séries estruturadas são sintéticos; as modalidades não representam um paciente pareado.
+- A baixa confiança acústica permanece inconclusiva e não cancela o alerta alto do vídeo.
+- As métricas do novo YOLO são distintas dos resultados históricos. Os dois intervalos derivados de caixas na reserva continuam sem concordância; ausência de caixa não confirma ausência anatômica.
+- O filtro de aparência remove um falso alerta técnico sobre ilustração. Ele não confirma anatomia nem valida uma falha cirúrgica.
+- A API OpenAI substitui o fornecedor sugerido conforme autorização docente. A apresentação lê respostas reais salvas e não consome créditos.
+- A latência local é separada da espera da janela; não inclui aquisição clínica, ASR ou rede de nuvem.
+- A caixa e a confirmação são locais. Não há envio a um hospital ou alteração de tratamento.
 
-Após publicar, inserir o link no README e conferir duração e revisão do código. Não publicar credenciais, bancos ou mídias privadas junto do código.
+## Publicação
 
+Usar as tabelas, os gráficos e os resultados sanitizados. As imagens TVASurg permanecem privadas e não devem ser incorporadas ao vídeo sem autorização. Conferir com a equipe o material de terceiros escolhido para a apresentação e manter chaves e dados pessoais fora da captura.
 
-## Trecho prático acrescentado
-
-Reserve cerca de um minuto das partes de áudio/vídeo para o comando de [MIDIAS.md](../integracao/MIDIAS.md). Mostre o controle estável, o vídeo geométrico alterado, as janelas de voz e o banco gerado. O exemplo usa PCM e pixels, não decisões prontas. Explique que os critérios observacionais não identificam a causa médica nem reconhecem anatomia. No original da equipe, diferencie resultados YOLO recebidos da nova inferência de movimento. Não diga que o peso anatômico foi recuperado.
-
-
-## Material final de vídeo
-
-O notebook de vídeo apresenta o novo treino e a inferência em reserva; não é mais necessário depender apenas do JSON histórico. Use `evidence/resultado_video_teste.json` na composição final. Explique que o modelo novo tem protocolo e métricas próprios e que dois segundos por quadro são uma montagem, não a duração original de um evento cirúrgico. O relatório segue o padrão do Overleaf da Fase 2 fornecido pelo grupo; inserir somente o link novo da apresentação da Fase 4.
-
-
-Na montagem reservada, mostrar também a falha: zero dos dois eventos de referência foi recuperado. Não escolher outro limiar após ver essa reserva. O exemplo positivo usa o teste de desenvolvimento e não deve ser apresentado como reserva inédita. Para confirmar revisão durante a gravação, executar a composição com um novo diretório de saída (`--output integracao/saidas/apresentacao`) e apontar o painel para o banco dessa pasta; a caixa da evidência final já contém uma confirmação automática de teste.
-
-## Revisão final do vídeo e cobertura
-
-Mostrar os números sanitizados de `evidence/video_cobertura_externa.json`: falso alerta inicial sobre ilustração, proteção visual e segundo intervalo definido antes da execução. A proteção retém todos os quadros de validação/teste/reserva disponíveis; o filtro é de aparência, não de anatomia. Não apresentar o novo sinal como erro cirúrgico confirmado. Os dois intervalos derivados de caixas do dataset continuam sem concordância e precisam de anotação independente; ausência de caixa não comprova ausência do órgão.
-
-A mídia TVASurg tem direitos reservados e fica privada. Sem autorização para republicação, mostrar os resultados sanitizados e o link da fonte, sem incorporar imagens à apresentação. Não substituir a demonstração original positiva por uma afirmação de acurácia externa. A composição revisada está em `integracao/evidencias/revisao_final_20261111/`; os controles com/sem sinal estão em `integracao/evidencias/revisao_video_externo_20261111/`.
+Publicar no YouTube ou Vimeo e inserir o link em `\linkdovideo`, no início de `relatorio/latex/main.tex`, e no README. Recompilar o PDF e o pacote Overleaf após essa inclusão.

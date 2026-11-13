@@ -1,115 +1,71 @@
-"""Entrada de vídeo portátil; evidências por padrão, treino/inferência opcionais."""
-import hashlib
-import json
-from pathlib import Path
+"""Gera a apresentação dos resultados de vídeo e da cobertura visual."""
 
-ROOT=Path(__file__).resolve().parents[1]
-cells=[]
+from notebook_common import bootstrap, code, md, save
 
+cells = [
+    md("""# Análise de vídeo — Tech Challenge Fase 4
 
-def cell(kind,text):
-    value={"cell_type":kind,"id":hashlib.sha256((kind+text).encode()).hexdigest()[:12],
-           "metadata":{},"source":text.splitlines(keepends=True)}
-    if kind=="code":value.update({"execution_count":None,"outputs":[]})
-    cells.append(value)
+YOLOv8s detecta instrumentos e útero; uma regra temporal encaminha trechos para revisão. Os gráficos deste notebook utilizam as evidências da inferência e do treinamento publicados. A leitura não executa novo treinamento nem exige pesos privados.
 
+A ausência de uma caixa anotada não confirma ausência do órgão. Os intervalos derivados das montagens são referências técnicas, não complicações clínicas confirmadas.
+"""),
+    bootstrap(),
+    code("""import pandas as pd
+import matplotlib.pyplot as plt
+estudo = json.loads((REPO / 'evidence/video_reproducao.json').read_text(encoding='utf-8'))
+display(pd.DataFrame([{'conjunto': k, 'imagens': v} for k, v in estudo['dataset']['counts_clean'].items()]))
+print('Modelo:', estudo['model']['sha256'][:16])
+print('Origem: Uterus v4; anotações e peso preservados.')
+"""),
+    md("""## 1. Métricas do detector
 
-cell("markdown",'''# Fase 4 — vídeo: novo YOLOv8s e reserva de clipe
+O desenvolvimento usa uma origem de vídeo, e outra origem foi reservada. Quadros vizinhos podem ser semelhantes; prefixos distintos não comprovam independência por paciente. As métricas abaixo são as medições salvas, não uma nova avaliação.
+"""),
+    code("""metricas = pd.DataFrame([{'conjunto': k, 'mAP50': v['map50'], 'mAP50_95': v['map50_95']}
+                         for k, v in estudo['evaluation'].items()])
+display(metricas.round(4))
+fig, ax = plt.subplots(figsize=(7, 4))
+metricas.set_index('conjunto')[['mAP50', 'mAP50_95']].plot.bar(ax=ax, color=['#315d80', '#a2b9cb'], rot=0)
+ax.set(ylim=(0, 1.05), ylabel='mAP', xlabel='', title='Detecção de objetos por conjunto')
+fig.tight_layout(); display(fig); plt.close(fig)
+"""),
+    md("## 2. Concordância temporal e calibração"),
+    code("""infer = json.loads((REPO / 'evidence/video_inferencia_nova.json').read_text(encoding='utf-8'))
+display(pd.DataFrame([{'conjunto': m['partition'], 'intervalos_referência': len(m['expected_events']),
+                      'sinalizados': m['predicted_events'], 'pareados': m['event_metrics']['tp'],
+                      'sem_pareamento': m['event_metrics']['fn']} for m in infer['montages']]))
+cal = json.loads((REPO / 'evidence/video_calibracao.json').read_text(encoding='utf-8'))
+display(pd.DataFrame([{'conjunto': k, 'macro_F1_original': v['baseline']['macro_f1'],
+                      'macro_F1_candidato': v['calibrated']['macro_f1']} for k, v in cal['frame_metrics'].items()]).round(4))
+print('Candidato de confiança adotado:', cal['candidate_promoted'])
+print('Os dois intervalos da reserva continuam sem concordância; suas anotações exigem revisão independente.')
+"""),
+    md("""## 3. Fonte externa e cobertura
 
-Entrada da **branch Nirton**, usando os scripts compartilhados. O modelo novo não é o peso original do Marcelo. Há 776 imagens de treino, 74 de validação, 37 de teste e 60 quadros de um prefixo inteiro originalmente reservado. Os 418 polígonos usados são convertidos em caixas, sem inventar estruturas.
-
-O modo padrão lê evidências reais, sem GPU, credenciais, API ou novos treinos. A reserva original já foi observada: sua análise posterior não é uma nova avaliação cega. Limiares continuam 0,4/0,6. Montagens de quadros não representam cirurgias contínuas externas. Consulte `DATASETS_E_MODELOS.md`.
-''')
-cell("code",'''from pathlib import Path
-import json, sys, subprocess
-
-TREINAR_NOVO_ESTUDO = False
-REEXECUTAR_INFERENCIA = False
-if Path("src/techchallenge4").is_dir():
-    REPO = Path.cwd()
-elif (Path.cwd() / "TechChallengeFase4/src/techchallenge4").is_dir():
-    REPO = Path.cwd() / "TechChallengeFase4"
-else:
-    REPO = Path("/content/TechChallengeFase4")
-    if not REPO.exists():
-        subprocess.run(["git", "clone", "--branch", "Nirton", "--single-branch",
-                        "https://github.com/Val-Faria/TechChallengeFase4.git", str(REPO)], check=True)
-sys.path.insert(0, str(REPO / "src"))
-# Extrair artefatos_privados.zip na raiz do REPO preserva os caminhos esperados.
-ZIP_DATASET = REPO.parent / "Uterus.v4i.yolov8.zip"
-print("Repositório:", REPO)
-''')
-cell("markdown",'''## 1. Conferir o protocolo e os resultados
-
-A página anuncia 1.368 imagens; o ZIP recebido contém 1.367. O preparador registra a diferença, CRC, duplicatas, coordenadas, transformações e a origem da reserva. O prefixo reservado não aparece em treino, validação ou teste do novo estudo.
-''')
-cell("code",'''for nome in ["video_dataset_auditoria.json", "video_reproducao.json", "video_inferencia_nova.json"]:
-    arquivo = REPO / "evidence" / nome
-    dados = json.loads(arquivo.read_text(encoding="utf-8"))
-    if nome == "video_dataset_auditoria.json":
-        print("Partições:", dados["counts_clean"])
-        print("Reserva:", dados["blind_source_clip"])
-        print("Contornos convertidos:", dados["polygons_converted_to_boxes"])
-    elif nome == "video_reproducao.json":
-        print("Novo modelo:", dados["model"])
-        print("Avaliação:", json.dumps(dados["evaluation"], ensure_ascii=False, indent=2))
-    else:
-        print("Montagens:", [(m["partition"], m["predicted_events"], m["duration_s"]) for m in dados["montages"]])
-''')
-cell("markdown",'''## 2. Resultado reservado, separado do exemplo integrado positivo
-
-O JSON sanitizado não contém imagens privadas. A marca de simulação identifica a construção temporal da montagem; as detecções são inferências reais do novo YOLO. A referência temporal usa caixas anotadas, não rótulos de complicação médica. A ausência de caixa não comprova ausência do órgão. A composição positiva usa `resultado_video_teste.json` e conserva cobertura parcial.
-''')
-cell("code",'''resultado_video = json.loads((REPO / "evidence/resultado_video_novo.json").read_text(encoding="utf-8"))
-from techchallenge4.core import normalizar_video
-fonte = normalizar_video(resultado_video, origem="YOLO_novo_clipe_reservado")
-print(json.dumps(fonte, ensure_ascii=False, indent=2))
-''')
-cell("markdown",'''## 2.1. Diagnóstico, calibração e nova verificação externa
-
-A busca em 74 imagens de validação encontrou um limite alternativo que melhorou a concordância local, mas piorou na reserva conhecida. O candidato não foi promovido. A referência visual é calculada somente no treino; seu limite é escolhido para reter ao menos 95% da validação. Cenas incompatíveis interrompem a regra e solicitam revisão.
-
-Uma fonte didática externa TVASurg foi processada sem entrar no ajuste. O falso alerta inicial em ilustração é preservado. Há uma segunda janela temporal definida antes de processá-la com o filtro; ela pertence ao mesmo vídeo/paciente e não representa validação clínica independente. As mídias continuam privadas e não devem ser publicadas sem autorização.
-''')
-cell("code",'''calibracao = json.loads((REPO / "evidence/video_calibracao.json").read_text(encoding="utf-8"))
-print("Candidato experimental:", calibracao["selection"]["selected"])
-print("Promovido:", calibracao["candidate_promoted"])
-externo = json.loads((REPO / "evidence/video_cobertura_externa.json").read_text(encoding="utf-8"))
-print("Fonte externa; resultados qualitativos:", externo["cases"])
-resultado_sem_evento = json.loads((REPO / "evidence/resultado_video_externo_filtrado.json").read_text(encoding="utf-8"))
+O filtro de aparência utiliza mediana/MAD do treino e retenção selecionada na validação. A fonte TVASurg não entrou nesse ajuste. O falso alerta inicial sobre uma ilustração foi registrado e removido pela proteção. O trecho seguinte foi definido antes da sua execução com o filtro, mas pertence ao mesmo vídeo/paciente. Não há referência clínica para medir acurácia nessa fonte.
+"""),
+    code("""externo = json.loads((REPO / 'evidence/video_cobertura_externa.json').read_text(encoding='utf-8'))
+display(pd.DataFrame([{'trecho': c['interval_source_s'], 'quadros': c['stats']['quadros_analisados'],
+                      'fora_da_referência': c['stats']['quadros_fora_referencia_visual'],
+                      'sinais': c['event_count']} for c in externo['cases']]))
 from techchallenge4.core import combinar_audio_video
-controle = combinar_audio_video(("neutro", .95), resultado_sem_evento,
-                               id_caso="controle-cobertura-video", simulado=True)
-print("Sem evento positivo:", controle["alerta"], "Revisão:", controle["requer_revisao"],
-      "Cobertura:", controle["status"])
-assert controle["requer_revisao"] and "video" in controle["fontes_inconclusivas"]
-''')
-cell("markdown",'''## 3. Repetir inferência — opcional
+video = json.loads((REPO / 'evidence/resultado_video_externo_filtrado.json').read_text(encoding='utf-8'))
+controle = combinar_audio_video(('neutro', .95), video, id_caso='controle-cobertura-video', simulado=True)
+print('Alerta positivo:', controle['alerta'], '| Revisão necessária:', controle['requer_revisao'])
+assert controle['requer_revisao'] and 'video' in controle['fontes_inconclusivas']
+"""),
+    md("""## 4. Reprodução opcional
 
-Instalar as dependências de vídeo e extrair o pacote privado na raiz do repositório. Para preparar o dataset sem treinar, use `--audit-only`. O comando abaixo usa o peso congelado e seus hashes. Não escolha limiares novos a partir da reserva.
-''')
-cell("code",'''if REEXECUTAR_INFERENCIA:
-    subprocess.run([sys.executable, "-m", "pip", "install", "-r", str(REPO / "requirements-video.txt")], check=True)
-    subprocess.run([sys.executable, str(REPO / "scripts/video_reproduce.py"),
-                    "--dataset-zip", str(ZIP_DATASET), "--audit-only"], cwd=REPO, check=True)
-    subprocess.run([sys.executable, str(REPO / "scripts/video_infer_reserva.py")], cwd=REPO, check=True)
+A inferência exige o peso privado e o ZIP restaurados conforme `DATASETS_E_MODELOS.md`. Está desligada para a apresentação, que lê as evidências publicadas. Não escolha limiares pela reserva já observada. Os scripts compartilhados executam o detector e exportam os vídeos e relatórios.
+"""),
+    code("""REEXECUTAR_INFERENCIA = False
+if REEXECUTAR_INFERENCIA:
+    subprocess.run([sys.executable, str(REPO / 'scripts/video_infer_reserva.py')], cwd=REPO, check=True)
 else:
-    print("Inferência opcional desligada; resultados reais salvos foram carregados.")
-''')
-cell("markdown",'''## 4. Treinamento e encerramento
-
-O script recusa sobrescrever o modelo congelado já existente. Um novo ajuste depois de ver a reserva é outro estudo, sem direito de reutilizar aquela reserva como inédita. O treino original desta consolidação usa GPU local, 80 épocas máximas, batch 8, resolução 416, semente 42 e paciência 20.
-
-No Colab, configurar CUDA e instalar PyTorch/torchvision conforme o ambiente antes de treinar. **Salvar pesos, manifesto e saídas no Drive; depois usar Ambiente de execução → Desconectar e excluir ambiente de execução.** Fechar a aba não encerra a GPU.
-''')
-cell("code",'''if TREINAR_NOVO_ESTUDO:
-    subprocess.run([sys.executable, str(REPO / "scripts/video_reproduce.py"),
-                    "--dataset-zip", str(ZIP_DATASET), "--epochs", "80", "--batch", "8"], cwd=REPO, check=True)
-else:
-    print("Treino desligado. Nenhuma GPU ou API foi utilizada por este notebook no modo padrão.")
-''')
-
-notebook={"cells":cells,"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},
-          "language_info":{"name":"python","version":"3.12"}},"nbformat":4,"nbformat_minor":5}
-(ROOT/"video/TechChallengeFase4_video.ipynb").write_text(json.dumps(notebook,ensure_ascii=False,indent=1),encoding="utf-8")
-print("Notebook de vídeo atualizado a partir dos scripts compartilhados.")
+    print('Inferência opcional desligada. Gráficos calculados a partir das medições publicadas.')
+print('Nenhum treinamento ou serviço pago foi executado.')
+"""),
+    md("""As imagens externas permanecem privadas. A apresentação pode mostrar estes resultados sanitizados e a página oficial da fonte. Os sinais solicitam revisão; não confirmam desvio cirúrgico. No Colab, encerre qualquer GPU opcional após salvar os arquivos.
+"""),
+]
+save(cells, "video/TechChallengeFase4_video.ipynb")

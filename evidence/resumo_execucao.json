@@ -1,5 +1,5 @@
 {
-  "data_entrega": "2026-11-11",
+  "data_entrega": "2026-11-13",
   "branch": "Nirton",
   "cloud": {
     "model": "gpt-4o-mini (texto) e gpt-4o-mini-transcribe (áudio)",
@@ -8,8 +8,8 @@
     "status": "16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha"
   },
   "tests": {
-    "name": "pytest Python 3.12; revisão de cobertura e vídeo",
-    "passed": 104,
+    "name": "pytest Python 3.12; verificação de entrega",
+    "passed": 106,
     "failed": 0,
     "subtests_passed": 26
   },
@@ -17,7 +17,7 @@
     "gpu_used": true,
     "session_closed": true,
     "colab_used": false,
-    "description": "GPU local NVIDIA RTX 2060: áudio e novo YOLOv8s anteriores. Nesta revisão: inferências e referências locais, sem retreino, Colab ou chamadas pagas; processos de inferência encerrados."
+    "description": "Experimentos: GPU local NVIDIA RTX 2060. Notebooks de apresentação executados em CPU, com modelo de áudio congelado e resultados de vídeo registrados; sem treinamento, Colab ou chamadas pagas nesta etapa."
   },
   "integration": {
     "description": "Composição revisada em integracao/evidencias/revisao_final_20261111; áudio novo-03, texto real em cache, novo YOLO em montagem de teste e fontes estruturadas sintéticas. Cobertura parcial de vídeo preservada. Dois controles externos verificam fila de revisão mesmo sem alerta positivo."

@@ -4,6 +4,7 @@ Não recupera os pesos originais da equipe. Polígonos são convertidos em caixa
 envolventes, preservando a tarefa de detecção. A reserva não participa do ajuste
 ou da escolha do checkpoint. As imagens ficam em dados_privados, fora do Git.
 """
+
 from __future__ import annotations
 import argparse
 from collections import Counter, defaultdict
@@ -41,25 +42,25 @@ def normalize_label(text):
         if not line.strip():
             continue
         fields = [float(v) for v in line.split()]
-        if not all(math.isfinite(v) for v in fields) or fields[0] not in (0., 1.):
+        if not all(math.isfinite(v) for v in fields) or fields[0] not in (0.0, 1.0):
             raise ValueError("Classe ou valor inválido na anotação.")
         coords = fields[1:]
-        if any(v < -1e-6 or v > 1+1e-6 for v in coords):
+        if any(v < -1e-6 or v > 1 + 1e-6 for v in coords):
             raise ValueError("Coordenada fora da imagem.")
-        coords = [min(1., max(0., v)) for v in coords]
+        coords = [min(1.0, max(0.0, v)) for v in coords]
         if len(fields) == 5:
             cx, cy, width, height = coords
         elif len(fields) >= 7 and len(coords) % 2 == 0:
             xs, ys = coords[::2], coords[1::2]
-            cx, cy = (min(xs)+max(xs))/2, (min(ys)+max(ys))/2
-            width, height = max(xs)-min(xs), max(ys)-min(ys)
+            cx, cy = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
+            width, height = max(xs) - min(xs), max(ys) - min(ys)
             converted += 1
         else:
             raise ValueError("Formato de anotação não reconhecido.")
         if width <= 0 or height <= 0:
             raise ValueError("Caixa sem área.")
         rows.append(f"{int(fields[0])} {cx:.8f} {cy:.8f} {width:.8f} {height:.8f}")
-    return "\n".join(rows)+("\n" if rows else ""), converted
+    return "\n".join(rows) + ("\n" if rows else ""), converted
 
 
 def source_identity(name):
@@ -73,6 +74,7 @@ def source_identity(name):
 def prepare(dataset_zip, destination):
     from PIL import Image
     import yaml
+
     destination.mkdir(parents=True, exist_ok=True)
     records, rejected, duplicates, paths = [], [], [], {}
     with zipfile.ZipFile(dataset_zip) as archive:
@@ -81,7 +83,12 @@ def prepare(dataset_zip, destination):
             raise ValueError("ZIP corrompido.")
         for entry in archive.infolist():
             part = PurePosixPath(entry.filename)
-            if part.is_absolute() or ".." in part.parts or "\\" in entry.filename or ":" in entry.filename:
+            if (
+                part.is_absolute()
+                or ".." in part.parts
+                or "\\" in entry.filename
+                or ":" in entry.filename
+            ):
                 raise ValueError("Caminho inseguro no ZIP.")
             if entry.file_size > 50_000_000:
                 raise ValueError("Entrada excessiva no ZIP.")
@@ -109,7 +116,7 @@ def prepare(dataset_zip, destination):
                 continue
             partition = "blind_holdout" if clip == HOLDOUT_CLIP else original_split
             raw = archive.read(entry)
-            label = name.replace("/images/", "/labels/").rsplit(".", 1)[0]+".txt"
+            label = name.replace("/images/", "/labels/").rsplit(".", 1)[0] + ".txt"
             try:
                 with Image.open(io.BytesIO(raw)) as image:
                     image.verify()
@@ -117,11 +124,21 @@ def prepare(dataset_zip, destination):
             except (ValueError, OSError, KeyError) as error:
                 rejected.append({"arquivo": name, "motivo": str(error)})
                 continue
-            records.append({"arquivo_zip": name, "arquivo": Path(name).name,
-                "particao": partition, "particao_original": original_split, "clipe": clip,
-                "quadro_origem": frame, "familia": family,
-                "sha256_imagem": hashlib.sha256(raw).hexdigest(),
-                "poligonos_convertidos": converted, "_raw": raw, "_label": normalized})
+            records.append(
+                {
+                    "arquivo_zip": name,
+                    "arquivo": Path(name).name,
+                    "particao": partition,
+                    "particao_original": original_split,
+                    "clipe": clip,
+                    "quadro_origem": frame,
+                    "familia": family,
+                    "sha256_imagem": hashlib.sha256(raw).hexdigest(),
+                    "poligonos_convertidos": converted,
+                    "_raw": raw,
+                    "_label": normalized,
+                }
+            )
     # Prioritize reserved observations when a frame/content occurs in two partitions.
     priority = {"blind_holdout": 0, "test": 1, "valid": 2, "train": 3}
     family_partition, bytes_partition, accepted, purged = {}, {}, [], []
@@ -132,8 +149,8 @@ def prepare(dataset_zip, destination):
             purged.append({"arquivo": row["arquivo_zip"], "particao": row["particao"]})
             continue
         family_partition[key] = bytes_partition[row["sha256_imagem"]] = row["particao"]
-        image_path = destination/row["particao"]/"images"/row["arquivo"]
-        label_path = destination/row["particao"]/"labels"/(Path(row["arquivo"]).stem+".txt")
+        image_path = destination / row["particao"] / "images" / row["arquivo"]
+        label_path = destination / row["particao"] / "labels" / (Path(row["arquivo"]).stem + ".txt")
         image_path.parent.mkdir(parents=True, exist_ok=True)
         label_path.parent.mkdir(parents=True, exist_ok=True)
         if image_path.exists() and image_path.read_bytes() != row["_raw"]:
@@ -144,31 +161,62 @@ def prepare(dataset_zip, destination):
     counts = Counter(r["particao"] for r in accepted)
     if any(counts[partition] < 10 for partition in priority):
         raise ValueError("Partição insuficiente após a auditoria.")
-    data = {"path": destination.resolve().as_posix(), "train": "train/images",
-            "val": "valid/images", "test": "test/images", "names": {0: "Tools", 1: "Uterus"}}
-    (destination/"data.yaml").write_text(yaml.safe_dump(data), encoding="utf-8")
+    data = {
+        "path": destination.resolve().as_posix(),
+        "train": "train/images",
+        "val": "valid/images",
+        "test": "test/images",
+        "names": {0: "Tools", 1: "Uterus"},
+    }
+    (destination / "data.yaml").write_text(yaml.safe_dump(data), encoding="utf-8")
     data["test"] = "blind_holdout/images"
-    (destination/"data_blind.yaml").write_text(yaml.safe_dump(data), encoding="utf-8")
-    audit = {"source": SOURCE, "zip_sha256": digest(dataset_zip), "zip_bytes": dataset_zip.stat().st_size,
-        "counts_original": dict(raw_counts), "counts_by_clip": {k: dict(v) for k,v in clip_counts.items()},
-        "counts_clean": dict(counts), "identical_duplicate_paths": duplicates,
-        "rejected": rejected, "cross_partition_frames_purged": purged,
+    (destination / "data_blind.yaml").write_text(yaml.safe_dump(data), encoding="utf-8")
+    audit = {
+        "source": SOURCE,
+        "zip_sha256": digest(dataset_zip),
+        "zip_bytes": dataset_zip.stat().st_size,
+        "counts_original": dict(raw_counts),
+        "counts_by_clip": {k: dict(v) for k, v in clip_counts.items()},
+        "counts_clean": dict(counts),
+        "identical_duplicate_paths": duplicates,
+        "rejected": rejected,
+        "cross_partition_frames_purged": purged,
         "polygons_converted_to_boxes": sum(r["poligonos_convertidos"] for r in accepted),
         "blind_source_clip": HOLDOUT_CLIP,
         "protocol": "Clip timestamp entirely withheld. Its 420 augmented training variants are unused; only original valid/test frames form blind verification. Other clip retains supplied train/valid/test, with duplicate-frame/content purging.",
         "limitations": "Clip identity inferred from filename, not patient identity. Development validation/test can contain neighboring frames of the same clip. Blind montage is not an independent continuous surgery.",
-        "records": accepted}
-    atomic_write(ROOT/"evidence/video_dataset_auditoria.json", json.dumps(audit, ensure_ascii=False, indent=2))
+        "records": accepted,
+    }
+    atomic_write(
+        ROOT / "evidence/video_dataset_auditoria.json",
+        json.dumps(audit, ensure_ascii=False, indent=2),
+    )
     return audit
 
 
 def evaluate(model, data, split, name, output):
-    result = model.val(data=str(data), split=split, imgsz=416, batch=8, device=0,
-                       workers=2, plots=True, project=str(output), name=name, exist_ok=True)
-    return {"map50": float(result.box.map50), "map50_95": float(result.box.map),
-            "precision": float(result.box.mp), "recall": float(result.box.mr),
-            "per_class_map50": {model.names[i]:float(value) for i,value in enumerate(result.box.ap50)},
-            "speed_ms": result.speed}
+    result = model.val(
+        data=str(data),
+        split=split,
+        imgsz=416,
+        batch=8,
+        device=0,
+        workers=2,
+        plots=True,
+        project=str(output),
+        name=name,
+        exist_ok=True,
+    )
+    return {
+        "map50": float(result.box.map50),
+        "map50_95": float(result.box.map),
+        "precision": float(result.box.mp),
+        "recall": float(result.box.mr),
+        "per_class_map50": {
+            model.names[i]: float(value) for i, value in enumerate(result.box.ap50)
+        },
+        "speed_ms": result.speed,
+    }
 
 
 def main():
@@ -178,49 +226,106 @@ def main():
     parser.add_argument("--epochs", type=int, default=80)
     parser.add_argument("--batch", type=int, default=8)
     args = parser.parse_args()
-    destination = ROOT/"dados_privados/video_dataset_v4"
+    destination = ROOT / "dados_privados/video_dataset_v4"
     audit = prepare(args.dataset_zip, destination)
-    print(json.dumps({"dataset": audit["counts_clean"], "polygons_to_boxes": audit["polygons_converted_to_boxes"],
-                      "rejected": len(audit["rejected"])}, ensure_ascii=False), flush=True)
+    print(
+        json.dumps(
+            {
+                "dataset": audit["counts_clean"],
+                "polygons_to_boxes": audit["polygons_converted_to_boxes"],
+                "rejected": len(audit["rejected"]),
+            },
+            ensure_ascii=False,
+        ),
+        flush=True,
+    )
     if args.audit_only:
         return
     import torch
     from ultralytics import YOLO
+
     torch.set_num_threads(4)
     if not torch.cuda.is_available():
         raise RuntimeError("GPU CUDA necessária para esta reprodução; nada foi treinado.")
-    output = ROOT/"dados_privados/video_runs"
-    model_path = ROOT/"artifacts/video/best_uterus_tools_nirton_v4.pt"
+    output = ROOT / "dados_privados/video_runs"
+    model_path = ROOT / "artifacts/video/best_uterus_tools_nirton_v4.pt"
     if model_path.exists():
         raise FileExistsError("Modelo congelado já existe. Não retreinar sobre a reserva revelada.")
     model_path.parent.mkdir(parents=True, exist_ok=True)
-    config = {"model":"yolov8s.pt", "epochs":args.epochs, "batch":args.batch, "imgsz":416,
-              "patience":20, "seed":42, "device":0, "workers":2, "deterministic":True}
+    config = {
+        "model": "yolov8s.pt",
+        "epochs": args.epochs,
+        "batch": args.batch,
+        "imgsz": 416,
+        "patience": 20,
+        "seed": 42,
+        "device": 0,
+        "workers": 2,
+        "deterministic": True,
+    }
     started = time.perf_counter()
     model = YOLO("yolov8s.pt")
-    model.train(data=str(destination/"data.yaml"), **{k:v for k,v in config.items() if k!="model"},
-                project=str(output), name="treino_novo_v4", exist_ok=False, plots=True)
-    completed_epochs = int(model.trainer.epoch+1)
+    model.train(
+        data=str(destination / "data.yaml"),
+        **{k: v for k, v in config.items() if k != "model"},
+        project=str(output),
+        name="treino_novo_v4",
+        exist_ok=False,
+        plots=True,
+    )
+    completed_epochs = int(model.trainer.epoch + 1)
     best = Path(model.trainer.best)
     shutil.copyfile(best, model_path)
     frozen_hash = digest(model_path)
     model = YOLO(str(model_path))
-    result = {"generated_at": datetime.now(timezone.utc).isoformat(), "dataset": {k:v for k,v in audit.items() if k!="records"},
-              "training": {"config":config, "elapsed_s":time.perf_counter()-started,
-                           "gpu":torch.cuda.get_device_name(0), "epochs_completed":completed_epochs},
-              "versions": {p:importlib.metadata.version(p) for p in ["ultralytics","torch","torchvision","numpy"]},
-              "model": {"path":model_path.relative_to(ROOT).as_posix(), "sha256":frozen_hash,
-                        "trained_partitions":["train"], "selected_by":"validation_only", "original_team_weights":False},
-              "evaluation":{}}
+    result = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "dataset": {k: v for k, v in audit.items() if k != "records"},
+        "training": {
+            "config": config,
+            "elapsed_s": time.perf_counter() - started,
+            "gpu": torch.cuda.get_device_name(0),
+            "epochs_completed": completed_epochs,
+        },
+        "versions": {
+            p: importlib.metadata.version(p)
+            for p in ["ultralytics", "torch", "torchvision", "numpy"]
+        },
+        "model": {
+            "path": model_path.relative_to(ROOT).as_posix(),
+            "sha256": frozen_hash,
+            "trained_partitions": ["train"],
+            "selected_by": "validation_only",
+            "original_team_weights": False,
+        },
+        "evaluation": {},
+    }
     for split in ["val", "test"]:
-        result["evaluation"][split] = evaluate(model, destination/"data.yaml", split, f"avaliacao_{split}", output)
-        atomic_write(ROOT/"evidence/video_reproducao.json", json.dumps(result, ensure_ascii=False, indent=2))
+        result["evaluation"][split] = evaluate(
+            model, destination / "data.yaml", split, f"avaliacao_{split}", output
+        )
+        atomic_write(
+            ROOT / "evidence/video_reproducao.json",
+            json.dumps(result, ensure_ascii=False, indent=2),
+        )
     # The checkpoint is frozen before any evaluation of the reserved source clip.
-    assert digest(model_path)==frozen_hash
-    result["evaluation"]["blind_holdout"] = evaluate(model, destination/"data_blind.yaml", "test", "verificacao_cega", output)
-    atomic_write(ROOT/"evidence/video_reproducao.json", json.dumps(result, ensure_ascii=False, indent=2))
-    atomic_write(model_path.parent/"manifesto_video.json", json.dumps(result["model"], ensure_ascii=False, indent=2))
-    print(json.dumps({"concluido":True,"modelo_sha256":frozen_hash,"evaluation":result["evaluation"]}), flush=True)
+    assert digest(model_path) == frozen_hash
+    result["evaluation"]["blind_holdout"] = evaluate(
+        model, destination / "data_blind.yaml", "test", "verificacao_cega", output
+    )
+    atomic_write(
+        ROOT / "evidence/video_reproducao.json", json.dumps(result, ensure_ascii=False, indent=2)
+    )
+    atomic_write(
+        model_path.parent / "manifesto_video.json",
+        json.dumps(result["model"], ensure_ascii=False, indent=2),
+    )
+    print(
+        json.dumps(
+            {"concluido": True, "modelo_sha256": frozen_hash, "evaluation": result["evaluation"]}
+        ),
+        flush=True,
+    )
 
 
 if __name__ == "__main__":

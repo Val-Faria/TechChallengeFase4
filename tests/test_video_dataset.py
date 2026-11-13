@@ -1,9 +1,12 @@
 """Anotações e identificação de origem antes de qualquer treino de vídeo."""
+
 import importlib.util
 from pathlib import Path
 import pytest
 
-spec = importlib.util.spec_from_file_location("video_reproduce", Path(__file__).resolve().parents[1]/"scripts/video_reproduce.py")
+spec = importlib.util.spec_from_file_location(
+    "video_reproduce", Path(__file__).resolve().parents[1] / "scripts/video_reproduce.py"
+)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
@@ -12,11 +15,14 @@ def test_poligono_e_caixa_mistos_preservam_duas_anotacoes():
     result, converted = module.normalize_label("0 .5 .5 .2 .4\n1 .1 .2 .3 .2 .3 .6 .1 .6")
     lines = [[float(x) for x in line.split()] for line in result.splitlines()]
     assert converted == 1 and len(lines) == 2
-    assert lines[0] == [0,.5,.5,.2,.4]
-    assert lines[1] == pytest.approx([1,.2,.4,.2,.4])
+    assert lines[0] == [0, 0.5, 0.5, 0.2, 0.4]
+    assert lines[1] == pytest.approx([1, 0.2, 0.4, 0.2, 0.4])
 
 
-@pytest.mark.parametrize("text", ["2 .5 .5 .2 .2", "0 nan .5 .2 .2", "0 1.1 .5 .2 .2", "0 .5 .5 0 .2", "1 .2 .3 .4 .5 .6"])
+@pytest.mark.parametrize(
+    "text",
+    ["2 .5 .5 .2 .2", "0 nan .5 .2 .2", "0 1.1 .5 .2 .2", "0 .5 .5 0 .2", "1 .2 .3 .4 .5 .6"],
+)
 def test_anotacao_invalida_nao_vira_caixa(text):
     with pytest.raises(ValueError):
         module.normalize_label(text)

@@ -14,7 +14,7 @@ python scripts/audio_reproduce.py --device auto
 
 `--device auto` usa CUDA se disponível, ou CPU. O script limita o trabalho acústico a dois workers e persiste um cache incremental por SHA-256; uma execução interrompida pode ser retomada. O cache contém transcrições efetivamente produzidas pelo Whisper, nunca o texto dos metadados em seu lugar. Não há serviço pago nessa etapa.
 
-O notebook `audio/notebooks/TechChallengeFase4_audio.ipynb` oferece o mesmo fluxo no Colab e exportação dos artefatos ao Drive. GPU de entrada é suficiente para Whisper tiny; A100 não é necessária. No final, salve os resultados antes de desconectar o ambiente.
+O [notebook executado](notebooks/TechChallengeFase4_audio.ipynb) recalcula as previsões do modelo congelado e exibe as métricas e a matriz de confusão. Ele usa as características já extraídas e não retreina o modelo. A reprodução completa da extração fica no comando acima; GPU de entrada é suficiente para Whisper tiny. Salve os resultados antes de encerrar uma sessão opcional de GPU.
 
 ## Partições e ausência de vazamento
 

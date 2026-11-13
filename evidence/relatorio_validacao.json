@@ -1,11 +1,12 @@
 {
-  "pages": 31,
-  "sha256": "5b42005dabb479ab633efd0188207020713a3db40950eb3fc2ccd7c5f8f5219f",
+  "pages": 17,
+  "sha256": "8e66ac8eae9fdb318a933a2316765bc268f8cb2608464ecfda1d3b087ca2f6a7",
   "overfull_boxes": 0,
-  "visual_review": "Capa, contato de todas as páginas; páginas de revisão, referências e apêndice finais inspecionadas; sem imagens externas publicadas.",
+  "visual_review": "Revisão da capa, sumário, contato de todas as páginas, tabelas, figuras e manifesto.",
   "font_pt": 12,
   "margins_cm": 2.5,
   "line_spacing": 1.5,
   "sources_match_overleaf": true,
-  "clinical_media_in_pdf": false
+  "clinical_media_in_pdf": false,
+  "date": "2026-11-13"
 }
