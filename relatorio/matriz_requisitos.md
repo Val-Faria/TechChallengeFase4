@@ -15,7 +15,7 @@ Referência: PDF original da Fase 4, páginas 2–4; substituição de Azure aut
 | Monitoramento temporal | JSONL e inferência local de mídias no ritmo original | Não mede nuvem ou captura clínica ao vivo |
 | Código completo | Branch Nirton, scripts compartilhados, modelos/manifestos e testes | Artefatos privados restaurados conforme `DATASETS_E_MODELOS.md` |
 | Relatório técnico | PDF, LaTeX no padrão anexado e Overleaf | Resultados históricos/novos/controlados separados |
-| Apresentação até 15 minutos | Roteiro e materiais preservados | Benicio grava/publica e o grupo insere o link |
+| Apresentação até 15 minutos | Painel de consultas com chave por execução, detalhes de cada fonte e confirmação de revisão | Benicio grava/publica e o grupo insere o link |
 
 A reserva de áudio não participa do ajuste emocional. A reserva de vídeo separa o prefixo inteiro disponível; sua origem clínica não é confirmada por paciente. Montagens e derivações não criam automaticamente independência clínica. As quatro categorias mencionadas no relatório histórico de vídeo não são obrigações do PDF fornecido.
 

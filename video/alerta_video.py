@@ -121,7 +121,10 @@ def analisar_video(
     ):
         raise ValueError("limitacoes deve ser uma lista de textos.")
     if referencia_visual is not None:
-        from qualidade import compativel, extrair_caracteristicas
+        if __package__:
+            from .qualidade import compativel, extrair_caracteristicas
+        else:  # Notebooks que importam o módulo pela pasta video/.
+            from qualidade import compativel, extrair_caracteristicas
 
         # Falhar antes de ler o vídeo se a referência estiver incompleta.
         compativel(

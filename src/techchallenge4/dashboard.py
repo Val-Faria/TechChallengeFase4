@@ -6,11 +6,13 @@ import html
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs
 from .delivery import AlertStore
+from .consulta_web import Processing, form_html, evidence_html
 
 
-def render_dashboard(alerts, *, interactive=True):
+def render_dashboard(alerts, *, interactive=True, entry="", running=False):
     modalities = {
-        "audio": "Voz",
+        "audio": "Classe acústica",
+        "padrao_vocal": "Padrão de pausas da voz",
         "video": "Vídeo",
         "texto_openai": "Relato da consulta",
         "texto_azure": "Relato da consulta",
@@ -54,7 +56,7 @@ def render_dashboard(alerts, *, interactive=True):
         if interactive and not item["revisado_em_utc"]:
             action = (
                 f'<form method="post" action="/ack"><input type="hidden" name="id" value="{e(r["id_resultado"])}">'
-                '<label>Revisor <input name="reviewer" required maxlength="80" value="demonstracao"></label>'
+                '<label>Revisor <input name="reviewer" required maxlength="80" placeholder="Nome do revisor"></label>'
                 '<button type="submit">Confirmar revisão</button></form>'
             )
         cards.append(
@@ -62,7 +64,7 @@ def render_dashboard(alerts, *, interactive=True):
             f"<p>{state} · cobertura {e(coverage.get(r['status'], r['status']))}</p>"
             f"<p>Contém fonte simulada: {'sim' if r['simulado'] else 'não'}.</p>"
             '<p class="origin">Fontes associadas para demonstração; sem pareamento clínico.</p>'
-            f"<ul>{sources}</ul>{action}</article>"
+            f"<ul>{sources}</ul>{evidence_html(r)}{action}</article>"
         )
     return (
         """<!doctype html><html lang="pt-BR"><meta charset="utf-8">
@@ -74,10 +76,17 @@ article{background:white;border:1px solid #cad8d6;margin:22px 0;padding:24px;bor
 article h2{margin-top:4px}li{margin-bottom:8px;line-height:1.5}.tag{float:right;padding:6px 12px;background:#fce5cb;border-radius:5px;font-weight:bold}
 .origin{font-size:13px;overflow-wrap:anywhere;color:#4c6264}button{background:#245a59;color:white;border:0;padding:10px 16px;border-radius:5px;cursor:pointer}
 input{padding:8px;border:1px solid #aabdbb;border-radius:4px;margin:8px}footer{margin-top:32px;color:#526866}
-</style><header><p>FIAP · Pós Tech IA para Devs</p><h1>Caixa de revisão multimodal</h1>
+.entry{background:#fff;border-top:4px solid #245a59;border-radius:8px;padding:22px 24px;margin:22px 0}
+.entry h2{margin-top:0}.entry label{display:block;margin:14px 0;font-weight:600}
+.entry select,.entry input[type=password]{display:block;box-sizing:border-box;padding:9px;margin:4px 0;width:min(100%,480px);border:1px solid #91aaa4;border-radius:4px}
+.findings{margin:18px 0;padding:14px;background:#f2f7f5}summary{cursor:pointer}blockquote{border-left:3px solid #8eb1aa;margin:8px 0;padding-left:12px}
+</style>"""
+        + ('<meta http-equiv="refresh" content="3;url=/">' if running else "")
+        + """<header><p>FIAP · Pós Tech IA para Devs</p><h1>Caixa de revisão multimodal</h1>
 <p>Alertas e fontes inconclusivas registrados para avaliação humana.</p>
 <p class="note">Protótipo acadêmico. Sem diagnóstico e sem conexão a um hospital.
 Dados de demonstração. Origem e limitações registradas no relatório; avaliação humana necessária.</p></header><main>"""
+        + entry
         + ("".join(cards) or "<article>Nenhum resultado aguardando revisão.</article>")
         + (
             "</main><footer>Atualize a página para consultar novas entregas. A confirmação registra revisão local, sem alterar tratamento.</footer></html>"
@@ -88,13 +97,35 @@ Dados de demonstração. Origem e limitações registradas no relatório; avalia
 def serve(db_path, port=8765):
     store = AlertStore(db_path)
 
+    processing = Processing(store)
+
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):
+            if self.headers.get("Host") not in {f"127.0.0.1:{port}", f"localhost:{port}"}:
+                self.send_error(403)
+                return
             if self.path != "/":
                 self.send_error(404)
                 return
-            content = render_dashboard(store.list_alerts()).encode("utf8")
-            self.send_response(200)
+            self.page()
+
+        def page(self, message="", status=200):
+            running, stage, error, case, token = processing.view()
+            entry = (
+                f'<section class="entry"><h2>Consulta em processamento</h2><p>{html.escape(stage)}…</p></section>'
+                if running
+                else form_html(token)
+            )
+            if message or error:
+                entry = (
+                    '<p role="alert" class="note">' + html.escape(message or error) + "</p>" + entry
+                )
+            elif case:
+                entry += "<p>Consulta concluída · " + html.escape(case) + "</p>"
+            content = render_dashboard(
+                reversed(store.list_alerts()), entry=entry, running=running
+            ).encode("utf8")
+            self.send_response(status)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header(
                 "Content-Security-Policy",
@@ -106,7 +137,7 @@ def serve(db_path, port=8765):
             self.wfile.write(content)
 
         def do_POST(self):
-            if self.path != "/ack":
+            if self.path not in {"/ack", "/processar"}:
                 self.send_error(404)
                 return
             host = self.headers.get("Host", "")
@@ -122,7 +153,14 @@ def serve(db_path, port=8765):
                 if not 0 < length <= 4096:
                     raise ValueError("Tamanho inválido.")
                 values = parse_qs(self.rfile.read(length).decode("utf8"))
-                store.acknowledge(values["id"][0], values["reviewer"][0])
+                if self.path == "/processar":
+                    try:
+                        processing.start(values)
+                    except ValueError as exc:
+                        self.page(str(exc), 400)
+                        return
+                else:
+                    store.acknowledge(values["id"][0], values["reviewer"][0])
             except (ValueError, KeyError, UnicodeError):
                 self.send_error(400)
                 return
@@ -142,7 +180,7 @@ def serve(db_path, port=8765):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--db", default="integracao/saidas/execucao_local/alertas.sqlite3")
+    parser.add_argument("--db", default="integracao/saidas/painel/alertas.sqlite3")
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args(argv)
     serve(args.db, args.port)

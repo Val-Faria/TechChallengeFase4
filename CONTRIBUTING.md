@@ -1,9 +1,10 @@
 # Organização e manutenção
 
-As modalidades permanecem separadas para permitir executar e avaliar cada componente. O pacote `src/techchallenge4` contém contratos e regras compartilhadas; os notebooks são pontos de apresentação, não cópias dessas regras.
+As modalidades permanecem separadas para permitir executar e avaliar cada componente. O pacote `src/techchallenge4` contém contratos e regras compartilhadas; o painel de consultas oferece a operação integrada e os notebooks documentam os experimentos.
 
 ## Responsabilidades
 
+- `consulta.py`, `consulta_web.py` e `dashboard.py`: processamento do caso, formulário e revisão local.
 - `core.py`: normalização de fontes, fusão e detectores estruturados.
 - `delivery.py` e `reports.py`: persistência idempotente, auditoria e exportação atômica.
 - `monitor.py` e `media_stream.py`: processamento incremental e medições de latência.

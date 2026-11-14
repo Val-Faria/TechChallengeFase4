@@ -148,7 +148,15 @@ def validate_analysis(data, text):
 
 
 def analyze_text_openai(
-    text, output_dir, *, model=None, max_budget_usd=0.25, max_output_tokens=1000, request_fn=None
+    text,
+    output_dir,
+    *,
+    model=None,
+    max_budget_usd=0.25,
+    max_output_tokens=1000,
+    request_fn=None,
+    key=None,
+    use_cache=True,
 ):
     if not isinstance(text, str) or not text.strip() or len(text) > 4500:
         raise ValueError("Informe entre 1 e 4.500 caracteres por chamada.")
@@ -197,7 +205,7 @@ def analyze_text_openai(
     cache = folder / f"texto_{digest}.json"
     ledger_file = folder / "orcamento_openai.json"
     with _lock(folder / ".orcamento.lock"):
-        if cache.exists():
+        if use_cache and cache.exists():
             cached = json.loads(cache.read_text(encoding="utf8"))
             expected_hash = hashlib.sha256(text.encode()).hexdigest()
             if cached.get("modelo") != model or cached.get("sha256_transcricao") != expected_hash:
@@ -232,7 +240,7 @@ def analyze_text_openai(
         reservation = (upper_input * input_rate + max_output_tokens * output_rate) / 1_000_000
         if len(ledger["chamadas"]) >= 20 or used + reservation > max_budget_usd:
             raise BudgetExceeded("Limite local atingido. Chamada não enviada.")
-        key = os.environ.get("OPENAI_API_KEY", "")
+        key = key if key is not None else os.environ.get("OPENAI_API_KEY", "")
         if not key and request_fn is None:
             raise RuntimeError("Cadastre OPENAI_API_KEY no ambiente ou nos Secrets do Colab.")
         entry = {

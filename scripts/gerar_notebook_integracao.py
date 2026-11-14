@@ -5,7 +5,7 @@ from notebook_common import bootstrap, code, md, save
 cells = [
     md("""# Monitoramento multimodal — Tech Challenge Fase 4
 
-Este é o ponto de entrada da demonstração. Áudio, vídeo, texto e séries estruturadas convergem para uma caixa de revisão. As modalidades são associadas para o experimento; não representam um paciente pareado.
+Este notebook documenta o experimento de integração. Para processar as mídias e usar a API pelo painel de consultas, siga a seção “Abrir o painel de consultas” no README. Áudio, vídeo, texto e séries estruturadas convergem para uma caixa de revisão. As modalidades são associadas para o experimento; não representam um paciente pareado.
 
 A execução padrão utiliza resultados reais já registrados dos modelos e da nuvem. A fusão, os detectores estruturados, a persistência e o painel são executados novamente. Não há treinamento ou chamadas pagas.
 """),

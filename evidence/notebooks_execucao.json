@@ -21,8 +21,9 @@
       "path": "integracao/TechChallengeFase4_integracao.ipynb",
       "code_cells": 7,
       "elapsed_s": 0.14,
-      "sha256": "64ec60b5704f19742a5b57aa68e7f944473871134543e46291a09dd5259a8456",
-      "errors": 0
+      "sha256": "170b5d0f0367fb565c2070ffa5201249d4eb8eb0968a448fe279b7fe313d84ba",
+      "errors": 0,
+      "nota_editorial": "A introdução foi atualizada para indicar o painel de consultas. Células de código e saídas preservadas."
     }
   ],
   "versions": {

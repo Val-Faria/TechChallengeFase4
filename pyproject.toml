@@ -15,8 +15,9 @@ tc4-painel = "techchallenge4.dashboard:main"
 tc4-monitor = "techchallenge4.monitor:main"
 tc4-midias = "techchallenge4.media_stream:main"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.setuptools]
+packages = ["techchallenge4", "video"]
+package-dir = {techchallenge4 = "src/techchallenge4", video = "video"}
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

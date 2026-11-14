@@ -199,7 +199,9 @@ Os controles também verificam vídeo sem evento positivo e com cobertura parcia
 
 A suíte cobre contratos, prioridade, dados ausentes, validade temporal, pressão arterial, comparações de prescrições, concorrência, entrega idempotente, cache, orçamento e interrupção da regra visual. O painel foi verificado por GET e confirmação POST com persistência da auditoria. Os testes de software não substituem avaliação do desempenho clínico.
 
-\subsection{Notebooks e ambiente}
+\subsection{Painel de consultas e ambiente}
+O operador seleciona uma gravação e uma montagem cirúrgica no painel local e informa uma chave da API em campo protegido. O módulo de voz executa a classificação acústica e compara o padrão de pausas com uma referência anterior da mesma voz sintética. O detector visual analisa os quadros e identifica intervalos para revisão. O áudio segue para a transcrição pela OpenAI; o texto retornado alimenta a extração de termos, sentimento e contexto. A chave permanece em memória durante a solicitação. O cartão do caso reúne as transcrições, os desvios das séries sintéticas e a prioridade. A confirmação registra o revisor e o instante em SQLite.
+
 Os três notebooks são distribuídos com saídas salvas de execução local, compatíveis com Google Colab. O notebook de áudio recalcula previsões com o modelo congelado; vídeo apresenta métricas de treinamento e inferência registradas; integração executa fusão, detectores estruturados, relatórios e painel. Gráficos e tabelas distinguem essas etapas. Não há novo ajuste ou chamada paga no modo padrão.
 
 \ResultadoRecursos
