@@ -1,0 +1,69 @@
+{
+  "arquivos": [
+    {
+      "arquivo": "dados/audio/manifesto.json",
+      "bytes": 2538,
+      "sha256": "d064abe246774993954d24e6bcbe64e5b7ffa14cf7c68e9d3f7557f0da9cb095"
+    },
+    {
+      "arquivo": "dados/audio/novo-01.wav",
+      "bytes": 429698,
+      "sha256": "7e67160d4fc4f7ceb95440ff177ee987ce13c881576c74624f66495056fafbea"
+    },
+    {
+      "arquivo": "dados/audio/novo-02.wav",
+      "bytes": 402584,
+      "sha256": "97acb73205e779deb05f7c29a53a17ab562ccd9589ebf8919d2296e97bb4348b"
+    },
+    {
+      "arquivo": "dados/audio/novo-03.wav",
+      "bytes": 459748,
+      "sha256": "16d36f6d5ed84e3ab758adbcf124d94d701c6b239b82060bddb761b304b2c98c"
+    },
+    {
+      "arquivo": "dados/audio/novo-04.wav",
+      "bytes": 540264,
+      "sha256": "0bc1e863ef3f2a239902939f1063cd37151e78cbb63ca940c5c55843e7e29a0d"
+    },
+    {
+      "arquivo": "dados/audio/novo-05.wav",
+      "bytes": 444100,
+      "sha256": "80c99e6f53dc4d561564f3846349106f49ac62dda36d61d682dcdca859e75e19"
+    },
+    {
+      "arquivo": "dados/audio/novo-06.wav",
+      "bytes": 490006,
+      "sha256": "ee7f4082321c5f1823567023fe5494853b4493f2b6e77e328f5483fbdba18f7a"
+    },
+    {
+      "arquivo": "dados/referencias/referencia_daniel.json",
+      "bytes": 421,
+      "sha256": "95de935609ef5556230857e292667240eddb8c79c011ab596d83d9dd719b63be"
+    },
+    {
+      "arquivo": "dados/referencias/referencia_maria.json",
+      "bytes": 418,
+      "sha256": "a3519ad68cd04210b3ce3dbb5be77b25a8a8cc24f9b6bdcdc6b9bd5d6d51e3df"
+    },
+    {
+      "arquivo": "dados/video/montagem_blind_holdout.mp4",
+      "bytes": 3150143,
+      "sha256": "dbc9ebc9868d7b399f602b0a78b9ffe980e6d582fa4d460724b7296fbeb026ae"
+    },
+    {
+      "arquivo": "dados/video/montagem_test.mp4",
+      "bytes": 2206924,
+      "sha256": "6152bb8e7e5e71866aec40cf7c33655e576fa8e823b3cc2479018f0ce23bfd96"
+    },
+    {
+      "arquivo": "dados/video/visualizacao/montagem_blind_holdout.webm",
+      "bytes": 4596111,
+      "sha256": "1357c0948e8e6753d51637f22b2ca786d36ae85921201d6f182a69b213668957"
+    },
+    {
+      "arquivo": "dados/video/visualizacao/montagem_test.webm",
+      "bytes": 2575516,
+      "sha256": "190c443e08c3f6428ee64596bd431c6b1bfdd03642b9d018b10522cc4596b8f4"
+    }
+  ]
+}

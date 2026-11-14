@@ -9,7 +9,7 @@
   },
   "tests": {
     "name": "pytest Python 3.12",
-    "passed": 109,
+    "passed": 113,
     "failed": 0,
     "subtests_passed": 26
   },

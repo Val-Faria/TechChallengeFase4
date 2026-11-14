@@ -481,7 +481,7 @@ def build_macros():
     )
     integration_text += " No caso integrado, a confiança acústica do áudio novo-03 é 0,595, inferior ao limiar 0,70. A fonte de áudio fica inconclusiva e a cobertura permanece incompleta; o alerta alto do vídeo é preservado. A cobertura depende da validade de cada fonte, além da disponibilidade dos arquivos."
     commands = r"""\begin{enumerate}
-\item Extrair o pacote de mídias e pesos na raiz do projeto e preparar o ambiente Python conforme o README.
+\item Preparar o ambiente Python e obter os arquivos Git LFS conforme o README.
 \item Abrir o painel com \code{python -m techchallenge4.dashboard} e acessar o endereço local exibido.
 \item Selecionar o áudio e o vídeo, informar a chave da API e processar a consulta.
 \item Abrir os detalhes do caso e confirmar a revisão. Os relatórios e o banco são gravados em \path{integracao/saidas/painel/}.

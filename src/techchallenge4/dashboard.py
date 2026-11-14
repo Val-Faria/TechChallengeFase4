@@ -3,10 +3,14 @@
 from __future__ import annotations
 import argparse
 import html
+import json
+import re
+from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs
+from urllib.parse import parse_qs, urlsplit
 from .delivery import AlertStore
-from .consulta_web import Processing, form_html, evidence_html
+from .consulta_web import Processing, form_html, evidence_html, running_html
+from .consulta import ROOT, WAVS, VIDEOS, AUDIO_DIR, VIDEO_DIR
 
 
 def render_dashboard(alerts, *, interactive=True, entry="", running=False):
@@ -80,8 +84,8 @@ input{padding:8px;border:1px solid #aabdbb;border-radius:4px;margin:8px}footer{m
 .entry h2{margin-top:0}.entry label{display:block;margin:14px 0;font-weight:600}
 .entry select,.entry input[type=password]{display:block;box-sizing:border-box;padding:9px;margin:4px 0;width:min(100%,480px);border:1px solid #91aaa4;border-radius:4px}
 .findings{margin:18px 0;padding:14px;background:#f2f7f5}summary{cursor:pointer}blockquote{border-left:3px solid #8eb1aa;margin:8px 0;padding-left:12px}
-</style>"""
-        + ('<meta http-equiv="refresh" content="3;url=/">' if running else "")
+audio,video{display:block;width:min(100%,480px);margin:10px 0}video,#live-frame{max-width:100%;border-radius:6px;background:#142827}#live-frame{display:block;width:480px;margin:14px 0}#live-frame[hidden]{display:none}progress{display:block;width:min(100%,480px);height:18px}#stage{font-weight:600}</style>"""
+        + ('<script src="/painel.js" defer></script>' if entry else "")
         + """<header><p>FIAP · Pós Tech IA para Devs</p><h1>Caixa de revisão multimodal</h1>
 <p>Alertas e fontes inconclusivas registrados para avaliação humana.</p>
 <p class="note">Protótipo acadêmico. Sem diagnóstico e sem conexão a um hospital.
@@ -94,7 +98,7 @@ Dados de demonstração. Origem e limitações registradas no relatório; avalia
     )
 
 
-def serve(db_path, port=8765):
+def create_server(db_path, port=8765):
     store = AlertStore(db_path)
 
     processing = Processing(store)
@@ -104,18 +108,38 @@ def serve(db_path, port=8765):
             if self.headers.get("Host") not in {f"127.0.0.1:{port}", f"localhost:{port}"}:
                 self.send_error(403)
                 return
-            if self.path != "/":
+            path = urlsplit(self.path).path
+            if path == "/status":
+                self.send_bytes(json.dumps(processing.status()).encode(), "application/json")
+                return
+            if path == "/quadro.jpg":
+                with processing.lock:
+                    frame = processing.image
+                if frame:
+                    self.send_bytes(frame, "image/jpeg")
+                else:
+                    self.send_error(404)
+                return
+            if path == "/painel.js":
+                self.send_bytes(
+                    Path(__file__).with_name("painel.js").read_bytes(), "text/javascript"
+                )
+                return
+            if path.startswith("/midia/audio/") and path.removeprefix("/midia/audio/") in WAVS:
+                self.media(ROOT / AUDIO_DIR / path.removeprefix("/midia/audio/"), "audio/wav")
+                return
+            if path.startswith("/midia/video/") and path.removeprefix("/midia/video/") in VIDEOS:
+                name = Path(path).stem + ".webm"
+                self.media(ROOT / VIDEO_DIR / "visualizacao" / name, "video/webm")
+                return
+            if path != "/":
                 self.send_error(404)
                 return
             self.page()
 
         def page(self, message="", status=200):
             running, stage, error, case, token = processing.view()
-            entry = (
-                f'<section class="entry"><h2>Consulta em processamento</h2><p>{html.escape(stage)}…</p></section>'
-                if running
-                else form_html(token)
-            )
+            entry = running_html(processing) if running else form_html(token)
             if message or error:
                 entry = (
                     '<p role="alert" class="note">' + html.escape(message or error) + "</p>" + entry
@@ -129,12 +153,69 @@ def serve(db_path, port=8765):
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header(
                 "Content-Security-Policy",
-                "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+                "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; media-src 'self'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
             )
             self.send_header("X-Content-Type-Options", "nosniff")
             self.send_header("Cache-Control", "no-store")
             self.end_headers()
             self.wfile.write(content)
+
+        def send_bytes(self, content, content_type):
+            self.send_response(200)
+            self.send_header("Content-Type", content_type)
+            self.send_header("Content-Length", str(len(content)))
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.end_headers()
+            self.wfile.write(content)
+
+        def media(self, path, content_type):
+            if not path.is_file():
+                self.send_error(404)
+                return
+            size = path.stat().st_size
+            start, end = 0, size - 1
+            value = self.headers.get("Range")
+            if value:
+                match = re.fullmatch(r"bytes=(\d*)-(\d*)", value)
+                if not match or not any(match.groups()):
+                    self.range_error(size)
+                    return
+                first, last = match.groups()
+                if first:
+                    start, end = int(first), min(int(last), size - 1) if last else size - 1
+                else:
+                    start = max(0, size - int(last))
+                    if int(last) == 0:
+                        self.range_error(size)
+                        return
+                if start >= size or end < start:
+                    self.range_error(size)
+                    return
+            self.send_response(206 if value else 200)
+            self.send_header("Content-Type", content_type)
+            self.send_header("Accept-Ranges", "bytes")
+            self.send_header("Content-Length", str(end - start + 1))
+            if value:
+                self.send_header("Content-Range", f"bytes {start}-{end}/{size}")
+            self.end_headers()
+            try:
+                with path.open("rb") as stream:
+                    stream.seek(start)
+                    remaining = end - start + 1
+                    while remaining:
+                        chunk = stream.read(min(65536, remaining))
+                        if not chunk:
+                            break
+                        self.wfile.write(chunk)
+                        remaining -= len(chunk)
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                pass  # O navegador pode cancelar uma faixa ao avançar o vídeo.
+
+        def range_error(self, size):
+            self.send_response(416)
+            self.send_header("Content-Range", f"bytes */{size}")
+            self.end_headers()
 
         def do_POST(self):
             if self.path not in {"/ack", "/processar"}:
@@ -169,6 +250,12 @@ def serve(db_path, port=8765):
             self.end_headers()
 
     server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    port = server.server_port
+    return server
+
+
+def serve(db_path, port=8765):
+    server = create_server(db_path, port)
     print(f"Painel local: http://127.0.0.1:{port} (Ctrl+C encerra)", flush=True)
     try:
         server.serve_forever()

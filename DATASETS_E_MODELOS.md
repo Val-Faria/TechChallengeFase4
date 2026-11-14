@@ -1,54 +1,48 @@
-# Dados e modelos da entrega final
+# Dados e modelos
 
-## Áudio
+## Execução do painel
 
-- Dataset: `audio/datasets/dataset_audio_emocoes_1180.zip`, versionado por Git LFS. Depois de clonar, executar `git lfs pull`.
-- Modelo congelado: `artifacts/audio/modelo_audio_1180.joblib`, ajustado somente nos 712 exemplos de treino. SHA-256 e ambiente em `artifacts/audio/manifesto_audio.json` e `evidence/audio_reproducao.json`.
-- Reprodução: `python scripts/audio_reproduce.py --device auto`. Não incorporar as reservas ao treino avaliado.
-- O modelo anterior da autora, ajustado com todos os 1.180 exemplos, fica como histórico no backup privado. Ele não substitui o modelo com isolamento.
+O repositório inclui os seis WAVs em `dados/audio/`, as duas montagens em `dados/video/`, as referências das vozes em `dados/referencias/` e os modelos em `artifacts/`. A instalação e o campo da chave da API estão descritos no [README](README.md). O painel usa essas entradas diretamente.
 
-O corpus é sintético. As provas novas têm hashes/frases distintos e não foram usadas no ajuste. As derivações dos controles físicos compartilham fonte e não são observações independentes de pacientes.
+Os arquivos WebM em `dados/video/visualizacao/` permitem assistir às montagens no navegador. A inferência lê o MP4 e as imagens exibidas durante o processamento são quadros anotados nessa execução. O [manifesto de arquivos](dados/manifesto.json) registra tamanho e SHA-256. Consulte a [atribuição das mídias](dados/README.md).
 
-## Vídeo
+## Corpus de voz
 
-Fonte oficial: [Uterus v4, Roboflow Universe](https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4). Licença declarada: CC BY 4.0; autor Machinelearning. O link consta no notebook e no relatório originais. A exportação YOLOv8 exige login no Roboflow.
+O corpus está em `audio/datasets/dataset_audio_emocoes_1180.zip`, armazenado por Git LFS. Contém 1.180 gravações sintéticas. O classificador congelado `artifacts/audio/modelo_audio_1180.joblib` utiliza as seis características registradas no manifesto e foi ajustado somente nos 712 exemplos de treino. As partições foram isoladas por família de frase. Métricas e ambiente constam em `evidence/audio_reproducao.json`.
 
-O arquivo `Uterus.v4i.yolov8.zip`, recebido na pasta principal do projeto em 11/11/2026, tem 40.622.141 bytes e SHA-256 `d2345667a5efa840b7f1f3ff33af52ebf25d8ccf0f7c3c985afdeba6d7e04bf8`. Não está no histórico Git nem nas branches verificadas; está preservado no Drive da equipe. A página anuncia 1.368 imagens, enquanto esse ZIP tem 1.367: 1.196 treino, 114 validação e 57 teste. A diferença foi mantida na auditoria.
-
-### Preparação reproduzível
+Para repetir o experimento:
 
 ```powershell
-python -m pip install -e . -r requirements-video.txt
-python scripts/video_reproduce.py --dataset-zip ../Uterus.v4i.yolov8.zip --audit-only
-python scripts/video_reproduce.py --dataset-zip ../Uterus.v4i.yolov8.zip --epochs 80 --batch 8
+git lfs pull
+python scripts/audio_reproduce.py --device auto
 ```
 
-Instalar PyTorch/torchvision para a GPU conforme documentação do fornecedor. A execução registrada utiliza RTX 2060 local, PyTorch 2.11.0+cu128, torchvision 0.26.0+cu128 e Ultralytics 8.4.208. Não há uso de API paga ou sessão Colab nessa reprodução.
+As seis gravações do painel têm hashes e frases distintos do corpus. As referências de pausas foram obtidas com gravações anteriores da mesma voz. As alterações acústicas observadas precisam ser interpretadas no contexto de uma avaliação humana.
 
-O preparador verifica CRC, nomes de arquivo, coordenadas e duplicatas; três entradas idênticas de `data.yaml` são aceitas. Os 418 polígonos utilizados são convertidos em caixas envolventes, resolvendo a mistura de formatos para a tarefa de detecção sem inferir rótulos novos.
+## Dataset visual
 
-O clipe `2024-09-26-20-27-33_mp4` fica inteiramente fora do desenvolvimento: suas 420 imagens aumentadas de treino não são usadas, e 60 quadros de validação/teste originais passam à reserva cega. `UterusClip_mov` fornece 776/74/37 imagens para treino/validação/teste. A reserva não seleciona checkpoint nem limiares. Prefixo de arquivo não comprova paciente ou procedimento independente.
+Fonte: [Uterus v4 no Roboflow Universe](https://universe.roboflow.com/machinelearning-yekk6/uterus-qn1he/dataset/4), disponibilizado por Machinelearning. A exportação declara licença CC BY 4.0 e está em `video/datasets/Uterus.v4i.yolov8.zip`, por Git LFS.
 
-### Modelo e inferência
+O ZIP possui 40.622.141 bytes e SHA-256 `d2345667a5efa840b7f1f3ff33af52ebf25d8ccf0f7c3c985afdeba6d7e04bf8`. A exportação contém 1.367 imagens, enquanto seu texto de apresentação informa 1.368. A auditoria preserva essa diferença.
 
-O novo peso é `artifacts/video/best_uterus_tools_nirton_v4.pt`. Ele é um novo treinamento, não recuperação do peso do Marcelo. Seu manifesto registra hash e ajuste apenas em treino, com seleção pela validação. Está no pacote privado do Drive, junto das mídias; copiar para esse caminho após extrair o pacote na raiz do repositório.
+Para preparar os dados e repetir o treinamento:
 
 ```powershell
-python scripts/video_infer_reserva.py
+git lfs pull
+python scripts/video_reproduce.py --dataset-zip video/datasets/Uterus.v4i.yolov8.zip --audit-only
+python scripts/video_reproduce.py --dataset-zip video/datasets/Uterus.v4i.yolov8.zip --epochs 80 --batch 8
 ```
 
-O comando gera montagens novas de teste e de reserva, executa YOLO nos quadros e produz JSON, relatório, vídeo anotado e evidência temporal. A montagem reservada não participa do treino/validação/teste de desenvolvimento do novo modelo. Dois segundos por quadro são uma construção de demonstração e não a duração original de um evento clínico. A referência deriva de caixas e regra temporal, sem rótulo de complicação médica.
+O preparador verifica CRC, nomes, coordenadas e duplicatas. Os 418 polígonos utilizados são convertidos em caixas envolventes. A origem `UterusClip_mov` fornece 776/74/37 imagens de treino/validação/teste. As 60 imagens originais da origem `2024-09-26-20-27-33_mp4` formam a reserva. Suas versões aumentadas foram excluídas do desenvolvimento. A identidade inferida do nome do clipe limita a conclusão sobre independência por paciente.
 
-Os números históricos da equipe e as novas métricas têm protocolos diferentes e permanecem separados. Nenhum vídeo clínico ou imagem de terceiros é republicado automaticamente no Git ou no Overleaf.
+O peso incluído em `artifacts/video/best_uterus_tools_nirton_v4.pt` foi selecionado pela validação. O manifesto registra seu hash e o ajuste apenas em treino. A referência visual em `artifacts/video/referencia_visual.json` contém a mediana/MAD do treino e o limite de retenção escolhido na validação.
 
-## Backup e credenciais
+`python scripts/video_infer_reserva.py` reconstrói e analisa as montagens a partir do dataset preparado. As saídas desse experimento são gravadas em `dados_privados/video_novo/`, com resultados sanitizados em `evidence/`. O painel lê as montagens distribuídas em `dados/video/`. Cada imagem ocupa dois segundos e os intervalos seguem essa transformação.
 
-O diretório `ENTREGA_FINAL_FASE4`, na pasta principal sincronizada com o Drive, contém relatório, Overleaf, código, artefatos privados e manifestos. Extrair os artefatos privados na raiz do repositório preserva os caminhos necessários. A chave OpenAI fica fora de todos os pacotes; `OPENAI_API_KEY` é opcional para novas chamadas, nunca para a demonstração com cache.
+## Avaliação complementar
 
-## Revisão de cobertura e fonte complementar
+Os experimentos anteriores com a fonte externa [TVASurg](https://pie.med.utoronto.ca/TVASurg/project/gyn-tlh/) estão descritos em [Revisão do vídeo](relatorio/revisao_video.md). A mídia externa é obtida da fonte oficial para reprodução dessa avaliação complementar. O aplicativo utiliza as montagens do Uterus v4. Os resultados de fontes e protocolos diferentes permanecem identificados nas evidências.
 
-`artifacts/video/referencia_visual.json` registra mediana/MAD calculadas somente em treino e limite de retenção escolhido na validação. O arquivo contém hash do peso e do dataset. `calibracao_alertas.json` é um candidato experimental **não promovido**; a inferência mantém 0,4/0,6. A referência visual não corrige nem inventa rótulos anatômicos.
+## Credenciais e resultados
 
-[Procedimento e resultados](relatorio/revisao_video.md). A fonte adicional é o [TVASurg da Universidade de Toronto](https://pie.med.utoronto.ca/TVASurg/project/gyn-tlh/). `python scripts/video_verificar_externo.py --baixar` obtém o vídeo oficial público (152.904.066 bytes, limitado a 200 MB); `python scripts/video_verificar_cobertura.py` reproduz a proteção e a reserva temporal declarada. Não há ajuste do YOLO nessas mídias, nem anotações médicas que permitam calcular acurácia clínica. Todos os intervalos já executados estão identificados; reexecutá-los não cria uma reserva nova.
-
-O vídeo externo fica em `dados_privados/video_externo_tvasurg/`, fora do Git e do PDF. A fonte declara direitos reservados: não publicar imagens na apresentação sem autorização; usar os resultados sanitizados e a página oficial. O backup privado da equipe preserva os arquivos para reprodução, com os hashes e a atribuição. Nenhuma chave acompanha os pacotes.
+A chave OpenAI é informada no campo protegido do painel. Os comandos específicos de experimentação podem usar `OPENAI_API_KEY` ou o arquivo de ambiente indicado por sua interface. Resultados de consultas ficam em `integracao/saidas/painel/`. Os modelos congelados e os dados de entrada permanecem preservados durante o uso.

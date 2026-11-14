@@ -10,7 +10,7 @@ Esta revisão utiliza o PDF da Fase 4 como referência dos requisitos. As aulas 
 | Aula 05: classificação supervisionada de texto | Extração de termos/contexto e sentimento. Características acústicas e Random Forest são escolhas da frente de áudio, com seu domínio sintético explicitado. |
 | Aulas OpenAI 02, 03 e 05: API, GPT, integração e automação | API real OpenAI, respostas estruturadas, cache e controle de consumo. A substituição do Azure foi autorizada pelo professor e está documentada em `evidence/orientacao_docente.md`. |
 | Enunciado, p. 3: sinais vitais, prescrições e movimentação | Detectores temporais e regras de mudança. Mediana/MAD é uma opção de implementação estatística; não se afirma que foi a fórmula específica ensinada. |
-| Enunciado, p. 4: código, relatório e demonstração até 15 minutos | Branch Nirton, notebooks executáveis, evidências, PDF e fontes Overleaf; gravação/publicação e link permanecem com Benicio/grupo. |
+| Enunciado, p. 4: código, relatório e demonstração até 15 minutos | Branch Nirton, notebooks executáveis, evidências, PDF e fontes Overleaf. |
 
 Reconhecimento facial das aulas 01/02, OCR/Textract, AWS Comprehend e geração de imagens não foram acrescentados como requisitos que o enunciado não pede. A solução permanece centrada em áudio, vídeo, texto, anomalias e entrega do alerta. Os materiais didáticos originais não são republicados com o código.
 

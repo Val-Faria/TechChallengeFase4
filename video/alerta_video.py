@@ -109,6 +109,7 @@ def analisar_video(
     cobertura_parcial=False,
     limitacoes=None,
     referencia_visual=None,
+    on_frame=None,
 ):
     """Executa o detector nos quadros válidos e exporta eventos, vídeo e relatório observacionais."""
     import cv2
@@ -164,6 +165,7 @@ def analisar_video(
         fps = numero_finito(cap.get(cv2.CAP_PROP_FPS), "fps", 1e-9)
         passo = max(1, round(fps / amostra_fps))
         fps_saida = fps / passo
+        total_estimado = max(1, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
         while True:
             ok, frame = cap.read()
             if not ok:
@@ -188,7 +190,7 @@ def analisar_video(
                 instr = [p for k, p in dets if int(k) == ids["Tools"] and p >= conf]
                 utero = any(int(k) == ids["Uterus"] and p >= conf_area for k, p in dets)
                 quadros.append((n / fps, bool(instr), utero, max(instr, default=0.0)))
-                if salvar_video:
+                if salvar_video or on_frame is not None:
                     imagem = r.plot() if valido else frame.copy()
                     if not valido:
                         cv2.putText(
@@ -210,6 +212,11 @@ def analisar_video(
                             (0, 0, 255),
                             2,
                         )
+                    if on_frame is not None:
+                        on_frame(
+                            imagem, n / fps, len(quadros), (total_estimado + passo - 1) // passo
+                        )
+                if salvar_video:
                     if gravador is None:
                         h, w = imagem.shape[:2]
                         gravador = cv2.VideoWriter(

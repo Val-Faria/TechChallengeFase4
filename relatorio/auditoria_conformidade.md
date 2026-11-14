@@ -6,7 +6,7 @@ Data: 13/11/2026. Referência: enunciado original, páginas 2–4; SHA-256 `5166
 
 A entrega contém código, modelos/manifestos, demonstrações, testes, evidências e relatório no padrão LaTeX fornecido pela equipe. O ZIP Uterus foi recebido, auditado e usado em **novo treino YOLOv8s**. Assim, a inferência anatômica deixou de depender somente dos resultados históricos. O peso original do Marcelo não foi recuperado; não se afirma reprodução exata daquele experimento.
 
-O trabalho continua sendo um protótipo com limitações medidas. A aprovação dos testes não significa detecção clínica confiável. A apresentação e o link YouTube/Vimeo permanecem com Benicio, conforme divisão do grupo.
+O trabalho continua sendo um protótipo com limitações medidas. A aprovação dos testes não significa detecção clínica confiável.
 
 | Requisito | Evidência executada | Limite declarado |
 |---|---|---|
@@ -18,7 +18,7 @@ O trabalho continua sendo um protótipo com limitações medidas. A aprovação 
 | Alertas e resposta | Fusão, SQLite, painel e confirmação auditável | Entrega local, sem sistema hospitalar |
 | Processamento temporal | JSONL e inferência acústica/visual em arquivos no ritmo original | Espera da janela distinta da computação; nuvem/captura ao vivo fora da medida |
 | Código e relatório | Branch Nirton, modelos, scripts, notebooks, PDF e Overleaf | Artefatos clínicos/YOLO no pacote privado; caminhos documentados |
-| Apresentação até 15 minutos | Roteiro e material de demonstração | Benicio grava/publica e o grupo insere o link |
+| Apresentação até 15 minutos | Roteiro e material de demonstração | Publicação no YouTube ou Vimeo, com duração máxima de 15 minutos |
 
 ## Nova reprodução e reserva
 

@@ -2,97 +2,96 @@
 
 Tech Challenge · Fase 4 · FIAP · IA para Devs
 
-Protótipo que combina voz, vídeo, texto e séries temporais para gerar sinais destinados à revisão humana. Os módulos usam contratos comuns, relatórios automáticos e uma caixa de alertas local. O relatório apresenta métodos, resultados e limitações do experimento.
+Aplicação que reúne análise de voz, vídeo cirúrgico e texto em nuvem com o acompanhamento de sinais vitais, movimentação e prescrições. Cada consulta produz evidências por modalidade, prioridade, relatório automático e registro de revisão.
 
-## Entrega e demonstração
+## Executar a aplicação
 
-| Material | Acesso |
-|---|---|
-| Aplicação local | [Abrir o painel de consultas](#abrir-o-painel-de-consultas) |
-| Relatório final | [PDF](output/pdf/relatorio_tecnico_fase4.pdf) · [Overleaf](relatorio/overleaf_fase4.zip) |
-| Notebook de integração | [Notebook executado](integracao/TechChallengeFase4_integracao.ipynb) · [Abrir no Colab](https://colab.research.google.com/github/Val-Faria/TechChallengeFase4/blob/Nirton/integracao/TechChallengeFase4_integracao.ipynb) |
-| Análise de áudio | [Notebook executado](audio/notebooks/TechChallengeFase4_audio.ipynb) · [Abrir no Colab](https://colab.research.google.com/github/Val-Faria/TechChallengeFase4/blob/Nirton/audio/notebooks/TechChallengeFase4_audio.ipynb) |
-| Análise de vídeo | [Notebook executado](video/TechChallengeFase4_video.ipynb) · [Abrir no Colab](https://colab.research.google.com/github/Val-Faria/TechChallengeFase4/blob/Nirton/video/TechChallengeFase4_video.ipynb) |
-| Dados e modelos | [Restauração e reprodução](DATASETS_E_MODELOS.md) |
-| Requisitos | [Matriz de atendimento](relatorio/matriz_requisitos.md) |
+Requisitos de instalação: Python 3.12, Git e Git LFS. Os áudios, vídeos, referências e modelos usados pelo painel estão incluídos no repositório.
 
-Os notebooks contêm saídas de execução local, incluindo tabelas, gráficos e painel. Podem ser visualizados sem executar novamente. O áudio recalcula previsões com o modelo congelado; vídeo apresenta medições registradas; integração executa fusão, detectores e persistência. O modo padrão não faz chamadas pagas nem treina modelos.
-
-## Abrir o painel de consultas
-
-Use a branch **Nirton** ou o arquivo `codigo_e_evidencias.zip` da entrega. No computador que vai executar o produto, extraia `artefatos_privados.zip` **dentro da pasta que contém este README**. As pastas `dados_privados` e `artifacts` devem ficar ao lado de `src`. O pacote contém os WAVs, as montagens cirúrgicas, as referências das vozes e o peso YOLO treinado. Os dois ZIPs de datasets são destinados à reprodução do treinamento.
-
-No terminal do PyCharm ou PowerShell, abra essa mesma pasta. Com Python 3.12, prepare o ambiente uma vez:
+Na pasta do projeto, prepare o ambiente:
 
 ```powershell
+git lfs install
+git lfs pull
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e . -r requirements-audio.txt -r requirements-video.txt
 ```
 
-Para abrir o produto:
+Inicie a aplicação:
 
 ```powershell
 .\.venv\Scripts\python.exe -m techchallenge4.dashboard
 ```
 
-Acesse **http://127.0.0.1:8765** e mantenha o terminal aberto. Em **Nova consulta**, escolha a gravação e o vídeo do acervo. Informe a chave no campo protegido e clique em **Processar consulta**. O painel aplica Librosa, Whisper, Random Forest e a comparação de pausas da mesma voz. Executa o YOLO nos quadros da montagem, envia o WAV sintético à API da OpenAI e solicita a análise da transcrição recebida. As séries sintéticas de sinais vitais, movimentação e prescrição alimentam os detectores e compõem a prioridade do caso.
+Abra **http://127.0.0.1:8765** no navegador. Mantenha o terminal aberto durante o uso e pressione **Ctrl+C** para encerrar. O processamento funciona em CPU. O primeiro uso baixa o modelo Whisper pela internet.
 
-Acompanhe a etapa atual no navegador. Quando aparecer o novo cartão, abra **Ver processamento do caso** para consultar as transcrições, o sentimento, os termos, os intervalos do vídeo e os desvios. Preencha **Revisor**, confirme e recarregue a página para consultar o registro. Relatórios por caso ficam em `integracao/saidas/painel/consultas/` e a caixa de revisão em `integracao/saidas/painel/alertas.sqlite3`. As pastas são criadas pelo sistema.
+## Processar uma consulta
 
-A chave fica em memória durante o pedido. Cada clique aceito inicia uma transcrição e, se ela for concluída, uma análise textual. O aplicativo mantém um registro local do consumo estimado por serviço. O primeiro uso do Whisper pode baixar o modelo. A execução local funciona em CPU. Para encerrar, pressione **Ctrl+C** no terminal.
+1. Em **Nova consulta**, escolha a gravação de voz e o vídeo do acervo. Os controles permitem ouvir o áudio e assistir ao vídeo antes de iniciar.
+2. Cole sua chave no campo **Chave da API OpenAI** e clique em **Processar consulta**.
+3. Acompanhe as etapas. Durante a análise visual, o painel exibe os quadros efetivamente processados pelo detector, as caixas e a contagem de quadros.
+4. No cartão do caso, abra **Ver processamento do caso** para consultar transcrições, características da voz, termos críticos, sentimento, intervalos visuais e desvios das séries.
+5. Preencha **Revisor** e clique em **Confirmar revisão**. O registro permanece disponível ao recarregar a página.
 
-## Notebooks e experimentos
+A chave é criada na [plataforma da OpenAI](https://platform.openai.com/api-keys) e deve ter acesso aos modelos `gpt-4o-mini-transcribe` e `gpt-4o-mini`, com créditos na conta da API. Cada consulta envia o WAV sintético para transcrição e depois o texto para análise. O vídeo é processado localmente. A chave permanece em memória durante a solicitação. O campo é mascarado e a credencial fica fora do versionamento e dos relatórios.
 
-Para executar e salvar as saídas dos três notebooks:
+O aplicativo registra o consumo estimado e aplica limites locais por serviço. Os limites de cobrança da conta devem ser consultados na plataforma. As saídas ficam em `integracao/saidas/painel/`, incluindo relatórios por consulta e o banco `alertas.sqlite3`.
 
-```powershell
-python -m pip install -r requirements-notebooks.txt
-python scripts/executar_notebooks.py
-```
+## Dados e modelos
 
-## Fluxo e organização
+| Caminho | Conteúdo |
+|---|---|
+| `dados/audio/` | Seis gravações sintéticas e manifesto de origem |
+| `dados/video/` | Duas montagens cirúrgicas usadas na inferência |
+| `dados/video/visualizacao/` | Cópias WebM para reprodução no navegador |
+| `dados/referencias/` | Referências anteriores das vozes sintéticas |
+| `artifacts/audio/` | Classificador Random Forest, características e manifesto |
+| `artifacts/video/` | Peso YOLOv8s, manifesto e referência visual |
+| `audio/datasets/` | Corpus de treinamento de áudio, em Git LFS |
+| `video/datasets/` | Exportação Uterus v4, em Git LFS |
+
+As instruções de reprodução estão em [Dados e modelos](DATASETS_E_MODELOS.md). A origem, a licença e as transformações das mídias constam em [Atribuição dos dados](dados/README.md).
+
+## Fluxo multimodal
 
 ```mermaid
 flowchart LR
  A[Áudio] --> W[Whisper, Librosa e Random Forest]
+ A --> C[Transcrição OpenAI]
+ C --> T[Termos, sentimento e contexto]
  V[Vídeo] --> Y[YOLOv8 e regra temporal]
- T[Transcrição] --> L[Análise textual OpenAI]
- S[Sinais vitais, prescrições e movimento] --> D[Detectores temporais]
- W --> F[Fusão por caso, origem e prioridade]
+ S[Sinais vitais, movimento e prescrições] --> D[Detectores temporais]
+ W --> F[Fusão por caso e prioridade]
  Y --> F
- L --> F
+ T --> F
  D --> F
- F --> R[Relatórios e caixa SQLite]
- R --> P[Painel de revisão]
+ F --> R[Relatório e caixa SQLite]
+ R --> P[Revisão no painel]
 ```
 
-| Diretório | Responsabilidade |
-|---|---|
-| `src/techchallenge4/` | Contratos, fusão, detectores, nuvem, entrega, painel e suporte aos notebooks |
-| `audio/`, `video/` | Notebooks, regras visuais e documentação das modalidades |
-| `integracao/` | Demonstração integrada e resultados de referência |
-| `scripts/` | Extração, avaliação, reprodução e geração de artefatos |
-| `tests/` | Regressões de contratos, regras, cache, orçamento e persistência |
-| `evidence/`, `artifacts/` | Métricas, partições, proveniência e manifestos de modelos |
-| `relatorio/` | Fonte LaTeX, Overleaf e matriz de requisitos |
-| `output/pdf/` | Relatório final compilado |
+## Relatório e notebooks
 
-A execução de referência está em `integracao/evidencias/revisao_final_20261111/`. Os controles externos estão em `revisao_video_externo_20261111/`; o monitor estruturado, em `monitoramento_final/`. Resultados anteriores ficam em `integracao/evidencias/historico/` e não substituem a avaliação atual.
+| Material | Acesso |
+|---|---|
+| Relatório técnico | [PDF](output/pdf/relatorio_tecnico_fase4.pdf) · [Overleaf](relatorio/overleaf_fase4.zip) |
+| Integração | [Notebook com saídas](integracao/TechChallengeFase4_integracao.ipynb) |
+| Áudio | [Notebook com saídas](audio/notebooks/TechChallengeFase4_audio.ipynb) |
+| Vídeo | [Notebook com saídas](video/TechChallengeFase4_video.ipynb) |
+| Requisitos | [Matriz de atendimento](relatorio/matriz_requisitos.md) |
+
+Os notebooks documentam os experimentos e as avaliações. Para recalcular e salvar suas saídas, instale `requirements-notebooks.txt` e execute `python scripts/executar_notebooks.py`.
 
 ## Resultados e alcance
 
-- **Áudio:** 1.180 gravações sintéticas, partições isoladas por família de frase. A reserva tem acurácia de 88,33%. As seis falas externas ficaram abaixo do limiar de confiança e são inconclusivas.
-- **Vídeo:** novo YOLOv8s, mAP50 de 0,980 no teste e 0,613 na reserva de origem. A regra pareou 2/3 intervalos derivados de caixas no teste e 0/2 na reserva. Ausência de caixa não confirma ausência anatômica; a divergência exige revisão das anotações e das detecções.
-- **Nuvem:** transcrição e análise textual reais da OpenAI, com resultados salvos, negação/contexto e consumo registrado. A substituição do Azure foi [autorizada pelo professor](evidence/orientacao_docente.md).
-- **Alertas:** monitoramento incremental, caixa SQLite e confirmação auditável. Baixa confiança ou cobertura parcial não são convertidas em normalidade.
+O classificador de voz foi avaliado em 1.180 gravações sintéticas, com separação por família de frase. A acurácia na reserva foi de 88,33%. As seis falas externas ficaram abaixo do limiar de confiança de 0,70.
 
-O conjunto não representa pacientes pareados. Séries estruturadas e controles físicos são sintéticos. A proteção visual removeu um falso alerta sobre ilustração em uma fonte didática externa; não demonstra detecção clínica confiável. [Detalhes da avaliação de vídeo](relatorio/revisao_video.md).
+O YOLOv8s obteve mAP50 de 0,980 no teste e 0,613 na reserva de origem. A regra temporal pareou 2/3 intervalos de referência no teste e 0/2 na reserva. Os intervalos são derivados das anotações de objetos. A divergência requer revisão das anotações e detecções. [Avaliação de vídeo](relatorio/revisao_video.md).
 
-## Reprodução e credenciais
+A transcrição e a análise textual usam a OpenAI, conforme [orientação docente](evidence/orientacao_docente.md). As fontes do experimento são independentes. As séries estruturadas são sintéticas e os alertas requerem avaliação humana. O relatório registra as limitações clínicas do protótipo.
 
-O [guia de dados e modelos](DATASETS_E_MODELOS.md) contém hashes, fontes e caminhos de restauração. Áudio, vídeo e análise de mídias têm dependências opcionais próprias. Reproduções de treinamento são experimentos separados da visualização dos notebooks.
+## Organização
 
-`OPENAI_API_KEY` é necessária somente para novas chamadas; no painel, informe a chave no formulário. Para experimentos pelo notebook ou terminal, use o mecanismo indicado em cada componente. Há cache e controle local de consumo, que não substituem os limites de cobrança da conta. Credenciais e mídias privadas não integram os pacotes públicos. Ao usar GPU opcional no Colab, salvar os artefatos e desconectar/excluir o ambiente ao terminar.
+`src/techchallenge4/` contém o processamento integrado, a nuvem, os detectores, a persistência e o painel. `video/` e `audio/` reúnem os componentes e experimentos de cada modalidade. `scripts/` oferece entradas para reprodução. `tests/` contém a suíte de software. `evidence/` preserva os resultados experimentais e `relatorio/` contém as fontes LaTeX.
 
 ## Equipe
 

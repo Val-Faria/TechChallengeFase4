@@ -19,6 +19,9 @@ tc4-midias = "techchallenge4.media_stream:main"
 packages = ["techchallenge4", "video"]
 package-dir = {techchallenge4 = "src/techchallenge4", video = "video"}
 
+[tool.setuptools.package-data]
+techchallenge4 = ["painel.js"]
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]

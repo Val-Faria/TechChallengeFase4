@@ -13,7 +13,7 @@ Verificação cega & 120 & 88,33\% & 0,883\\
 Modelo utilizado: \textbf{gpt-4o-mini (texto) e gpt-4o-mini-transcribe (áudio)}. Chamadas reais registradas: \textbf{18}. Custo estimado acumulado: \textbf{US\$ 0,005980}. Estado registrado: 16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha.
 }
 \newcommand{\ResultadoTestes}{%
-Suíte \textbf{pytest Python 3.12}: 109 verificações aprovadas, 0 falhas.
+Suíte \textbf{pytest Python 3.12}: 113 verificações aprovadas, 0 falhas.
 
 Também foram aprovadas 26 verificações parametrizadas adicionais (subtestes), registradas separadamente da contagem de testes.
 }
@@ -129,7 +129,7 @@ As imagens externas continuam privadas, com atribuição e orientação para nã
 }
 \newcommand{\ComandosReproducao}{%
 \begin{enumerate}
-\item Extrair o pacote de mídias e pesos na raiz do projeto e preparar o ambiente Python conforme o README.
+\item Preparar o ambiente Python e obter os arquivos Git LFS conforme o README.
 \item Abrir o painel com \code{python -m techchallenge4.dashboard} e acessar o endereço local exibido.
 \item Selecionar o áudio e o vídeo, informar a chave da API e processar a consulta.
 \item Abrir os detalhes do caso e confirmar a revisão. Os relatórios e o banco são gravados em \path{integracao/saidas/painel/}.
@@ -155,7 +155,7 @@ Artefato & SHA-256 (prefixo)\\\midrule\endhead
 \path{audio/evidencias/particoes_audio.csv} & \texttt{30dc41d77d9167b3}\\
 \path{audio/evidencias/predicoes_avaliacao.csv} & \texttt{a6b46c44b1312d97}\\
 \path{artifacts/audio/manifesto_audio.json} & \texttt{fafd4dbbe961e037}\\
-\path{evidence/resumo_execucao.json} & \texttt{36b5900cfbffa8d3}\\
+\path{evidence/resumo_execucao.json} & \texttt{3fe94c6c59e3b6bf}\\
 \path{evidence/audio_externo_transcricoes.json} & \texttt{8da6101b626df962}\\
 \path{evidence/asr_comparacao.json} & \texttt{c86c4ff64c6c6263}\\
 \path{evidence/audio_externo.json} & \texttt{20d055c33a303003}\\

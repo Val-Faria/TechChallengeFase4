@@ -19,8 +19,8 @@ VIDEOS = {
     "montagem_test.mp4": "Montagem de teste",
     "montagem_blind_holdout.mp4": "Montagem da reserva",
 }
-AUDIO_DIR = Path("dados_privados/audio_inedito")
-VIDEO_DIR = Path("dados_privados/video_novo")
+AUDIO_DIR = Path("dados/audio")
+VIDEO_DIR = Path("dados/video")
 WEIGHTS = Path("artifacts/video/best_uterus_tools_nirton_v4.pt")
 AUDIO_MODEL = Path("artifacts/audio/modelo_audio_1180.joblib")
 REFERENCE = Path("artifacts/video/referencia_visual.json")
@@ -34,22 +34,22 @@ def missing_files(root, wav, mp4):
         AUDIO_MODEL,
         REFERENCE,
         AUDIO_DIR / "manifesto.json",
-        Path("dados_privados/midias_complementares/referencia_daniel.json"),
-        Path("dados_privados/midias_complementares/referencia_maria.json"),
+        Path("dados/referencias/referencia_daniel.json"),
+        Path("dados/referencias/referencia_maria.json"),
         Path("artifacts/audio/manifesto_audio.json"),
         Path("artifacts/video/manifesto_video.json"),
     ]
     return [p.as_posix() for p in required if not (root / p).is_file()]
 
 
-def process_case(root, store, wav, mp4, key, progress):
+def process_case(root, store, wav, mp4, key, progress, on_frame=None):
     """As duas chamadas usam a chave desta solicitação e o orçamento da instalação."""
     from video.alerta_video import analisar_video
 
     if wav not in WAVS or mp4 not in VIDEOS:
         raise ValueError("Escolha uma das mídias do acervo.")
     if missing_files(root, wav, mp4):
-        raise ValueError("Restaure na raiz do projeto os arquivos privados indicados no painel.")
+        raise ValueError("Confira os arquivos do acervo incluídos na pasta dados do projeto.")
     case = "consulta-" + datetime.now().strftime("%Y%m%d-%H%M%S-") + uuid4().hex[:6]
     folder = store.path.parent / "consultas" / case
     budget = store.path.parent / "consumo_api"
@@ -68,7 +68,7 @@ def process_case(root, store, wav, mp4, key, progress):
     if not sample or sample["sha256"] != audio["sha256_wav"]:
         raise ValueError("O WAV difere da gravação cadastrada.")
     speaker = {"Microsoft Daniel": "daniel", "Microsoft Maria Desktop": "maria"}[sample["voz"]]
-    baseline = root / "dados_privados/midias_complementares" / f"referencia_{speaker}.json"
+    baseline = root / "dados/referencias" / f"referencia_{speaker}.json"
     reference_voice = json.loads(baseline.read_text(encoding="utf-8"))
     if (
         reference_voice["speaker"] != speaker
@@ -86,6 +86,7 @@ def process_case(root, store, wav, mp4, key, progress):
         root / WEIGHTS,
         saida=folder / "video",
         salvar_video=False,
+        on_frame=on_frame,
         cobertura_parcial=True,
         referencia_visual=reference,
         limitacoes=["Montagem temporal de quadros. A ausência de detecção exige revisão."],

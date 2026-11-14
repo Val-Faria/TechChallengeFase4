@@ -13,9 +13,9 @@ Referência: PDF original da Fase 4, páginas 2–4; substituição de Azure aut
 | Fusão e alerta | Contrato por caso, maior prioridade e fontes inconclusivas | Fontes sem pareamento de paciente; cobertura parcial preservada mesmo sem sinal positivo |
 | Encaminhamento e resposta | SQLite, painel HTTP, confirmação e auditoria | Demonstração local; revisão simulada identificada |
 | Monitoramento temporal | JSONL e inferência local de mídias no ritmo original | Não mede nuvem ou captura clínica ao vivo |
-| Código completo | Branch Nirton, scripts compartilhados, modelos/manifestos e testes | Artefatos privados restaurados conforme `DATASETS_E_MODELOS.md` |
+| Código completo | Branch Nirton, scripts compartilhados, modelos/manifestos e testes | Mídias e modelos incluídos no repositório |
 | Relatório técnico | PDF, LaTeX no padrão anexado e Overleaf | Resultados históricos/novos/controlados separados |
-| Apresentação até 15 minutos | Painel de consultas com chave por execução, detalhes de cada fonte e confirmação de revisão | Benicio grava/publica e o grupo insere o link |
+| Apresentação até 15 minutos | Painel de consultas com chave por execução, detalhes de cada fonte e confirmação de revisão | Execução pelo painel e revisão persistida |
 
 A reserva de áudio não participa do ajuste emocional. A reserva de vídeo separa o prefixo inteiro disponível; sua origem clínica não é confirmada por paciente. Montagens e derivações não criam automaticamente independência clínica. As quatro categorias mencionadas no relatório histórico de vídeo não são obrigações do PDF fornecido.
 

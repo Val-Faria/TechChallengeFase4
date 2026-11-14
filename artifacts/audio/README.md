@@ -4,4 +4,4 @@
 
 Instalar `requirements-audio.txt`, incluindo scikit-learn 1.6.1, antes de carregá-lo. Usar `scripts/audio_infer.py`, que confere o hash contra `manifesto_audio.json`. Não carregar artefatos Joblib de origem desconhecida.
 
-O modelo classifica as três categorias emocionais sintéticas do corpus; não diagnostica condições médicas. Sua reserva de dados e suas limitações constam em `evidence/audio_reproducao.json`. Arquivos de características/cache necessários para repetir a extração ficam no backup privado e podem ser regenerados a partir do ZIP via Git LFS.
+O modelo classifica as três categorias emocionais sintéticas do corpus; não diagnostica condições médicas. Sua reserva de dados e suas limitações constam em `evidence/audio_reproducao.json`. As características e o modelo acompanham o código. A extração pode ser repetida a partir do ZIP distribuído por Git LFS.
