@@ -1,12 +1,11 @@
 """Processamento de uma consulta a partir das mídias do acervo acadêmico."""
 
-from datetime import datetime
 import json
 from pathlib import Path
-from uuid import uuid4
 
 from .audio import infer_audio
-from .core import combinar_audio_video
+from .core import combinar_audio_video, fonte_indisponivel
+from .entradas import UPLOAD, prepare_inputs
 from .observacoes import structured_examples
 from .media import assess_voice, read_wav, sha256, voice_features
 from .openai_audio import transcribe_wav
@@ -28,8 +27,6 @@ REFERENCE = Path("artifacts/video/referencia_visual.json")
 
 def missing_files(root, wav, mp4):
     required = [
-        AUDIO_DIR / wav,
-        VIDEO_DIR / mp4,
         WEIGHTS,
         AUDIO_MODEL,
         REFERENCE,
@@ -39,19 +36,24 @@ def missing_files(root, wav, mp4):
         Path("artifacts/audio/manifesto_audio.json"),
         Path("artifacts/video/manifesto_video.json"),
     ]
+    if wav != UPLOAD:
+        required.append(AUDIO_DIR / wav)
+    if mp4 != UPLOAD:
+        required.append(VIDEO_DIR / mp4)
     return [p.as_posix() for p in required if not (root / p).is_file()]
 
 
-def process_case(root, store, wav, mp4, key, progress, on_frame=None):
+def process_case(root, store, wav, mp4, key, progress, on_frame=None, inputs=None):
     """As duas chamadas usam a chave desta solicitação e o orçamento da instalação."""
     from video.alerta_video import analisar_video
 
-    if wav not in WAVS or mp4 not in VIDEOS:
+    if wav not in {*WAVS, UPLOAD} or mp4 not in {*VIDEOS, UPLOAD}:
         raise ValueError("Escolha uma das mídias do acervo.")
     if missing_files(root, wav, mp4):
         raise ValueError("Confira os arquivos do acervo incluídos na pasta dados do projeto.")
-    case = "consulta-" + datetime.now().strftime("%Y%m%d-%H%M%S-") + uuid4().hex[:6]
-    folder = store.path.parent / "consultas" / case
+    inputs = inputs or prepare_inputs(root, store.path.parent / "consultas", wav, mp4, {})
+    case, folder = inputs["id"], inputs["folder"]
+    audio_path, video_path = inputs["audio_path"], inputs["video_path"]
     budget = store.path.parent / "consumo_api"
     weights = json.loads(
         (root / "artifacts/video/manifesto_video.json").read_text(encoding="utf-8")
@@ -62,38 +64,47 @@ def process_case(root, store, wav, mp4, key, progress, on_frame=None):
         or reference["model_sha256"] != weights["sha256"]
     ):
         raise ValueError("Pesos ou referência visual incompatíveis com o modelo da equipe.")
-    audio = infer_audio(root / AUDIO_DIR / wav, root / AUDIO_MODEL)
-    samples = json.loads((root / AUDIO_DIR / "manifesto.json").read_text(encoding="utf-8-sig"))
-    sample = next((entry for entry in samples["casos"] if entry["arquivo"] == wav), None)
-    if not sample or sample["sha256"] != audio["sha256_wav"]:
-        raise ValueError("O WAV difere da gravação cadastrada.")
-    speaker = {"Microsoft Daniel": "daniel", "Microsoft Maria Desktop": "maria"}[sample["voz"]]
-    baseline = root / "dados/referencias" / f"referencia_{speaker}.json"
-    reference_voice = json.loads(baseline.read_text(encoding="utf-8"))
-    if (
-        reference_voice["speaker"] != speaker
-        or audio["sha256_wav"] in reference_voice["sha256_referencias"]
-    ):
-        raise ValueError("Referência acústica incompatível com a gravação.")
-    signal, rate = read_wav(root / AUDIO_DIR / wav)
-    vocal = assess_voice(voice_features(signal, rate), reference_voice, simulated=True)
-    vocal["modalidade"] = "padrao_vocal"
-    if isinstance(vocal.get("limitacoes"), str):
-        vocal["limitacoes"] = [vocal["limitacoes"]]
+    audio = infer_audio(audio_path, root / AUDIO_MODEL)
+    audio["simulado"] = not inputs["audio_upload"]
+    if inputs["audio_upload"]:
+        vocal = fonte_indisponivel(
+            "padrao_vocal", "Referência anterior da mesma voz não fornecida para comparar pausas."
+        )
+    else:
+        samples = json.loads((root / AUDIO_DIR / "manifesto.json").read_text(encoding="utf-8-sig"))
+        sample = next((entry for entry in samples["casos"] if entry["arquivo"] == wav), None)
+        if not sample or sample["sha256"] != audio["sha256_wav"]:
+            raise ValueError("O WAV difere da gravação cadastrada.")
+        speaker = {"Microsoft Daniel": "daniel", "Microsoft Maria Desktop": "maria"}[sample["voz"]]
+        baseline = root / "dados/referencias" / f"referencia_{speaker}.json"
+        reference_voice = json.loads(baseline.read_text(encoding="utf-8"))
+        if (
+            reference_voice["speaker"] != speaker
+            or audio["sha256_wav"] in reference_voice["sha256_referencias"]
+        ):
+            raise ValueError("Referência acústica incompatível com a gravação.")
+        signal, rate = read_wav(audio_path)
+        vocal = assess_voice(voice_features(signal, rate), reference_voice, simulated=True)
+        vocal["modalidade"] = "padrao_vocal"
+        if isinstance(vocal.get("limitacoes"), str):
+            vocal["limitacoes"] = [vocal["limitacoes"]]
     progress("Analisando os quadros do vídeo com YOLOv8")
     video = analisar_video(
-        root / VIDEO_DIR / mp4,
+        video_path,
         root / WEIGHTS,
         saida=folder / "video",
-        salvar_video=False,
+        salvar_video=True,
+        formato_video="webm",
         on_frame=on_frame,
         cobertura_parcial=True,
         referencia_visual=reference,
-        limitacoes=["Montagem temporal de quadros. A ausência de detecção exige revisão."],
+        limitacoes=["A ausência de detecção exige revisão."]
+        + ([] if inputs["video_upload"] else ["Montagem temporal de quadros."]),
     )
+    video["simulado"] = not inputs["video_upload"]
     progress("Transcrevendo o áudio pela API da OpenAI")
     transcript = transcribe_wav(
-        root / AUDIO_DIR / wav,
+        audio_path,
         budget / "voz",
         key=key,
         case_id=case,
@@ -115,9 +126,9 @@ def process_case(root, store, wav, mp4, key, progress, on_frame=None):
         audio,
         video,
         id_caso=case,
-        origem_audio=wav,
-        origem_video=mp4,
-        simulado=True,
+        origem_audio=inputs["audio"],
+        origem_video=inputs["video"],
+        simulado=False,
         pareamento="fontes acadêmicas independentes",
         fontes_adicionais=[vocal, text, *structured["resultados"]],
         fontes_esperadas=[
@@ -131,8 +142,12 @@ def process_case(root, store, wav, mp4, key, progress, on_frame=None):
         ],
     )
     result["consulta"] = {
-        "audio": wav,
-        "video": mp4,
+        "audio": inputs["audio"],
+        "video": inputs["video"],
+        "audio_local": True,
+        "video_processado": True,
+        "audio_dispositivo": inputs["audio_upload"],
+        "video_dispositivo": inputs["video_upload"],
         "transcricao_local": audio["transcricao_whisper"],
         "caracteristicas": audio["caracteristicas"],
         "transcricao_nuvem": transcript["text"],

@@ -7,6 +7,7 @@ import re
 import time
 
 from .consulta import ROOT, WAVS, VIDEOS, missing_files, process_case
+from .entradas import UPLOAD, prepare_inputs
 
 
 class Processing:
@@ -23,12 +24,13 @@ class Processing:
         self.image = None
         self.video_progress = None
         self.last_frame_at = 0.0
+        self.inputs = None
 
-    def start(self, form):
+    def start(self, form, uploads=None):
         wav, mp4, key = (form.get(k, [""])[0].strip() for k in ("audio", "video", "chave"))
         if (
-            wav not in WAVS
-            or mp4 not in VIDEOS
+            wav not in {*WAVS, UPLOAD}
+            or mp4 not in {*VIDEOS, UPLOAD}
             or not re.fullmatch(r"sk-[A-Za-z0-9_-]{8,500}", key)
         ):
             raise ValueError("Selecione as mídias e informe uma chave da API OpenAI.")
@@ -41,6 +43,9 @@ class Processing:
                 raise ValueError(
                     "Esta solicitação já foi usada. Atualize o painel antes de iniciar outra consulta."
                 )
+            self.inputs = prepare_inputs(
+                ROOT, self.store.path.parent / "consultas", wav, mp4, uploads or {}
+            )
             self.token = token_urlsafe(24)
             self.running = True
             self.stage = "Extraindo características de voz e transcrevendo com Whisper local"
@@ -81,7 +86,14 @@ class Processing:
     def _run(self, wav, mp4, key):
         try:
             case = process_case(
-                ROOT, self.store, wav, mp4, key, self._progress, on_frame=self.frame
+                ROOT,
+                self.store,
+                wav,
+                mp4,
+                key,
+                self._progress,
+                on_frame=self.frame,
+                inputs=self.inputs,
             )
             with self.lock:
                 self.case = case
@@ -134,14 +146,18 @@ def form_html(token):
         else ""
     )
     return f"""<section class="entry"><h2>Nova consulta</h2>{notice}
-<form action="/processar" method="post" autocomplete="off">
+<form action="/processar" method="post" enctype="multipart/form-data" autocomplete="off">
 <input name="token" type="hidden" value="{escape(token)}">
-<label>Gravação de voz<select name="audio">{options(WAVS, "novo-03.wav")}</select></label>
-<audio id="audio-preview" controls preload="metadata" src="/midia/audio/novo-03.wav"></audio>
-<label>Vídeo cirúrgico<select name="video">{options(VIDEOS, "montagem_test.mp4")}</select></label>
-<video id="video-preview" controls preload="metadata" src="/midia/video/montagem_test.mp4"></video>
+<label>Gravação de voz<select name="audio">{options(WAVS, "novo-03.wav")}<option value="__upload__">Enviar áudio do dispositivo</option></select></label>
+<label id="audio-upload-label" hidden>Arquivo de áudio WAV<input type="file" name="audio_upload" accept=".wav,audio/wav" disabled></label>
+<p>Áudio WAV PCM16, até 60 segundos e 25 MB.</p>
+<audio id="audio-preview" controls preload="metadata" src="/midia/audio/novo-03.wav"></audio><p id="audio-preview-status" role="status"></p>
+<label>Vídeo cirúrgico<select name="video">{options(VIDEOS, "montagem_test.mp4")}<option value="__upload__">Enviar vídeo do dispositivo</option></select></label>
+<label id="video-upload-label" hidden>Arquivo de vídeo<input type="file" name="video_upload" accept=".mp4,.webm,.avi,.mov" disabled></label>
+<p>Vídeo MP4, WebM, AVI ou MOV, até cinco minutos e 100 MB.</p>
+<video id="video-preview" controls preload="metadata" src="/midia/video/montagem_test.mp4"></video><p id="video-preview-status" role="status"></p>
 <label>Chave da API OpenAI<input type="password" name="chave" required autocomplete="off" spellcheck="false" maxlength="504" placeholder="sk-…"></label>
-<p>Ao processar, o sistema envia o áudio sintético à OpenAI e analisa a transcrição em uma segunda chamada paga. A chave vale apenas para esta execução. O vídeo é analisado neste computador.</p>
+<p>Ao processar, o sistema envia o áudio selecionado à OpenAI e analisa a transcrição em uma segunda chamada paga. A chave vale apenas para esta execução. O vídeo é analisado neste computador.</p>
 <button type="submit">Processar consulta</button></form></section>"""
 
 
@@ -169,18 +185,28 @@ def evidence_html(result):
                 )
             else:
                 rows.append("<li>Prescrição · " + escape(", ".join(event["motivos"])) + "</li>")
+    audio_url = (
+        f"/caso/{result['id_caso']}/audio.wav"
+        if c.get("audio_local")
+        else f"/midia/audio/{c['audio']}"
+    )
+    video_player = (
+        f'<video controls preload="metadata" src="/caso/{result["id_caso"]}/video_anotado.webm"></video>'
+        if c.get("video_processado")
+        else "<p>Esta consulta foi gerada antes da gravação do vídeo anotado. Processe novamente para obter essa saída.</p>"
+    )
     return f"""<details class="findings"><summary>Ver processamento do caso</summary>
-<h3>Voz · {escape(c["audio"])}</h3><audio controls preload="metadata" src="/midia/audio/{escape(c["audio"])}"></audio><p>{voice["duracao"]:.1f} s de áudio · {voice["proporcao_pausas"]:.1%} de pausas. Transcrição local do Whisper:</p><blockquote>{escape(c["transcricao_local"])}</blockquote>
+<h3>Voz · {escape(c["audio"])}</h3><audio controls preload="metadata" src="{escape(audio_url)}"></audio><p>{voice["duracao"]:.1f} s de áudio · {voice["proporcao_pausas"]:.1%} de pausas. Transcrição local do Whisper:</p><blockquote>{escape(c["transcricao_local"])}</blockquote>
 <h3>Relato da consulta · OpenAI</h3><p>Transcrição recebida de {escape(c["modelo_transcricao"])}</p><blockquote>{escape(c["transcricao_nuvem"])}</blockquote>
 <p>Análise por {escape(c["modelo_texto"])} · sentimento {escape(text["sentimento"])} · custo estimado das duas chamadas US$ {c["custo_estimado_usd"]:.6f}</p><ul>{mentions or "<li>Nenhuma menção extraída.</li>"}</ul>
-<h3>Vídeo · {escape(c["video"])}</h3><video controls preload="metadata" src="/midia/video/{escape(c["video"])}"></video><p>{video["estatisticas"]["quadros_analisados"]} quadros analisados. Intervalos sinalizados: {events}.</p>
+<h3>Vídeo analisado · {escape(c["video"])}</h3>{video_player}<p>{video["estatisticas"]["quadros_analisados"]} quadros analisados. Intervalos sinalizados: {events}.</p>
 <h3>Observações sintéticas</h3><p>Referência de {c["amostras_referencia"]} observações. Alterações identificadas:</p><ul>{"".join(rows)}</ul></details>"""
 
 
 def running_html(processing):
     return f"""<section class="entry" id="processing"><h2>Consulta em processamento</h2>
 <p id="stage" role="status">{escape(processing.stage)}</p>
-<label>Áudio selecionado</label><audio controls preload="metadata" src="/midia/audio/{processing.wav}"></audio>
+<label>Áudio selecionado</label><audio controls preload="metadata" src="/caso/{processing.inputs["id"]}/audio.wav"></audio>
 <p id="video-progress">Aguardando a análise dos quadros do vídeo.</p>
 <progress id="video-bar" max="100" value="0" aria-label="Quadros analisados"></progress>
 <img id="live-frame" alt="Quadro do vídeo analisado pelo detector" hidden>

@@ -7,7 +7,8 @@ import json
 import re
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import urlsplit
+from .entradas import MAX_REQUEST_BYTES, parse_form
 from .delivery import AlertStore
 from .consulta_web import Processing, form_html, evidence_html, running_html
 from .consulta import ROOT, WAVS, VIDEOS, AUDIO_DIR, VIDEO_DIR
@@ -81,7 +82,7 @@ article h2{margin-top:4px}li{margin-bottom:8px;line-height:1.5}.tag{float:right;
 .origin{font-size:13px;overflow-wrap:anywhere;color:#4c6264}button{background:#245a59;color:white;border:0;padding:10px 16px;border-radius:5px;cursor:pointer}
 input{padding:8px;border:1px solid #aabdbb;border-radius:4px;margin:8px}footer{margin-top:32px;color:#526866}
 .entry{background:#fff;border-top:4px solid #245a59;border-radius:8px;padding:22px 24px;margin:22px 0}
-.entry h2{margin-top:0}.entry label{display:block;margin:14px 0;font-weight:600}
+.entry [hidden]{display:none!important}.entry h2{margin-top:0}.entry label{display:block;margin:14px 0;font-weight:600}
 .entry select,.entry input[type=password]{display:block;box-sizing:border-box;padding:9px;margin:4px 0;width:min(100%,480px);border:1px solid #91aaa4;border-radius:4px}
 .findings{margin:18px 0;padding:14px;background:#f2f7f5}summary{cursor:pointer}blockquote{border-left:3px solid #8eb1aa;margin:8px 0;padding-left:12px}
 audio,video{display:block;width:min(100%,480px);margin:10px 0}video,#live-frame{max-width:100%;border-radius:6px;background:#142827}#live-frame{display:block;width:480px;margin:14px 0}#live-frame[hidden]{display:none}progress{display:block;width:min(100%,480px);height:18px}#stage{font-weight:600}</style>"""
@@ -132,6 +133,17 @@ def create_server(db_path, port=8765):
                 name = Path(path).stem + ".webm"
                 self.media(ROOT / VIDEO_DIR / "visualizacao" / name, "video/webm")
                 return
+            case_media = re.fullmatch(
+                r"/caso/(consulta-\d{8}-\d{6}-[a-f0-9]{6})/(audio.wav|video_anotado.webm)", path
+            )
+            if case_media:
+                case, name = case_media.groups()
+                folder = store.path.parent / "consultas" / case
+                if name == "audio.wav":
+                    self.media(folder / "entradas" / name, "audio/wav")
+                else:
+                    self.media(folder / "video" / name, "video/webm")
+                return
             if path != "/":
                 self.send_error(404)
                 return
@@ -153,7 +165,7 @@ def create_server(db_path, port=8765):
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header(
                 "Content-Security-Policy",
-                "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; media-src 'self'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+                "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; media-src 'self' blob:; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
             )
             self.send_header("X-Content-Type-Options", "nosniff")
             self.send_header("Cache-Control", "no-store")
@@ -231,12 +243,16 @@ def create_server(db_path, port=8765):
                 return
             try:
                 length = int(self.headers.get("Content-Length", 0))
-                if not 0 < length <= 4096:
+                limit = MAX_REQUEST_BYTES if self.path == "/processar" else 4096
+                if not 0 < length <= limit:
                     raise ValueError("Tamanho inválido.")
-                values = parse_qs(self.rfile.read(length).decode("utf8"))
+                body = self.rfile.read(length)
+                if len(body) != length:
+                    raise ValueError("Envio incompleto.")
+                values, uploads = parse_form(self.headers.get("Content-Type", ""), body)
                 if self.path == "/processar":
                     try:
-                        processing.start(values)
+                        processing.start(values, uploads)
                     except ValueError as exc:
                         self.page(str(exc), 400)
                         return

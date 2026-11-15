@@ -4,16 +4,51 @@ const audioChoice = document.querySelector('select[name="audio"]');
 const videoChoice = document.querySelector('select[name="video"]');
 
 if (audioChoice) {
-  audioChoice.addEventListener("change", () => {
-    const player = document.getElementById("audio-preview");
-    player.src = "/midia/audio/" + encodeURIComponent(audioChoice.value);
-    player.load();
-  });
-  videoChoice.addEventListener("change", () => {
-    const player = document.getElementById("video-preview");
-    player.src = "/midia/video/" + encodeURIComponent(videoChoice.value);
-    player.load();
-  });
+  for (const [kind, choice] of [["audio", audioChoice], ["video", videoChoice]]) {
+    const upload = document.querySelector('input[name="' + kind + '_upload"]');
+    const label = document.getElementById(kind + "-upload-label");
+    const player = document.getElementById(kind + "-preview");
+    const message = document.getElementById(kind + "-preview-status");
+    player.addEventListener("error", () => {
+      if (player.getAttribute("src")) {
+        message.textContent = "Prévia indisponível neste navegador. O arquivo será verificado durante o processamento.";
+      }
+    });
+    player.addEventListener("loadedmetadata", () => { message.textContent = ""; });
+    let localUrl = null;
+    function releasePreview() {
+      if (localUrl) URL.revokeObjectURL(localUrl);
+      localUrl = null;
+    }
+    function updatePreview() {
+      message.textContent = "";
+      releasePreview();
+      if (choice.value === "__upload__") {
+        const file = upload.files[0];
+        if (file) {
+          localUrl = URL.createObjectURL(file);
+          player.src = localUrl;
+          player.hidden = false;
+        } else {
+          player.removeAttribute("src");
+          player.hidden = true;
+        }
+      } else {
+        player.src = "/midia/" + kind + "/" + encodeURIComponent(choice.value);
+        player.hidden = false;
+      }
+      player.load();
+    }
+    choice.addEventListener("change", () => {
+      const fromDevice = choice.value === "__upload__";
+      label.hidden = !fromDevice;
+      upload.disabled = !fromDevice;
+      upload.required = fromDevice;
+      updatePreview();
+    });
+    upload.addEventListener("change", updatePreview);
+    window.addEventListener("pagehide", releasePreview);
+  }
 }
 
 if (document.getElementById("processing")) {

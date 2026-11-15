@@ -49,3 +49,6 @@ build/
 !dados/video/*.mp4
 !dados/video/visualizacao/*.mp4
 !artifacts/video/best_uterus_tools_nirton_v4.pt
+
+# Configuração local do editor.
+.idea/

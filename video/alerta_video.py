@@ -110,6 +110,7 @@ def analisar_video(
     limitacoes=None,
     referencia_visual=None,
     on_frame=None,
+    formato_video="mp4",
 ):
     """Executa o detector nos quadros válidos e exporta eventos, vídeo e relatório observacionais."""
     import cv2
@@ -140,6 +141,8 @@ def analisar_video(
     numero_finito(tolerancia_s, "tolerancia_s", 0)
     if type(imgsz) is not int or imgsz < 32 or imgsz % 32:
         raise ValueError("imgsz deve ser inteiro positivo múltiplo de 32.")
+    if formato_video not in {"mp4", "webm"}:
+        raise ValueError("Formato de saída deve ser mp4 ou webm.")
     pasta = Path(saida or "saida_video")
     pasta.mkdir(parents=True, exist_ok=True)
     if not Path(video).is_file() or (
@@ -158,7 +161,7 @@ def analisar_video(
     gravador = None
     quadros, n = [], 0
     invalidos = set()
-    anotado = pasta / f"{Path(video).stem}_anotado.mp4"
+    anotado = pasta / f"{Path(video).stem}_anotado.{formato_video}"
     try:
         if not cap.isOpened():
             raise ValueError("Não foi possível abrir o vídeo.")
@@ -220,7 +223,12 @@ def analisar_video(
                     if gravador is None:
                         h, w = imagem.shape[:2]
                         gravador = cv2.VideoWriter(
-                            str(anotado), cv2.VideoWriter_fourcc(*"mp4v"), fps_saida, (w, h)
+                            str(anotado),
+                            cv2.VideoWriter_fourcc(
+                                *("VP80" if formato_video == "webm" else "mp4v")
+                            ),
+                            fps_saida,
+                            (w, h),
                         )
                         if not gravador.isOpened():
                             raise ValueError("Codec/gravador de vídeo indisponível.")
