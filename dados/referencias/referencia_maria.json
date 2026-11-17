@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "speaker": "maria",
+  "simulado": true,
+  "sha256_referencias": [
+    "cc5d5009cf643e6dbad45f22f9daa03bbea5dfab6685a71a78527e4e47296c9d",
+    "f29a29efc72eafdce0fb42ecb737078d4f44a0b848d64ecffb8f5a0551bebafa"
+  ],
+  "referencia_congelada": true,
+  "proporcao_pausas": 0.2513157894736842,
+  "trecho_vocal_mediano_s": 0.36,
+  "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+}

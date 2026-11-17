@@ -8,8 +8,8 @@
     "status": "16 chamadas concluídas; duas respostas rejeitadas sem uso na decisão; inclui reserva conservadora da primeira falha"
   },
   "tests": {
-    "name": "pytest Python 3.12; verificação de entrega",
-    "passed": 106,
+    "name": "pytest Python 3.12",
+    "passed": 113,
     "failed": 0,
     "subtests_passed": 26
   },

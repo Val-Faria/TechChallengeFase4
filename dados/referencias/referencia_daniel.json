@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "speaker": "daniel",
+  "simulado": true,
+  "sha256_referencias": [
+    "2708dee30f90375799621f1d7717da8aa29cf72bcde1171a64f89654bad4b9bd",
+    "f68d5d328b8f0fa7d92498a6618e2b3d967a0f7b1229fc9c8db111c1979f3dcd"
+  ],
+  "referencia_congelada": true,
+  "proporcao_pausas": 0.21608508809626126,
+  "trecho_vocal_mediano_s": 0.515,
+  "escopo": "comparacao_intra_voz; sem ajuste com a midia avaliada"
+}

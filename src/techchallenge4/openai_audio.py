@@ -55,7 +55,7 @@ def request_transcription(path, raw, model, key):
 
 
 def transcribe_wav(
-    path, cache_dir, *, key=None, max_budget_usd=0.02, case_id=None, request_fn=None
+    path, cache_dir, *, key=None, max_budget_usd=0.02, case_id=None, request_fn=None, use_cache=True
 ):
     if not 0 < max_budget_usd <= 0.02:
         raise ValueError("Orçamento de transcrição permitido: até US$ 0,02.")
@@ -72,7 +72,7 @@ def transcribe_wav(
     cache.mkdir(parents=True, exist_ok=True)
     target, ledger_path = cache / f"{digest}.json", cache / "orcamento_transcricao.json"
     with _lock(cache / ".orcamento_audio.lock"):
-        if target.exists():
+        if use_cache and target.exists():
             result = json.loads(target.read_text(encoding="utf8"))
             if (
                 not isinstance(result.get("text"), str)

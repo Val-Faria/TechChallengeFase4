@@ -109,6 +109,8 @@ def analisar_video(
     cobertura_parcial=False,
     limitacoes=None,
     referencia_visual=None,
+    on_frame=None,
+    formato_video="mp4",
 ):
     """Executa o detector nos quadros válidos e exporta eventos, vídeo e relatório observacionais."""
     import cv2
@@ -121,7 +123,10 @@ def analisar_video(
     ):
         raise ValueError("limitacoes deve ser uma lista de textos.")
     if referencia_visual is not None:
-        from qualidade import compativel, extrair_caracteristicas
+        if __package__:
+            from .qualidade import compativel, extrair_caracteristicas
+        else:  # Notebooks que importam o módulo pela pasta video/.
+            from qualidade import compativel, extrair_caracteristicas
 
         # Falhar antes de ler o vídeo se a referência estiver incompleta.
         compativel(
@@ -136,6 +141,8 @@ def analisar_video(
     numero_finito(tolerancia_s, "tolerancia_s", 0)
     if type(imgsz) is not int or imgsz < 32 or imgsz % 32:
         raise ValueError("imgsz deve ser inteiro positivo múltiplo de 32.")
+    if formato_video not in {"mp4", "webm"}:
+        raise ValueError("Formato de saída deve ser mp4 ou webm.")
     pasta = Path(saida or "saida_video")
     pasta.mkdir(parents=True, exist_ok=True)
     if not Path(video).is_file() or (
@@ -154,13 +161,14 @@ def analisar_video(
     gravador = None
     quadros, n = [], 0
     invalidos = set()
-    anotado = pasta / f"{Path(video).stem}_anotado.mp4"
+    anotado = pasta / f"{Path(video).stem}_anotado.{formato_video}"
     try:
         if not cap.isOpened():
             raise ValueError("Não foi possível abrir o vídeo.")
         fps = numero_finito(cap.get(cv2.CAP_PROP_FPS), "fps", 1e-9)
         passo = max(1, round(fps / amostra_fps))
         fps_saida = fps / passo
+        total_estimado = max(1, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
         while True:
             ok, frame = cap.read()
             if not ok:
@@ -185,7 +193,7 @@ def analisar_video(
                 instr = [p for k, p in dets if int(k) == ids["Tools"] and p >= conf]
                 utero = any(int(k) == ids["Uterus"] and p >= conf_area for k, p in dets)
                 quadros.append((n / fps, bool(instr), utero, max(instr, default=0.0)))
-                if salvar_video:
+                if salvar_video or on_frame is not None:
                     imagem = r.plot() if valido else frame.copy()
                     if not valido:
                         cv2.putText(
@@ -207,10 +215,20 @@ def analisar_video(
                             (0, 0, 255),
                             2,
                         )
+                    if on_frame is not None:
+                        on_frame(
+                            imagem, n / fps, len(quadros), (total_estimado + passo - 1) // passo
+                        )
+                if salvar_video:
                     if gravador is None:
                         h, w = imagem.shape[:2]
                         gravador = cv2.VideoWriter(
-                            str(anotado), cv2.VideoWriter_fourcc(*"mp4v"), fps_saida, (w, h)
+                            str(anotado),
+                            cv2.VideoWriter_fourcc(
+                                *("VP80" if formato_video == "webm" else "mp4v")
+                            ),
+                            fps_saida,
+                            (w, h),
                         )
                         if not gravador.isOpened():
                             raise ValueError("Codec/gravador de vídeo indisponível.")

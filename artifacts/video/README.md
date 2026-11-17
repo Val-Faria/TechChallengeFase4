@@ -2,7 +2,7 @@
 
 Peso: `artifacts/video/best_uterus_tools_nirton_v4.pt`. SHA-256: `efe5cc2588300eea0b62e2921c2ca870f56d8d7991ece4637122cb407910a53a`.
 
-O peso fica no pacote privado do Drive; restaurá-lo nesse caminho após extrair `artefatos_privados.zip` na raiz do repositório. Ele é um novo treinamento, não o peso original de Marcelo.
+O peso treinado está incluído neste diretório e pode ser usado diretamente pelo painel.
 
 Arquitetura YOLOv8s, classes Tools/Uterus, resolução 416, batch 8, semente 42, 80 épocas e paciência 20. GPU RTX 2060; versões e configuração em `evidence/video_reproducao.json`. Seleção pela validação, sem escolher checkpoint ou limiar pela reserva.
 

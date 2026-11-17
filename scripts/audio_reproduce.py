@@ -16,6 +16,7 @@ import json
 import os
 from pathlib import Path
 import re
+import sys
 import time
 import unicodedata
 import zipfile
@@ -24,14 +25,9 @@ os.environ.setdefault("NUMBA_NUM_THREADS", "2")
 os.environ.setdefault("OMP_NUM_THREADS", "2")
 os.environ.setdefault("MKL_NUM_THREADS", "2")
 ROOT = Path(__file__).resolve().parents[1]
-COLUMNS = [
-    "duracao",
-    "energia_media",
-    "proporcao_pausas",
-    "ritmo_palavras_minuto",
-    "tom_medio_hz",
-    "tom_desvio_hz",
-]
+sys.path.insert(0, str(ROOT / "src"))
+from techchallenge4.audio import COLUMNS, acoustic_features
+
 PREFIX = re.compile(
     r"^(hum,?\s+|bem,?\s+|talvez\s+|eu acho que\s+|sim,?\s+|"
     r"certo,?\s+|agora,?\s+|neste momento,?\s+|eu sinto que\s+|"
@@ -115,29 +111,6 @@ def prepare_dataset(dataset: Path, destination: Path):
     if meta.groupby("sha256_wav")["particao"].nunique().max() != 1:
         raise ValueError("Identical WAV bytes crossed partitions")
     return meta
-
-
-def acoustic_features(path: Path):
-    import librosa
-    import numpy as np
-
-    signal, sr = librosa.load(str(path), sr=16000, mono=True)
-    if len(signal) < 2048 or not np.isfinite(signal).all():
-        raise ValueError(f"Invalid or too-short WAV: {path.name}")
-    duration = len(signal) / sr
-    if float(np.max(np.abs(signal))) < 1e-5:
-        raise ValueError(f"Silent WAV: {path.name}")
-    intervals = librosa.effects.split(signal, top_db=30)
-    voiced_time = sum((end - start) / sr for start, end in intervals)
-    f0, _, _ = librosa.pyin(signal, fmin=70, fmax=500, sr=sr)
-    valid_f0 = f0[~np.isnan(f0)]
-    return {
-        "duracao": float(duration),
-        "energia_media": float(np.mean(librosa.feature.rms(y=signal)[0])),
-        "proporcao_pausas": max(duration - voiced_time, 0.0) / duration,
-        "tom_medio_hz": float(np.mean(valid_f0)) if len(valid_f0) else 0.0,
-        "tom_desvio_hz": float(np.std(valid_f0)) if len(valid_f0) else 0.0,
-    }, signal
 
 
 def extract_features(meta, wav_dir: Path, cache_file: Path, *, device: str, workers: int):
